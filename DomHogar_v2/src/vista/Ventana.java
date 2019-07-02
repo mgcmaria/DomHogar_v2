@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
 import controlador.AccesoDB;
 import controlador.Eventos;
+import metodos.ColorearFilas;
 import tablas.Cliente;
 import tablas.Producto;
 import tablas.Proveedor;
@@ -1664,13 +1666,15 @@ public class Ventana extends JFrame{
 		panelCRM.add(barraCRM);
 		
 		String titulosClientes[] = {"Name", "Email", "Phone Number", "Deco Wifi Pack", "wifi Signal Expansion", 
-				"Smart plugs Pack", "wifi Surveillance Cameras"};
+				"Smart plugs Pack", "Smart_Bulbs_Pack", "wifi Surveillance Cameras"};
 		String infoClientes[][] = AccesoDB.obtenerMatrizCRM();
 		
 		tablaCRM = new JTable(infoClientes,titulosClientes);
-		barraCRM.setViewportView(tablaCRM);
-		
-		
+		barraCRM.setViewportView(tablaCRM);	
+				
+		ColorearFilas colorear = new ColorearFilas();
+		tablaCRM.setDefaultRenderer (Object.class, colorear);
+					
 	}
 
 	//PANEL ALMAC�N
@@ -3912,5 +3916,13 @@ public class Ventana extends JFrame{
 
 	public void setBotonDeleteFactura(JButton botonDeleteFactura) {
 		this.botonDeleteFactura = botonDeleteFactura;
+	}
+
+	public JTable getTablaCRM() {
+		return tablaCRM;
+	}
+
+	public void setTablaCRM(JTable tablaCRM) {
+		this.tablaCRM = tablaCRM;
 	}
 }
