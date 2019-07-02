@@ -421,9 +421,9 @@ public class AccesoDB {
 				matrizInfoVentas[i][0] = listaVentas.get(i).getNumFactura()+"";
 				matrizInfoVentas[i][1] = listaVentas.get(i).getCodServicio()+"";
 				matrizInfoVentas[i][2] = listaVentas.get(i).getNombreServicio()+"";
-				matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getCantidad())+"";
-				matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteVentaServicio())+"ï¿½";
-				matrizInfoVentas[i][5] = formatea.format(listaVentas.get(i).getImporteTotal())+" €";
+				matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
+				matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteServicio())+"ï¿½";
+				matrizInfoVentas[i][5] = formatea.format(listaVentas.get(i).getTotal())+" €";
 				matrizInfoVentas[i][6] = listaVentas.get(i).getDni_Cliente()+"";
 				matrizInfoVentas[i][7] = listaVentas.get(i).getNombre()+"";
 				matrizInfoVentas[i][8] = listaVentas.get(i).getFecha()+"";
@@ -444,7 +444,7 @@ public class AccesoDB {
 
 				Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
 				// Consulta SQL con resulset
-				ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, s.nombreServicio, f.ImporteFactura, lf.cantidad, "
+				ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, s.nombreServicio, lf.udsServicio, s.importeServicio,"
 						+ "f.numFactura, f.fecha, c.dni_Cliente, c.nombre "
 						+ "FROM LINEA_FACTURA lf JOIN SERVICIO s on s.codServicio = lf.codServicio "
 						+ "JOIN FACTURA f on f.numFactura = lf.numFactura JOIN CLIENTE c on c.dni_Cliente = f.dni_Cliente");			
@@ -455,14 +455,14 @@ public class AccesoDB {
 					String numFactura = rs.getString("numFactura");
 					String codServicio = rs.getString("codServicio");
 					String nombreServicio = rs.getString("nombreServicio");
-					int cantidad = rs.getInt("cantidad");
-					int importeVentaServicio = rs.getInt("ImporteFactura");
-					int cantidadTotal = importeVentaServicio*cantidad;
+					int udsServicio = rs.getInt("udsServicio");
+					int importeServicio = rs.getInt("importeServicio");
+					int Total = importeServicio*udsServicio;
 					String dni_Cliente = rs.getString("dni_Cliente");
 					String nombre = rs.getString("nombre");
 					Date fecha = rs.getDate("fecha");
 					
-					ventas = new Ventas(numFactura,codServicio,nombreServicio, cantidad, importeVentaServicio, cantidadTotal, nombre, dni_Cliente, fecha);
+					ventas = new Ventas(numFactura,codServicio,nombreServicio, udsServicio, importeServicio, Total, nombre, dni_Cliente, fecha);
 
 					
 					lista_ventas.add(ventas);
@@ -723,9 +723,9 @@ public static Boolean exportarFicheroCompras(String user) {
 				
 				ficheroVentas.write(ventas.getNumFactura());
 				ficheroVentas.write(",");
-				ficheroVentas.write(Integer.toString(ventas.getImporteVentaServicio()));
+				ficheroVentas.write(Integer.toString(ventas.getImporteServicio()));
 				ficheroVentas.write(",");
-				ficheroVentas.write(Integer.toString(ventas.getCantidad()));
+				ficheroVentas.write(Integer.toString(ventas.getUdsServicio()));
 				ficheroVentas.write(",");
 				ficheroVentas.write(ventas.getDni_Cliente());
 				ficheroVentas.write(",");
@@ -738,7 +738,7 @@ public static Boolean exportarFicheroCompras(String user) {
 				ficheroVentas.write(",");
 				ficheroVentas.write(ventas.getNombre());
 				ficheroVentas.write(",");
-				ficheroVentas.write(Integer.toString(ventas.getImporteTotal()));
+				ficheroVentas.write(Integer.toString(ventas.getTotal()));
 				ficheroVentas.write("\n");			
 			}
 			
@@ -897,38 +897,38 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	
 	public static int insertarVenta(ArrayList<Ventas> nuevaVenta, Connection conexion) {
 		
-		int afectados = 0;
+		int afectados1 = 0;
 		
 		try {
 			// Almacenamos en un String la Sentencia SQL
-			String sql = "INSERT INTO FACTURA (DNI_CLIENTE, FECHA, IMPORTEFACTURA, NUMFACTURA) " + "VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO FACTURA (NUMFACTURA, DNI_CLIENTE, FECHA, ) " + "VALUES (?, ?, ?)";
 
+			String numFactura = null;
 			String dniCliente = null;
 			Date fecha = null;
-			int importeFact = 0;
-			String numFactura = null;
+
 
 			for (Ventas v : nuevaVenta) {
+				numFactura = v.getNumFactura();	
 				dniCliente = v.getDni_Cliente();
 				fecha = v.getFecha();
-				importeFact = v.getImporteTotal();
-				numFactura = v.getNumFactura();	
+
 			}
 
 			// Con PreparedStatement recogemos los valores introducidos
 			PreparedStatement sentencia;
 			sentencia = conexion.prepareStatement(sql);
-			sentencia.setString(1, dniCliente);
-			sentencia.setDate(2, fecha);
-			sentencia.setInt(3, importeFact);
-			sentencia.setString(4, numFactura);
+			sentencia.setString(1, numFactura);
+			sentencia.setString(2, dniCliente);
+			sentencia.setDate(3, fecha);
 
-			afectados = sentencia.executeUpdate(); // Ejecutamos la inserciï¿½n
+
+			afectados1 = sentencia.executeUpdate(); // Ejecutamos la inserciï¿½n
 
 		} catch (SQLException e) {
 			e.getMessage();
 		}
-		return afectados;
+		return afectados1;
 	}
 
 	public static int insertarLineaFactura(ArrayList<Ventas> nuevaVenta, Connection conexion) {
@@ -937,24 +937,31 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		
 		try {
 			// Almacenamos en un String la Sentencia SQL
-			String sql = "INSERT INTO LINEA_FACTURA (CANTIDAD, CODSERVICIO, NUMFACTURA) " + "VALUES (?, ?, ?)";
+			String sql = "INSERT INTO LINEA_FACTURA (CODSERVICIO, NUMFACTURA, UDSSERVICIO, IMPORTESERVICIO) " + "VALUES (?, ?, ?, ?)";
 
-			int cantidad = 0;
 			String codServicio = null;
 			String numFactura = null;
+			int udServicio = 0;
+			int importeServicio = 0;
+
+
+
 
 			for (Ventas v : nuevaVenta) {
-				cantidad = v.getCantidad();
+
 				codServicio = v.getCodServicio();
 				numFactura = v.getNumFactura();
+				udServicio = v.getUdsServicio();
+				importeServicio = v.getImporteServicio();
 			}
 
 			// Con PreparedStatement recogemos los valores introducidos
 			PreparedStatement sentencia;
 			sentencia = conexion.prepareStatement(sql);
-			sentencia.setInt(1, cantidad);
-			sentencia.setString(2, codServicio);
-			sentencia.setString(3, numFactura);
+			sentencia.setString(1, codServicio);
+			sentencia.setString(2, numFactura);
+			sentencia.setInt(3, udServicio);
+			sentencia.setInt(4, importeServicio);
 
 			afectados = sentencia.executeUpdate(); // Ejecutamos la inserciï¿½n
 
@@ -1334,9 +1341,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaVentas.size(); i++) {
 			matrizInfoVentas[i][0] = listaVentas.get(i).getCodServicio()+"";
 			matrizInfoVentas[i][1] = listaVentas.get(i).getNombreServicio()+"";			
-			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteVentaServicio())+" €";			
-			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getCantidad())+"";
-			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteTotal())+" €";
+			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" €";			
+			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
+			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" €";
 		}
 		return matrizInfoVentas;	
 	}
@@ -1354,9 +1361,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaVentas.size(); i++) {
 			matrizInfoVentas[i][0] = listaVentas.get(i).getCodServicio()+"";
 			matrizInfoVentas[i][1] = listaVentas.get(i).getNombreServicio()+"";			
-			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteVentaServicio())+" €";			
-			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getCantidad())+"";
-			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteTotal())+" €";
+			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" €";			
+			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
+			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" €";
 			matrizInfoVentas[i][5] = listaVentas.get(i).getDni_Cliente()+"";
 			matrizInfoVentas[i][6] = listaVentas.get(i).getNombre()+"";
 			matrizInfoVentas[i][7] = listaVentas.get(i).getFecha()+"";

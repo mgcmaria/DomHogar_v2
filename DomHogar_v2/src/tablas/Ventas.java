@@ -4,47 +4,47 @@ import java.sql.Date;
 
 public class Ventas {
 	
-	private int importeVentaServicio, cantidad, importeTotal;
+	private int importeServicio, udsServicio, Total;
 	private String numFactura, codServicio, nombreServicio, nombre, dni_Cliente;
 	private Date fecha;
 	
-	public Ventas(String numFactura, String codServicio, String nombreServicio, int cantidad, int importeVentaServicio,int importeTotal,
+	public Ventas(String numFactura, String codServicio, String nombreServicio, int udsServicio, int importeServicio,int Total,
 			String dni_Cliente, String nombre, Date fecha) {
 		
 		super();
-		this.importeVentaServicio = importeVentaServicio;
-		this.cantidad = cantidad;
+		this.importeServicio = importeServicio;
+		this.udsServicio = udsServicio;
 		this.numFactura = numFactura;
 		this.codServicio = codServicio;
 		this.nombreServicio = nombreServicio;
 		this.nombre = nombre;
 		this.dni_Cliente = dni_Cliente;
 		this.fecha = fecha;
-		this.setImporteTotal(importeTotal);
+		this.setTotal(Total);
 	}
 
-	public int getImporteVentaServicio() {
-		return importeVentaServicio;
+	public int getImporteServicio() {
+		return importeServicio;
 	}
 
-	public void setImporteVentaServicio(int importeVentaServicio) {
-		this.importeVentaServicio = importeVentaServicio;
+	public void setImporteServicio(int importeServicio) {
+		this.importeServicio = importeServicio;
 	}
 
-	public int getCantidad() {
-		return cantidad;
+	public int getUdsServicio() {
+		return udsServicio;
 	}
 
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
+	public void setUdsServicio(int udsServicio) {
+		this.udsServicio = udsServicio;
 	}
 
-	public int getImporteTotal() {
-		return importeTotal;
+	public int getTotal() {
+		return Total;
 	}
 
-	public void setImporteTotal(int importeTotal) {
-		this.importeTotal = importeTotal;
+	public void setTotal(int total) {
+		Total = total;
 	}
 
 	public String getNumFactura() {
@@ -93,5 +93,8 @@ public class Ventas {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
-	}	
+	}
+
+	
+	
 }

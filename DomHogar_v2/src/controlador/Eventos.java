@@ -1248,7 +1248,7 @@ public class Eventos implements ActionListener, MouseListener {
                 int suma = 0;
                 
                 for (Ventas v : lista_ventas) {					
-                	suma = v.getImporteTotal() + suma;
+                	suma = v.getTotal() + suma;
 				}
                 
                 ventana.getJLTotalAmountSum().setText(Integer.toString(suma) + " �");

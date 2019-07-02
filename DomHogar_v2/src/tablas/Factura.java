@@ -8,11 +8,10 @@ public class Factura {
 	private int importeFactura;
 	private Date fecha;
 	
-	public Factura(String numFactura, String dni_Cliente, int importeFactura, Date fecha) {
+	public Factura(String numFactura, String dni_Cliente, Date fecha) {
 		super();
 		this.numFactura = numFactura;
 		this.dni_Cliente = dni_Cliente;
-		this.importeFactura = importeFactura;
 		this.fecha = fecha;
 	}
 
