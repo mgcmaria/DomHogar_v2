@@ -20,6 +20,7 @@ import tablas.CRM;
 import tablas.Cliente;
 import tablas.Compras;
 import tablas.Empleado;
+import tablas.Nomina;
 import tablas.Producto;
 import tablas.Proveedor;
 import tablas.Servicio;
@@ -366,9 +367,7 @@ public class AccesoDB {
 		
 		ArrayList<Compras> lista_compras = new ArrayList<Compras>();
 		
-		Compras compras;
-		
-		//"N. Albarï¿½n", "Codigo Producto", "Nombre producto", "Cantidad", "Importe compra", "Cï¿½d. Proveedor", "Proveedor", "Fecha"
+		Compras compras;		
 		
 		try {			
 
@@ -437,8 +436,6 @@ public class AccesoDB {
 			ArrayList<Ventas> lista_ventas = new ArrayList<Ventas>();
 			
 			Ventas ventas;
-			
-			//"N. Factura", "Codigo Servicio", "Nombre servicio", "Cantidad", "Importe venta", "DNI Cliente", "Nombre Cliente", "Fecha"
 			
 			try {			
 
@@ -1143,7 +1140,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		
 		DecimalFormat formatea = new DecimalFormat("###,###.##");// Declaramos el formato de los numeros
 		
-		Connection conexion = AccesoDB.conexion();
+		Connection conexion = conexion();
 
 		ArrayList<Compras> listaCompras = AccesoDB.datosComprasDeliveryNote(numAlbaranDelete, conexion);
 
@@ -1204,7 +1201,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static int deleteLineaAlbaranCompras(String numAlbaranDelete, Connection conexion) {
-		// TODO Auto-generated method stub
 		
 		int afectados = 0;
 		
@@ -1224,7 +1220,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static String[][] obtenerMatrizCRM() {
-		// TODO Auto-generated method stub
 		
 		Connection conexion = AccesoDB.conexion();
 
@@ -1246,7 +1241,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	private static ArrayList<CRM> datosCRM(Connection conexion) {
-		// TODO Auto-generated method stub
 		
 		ArrayList<CRM> lista_CRM = new ArrayList<CRM>();
 		
@@ -1283,7 +1277,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static ArrayList<Ventas> datosVentasBill(String numFactura, Connection conexion) {
-		// TODO Auto-generated method stub
 		
 		ArrayList<Ventas> lista_ventas = new ArrayList<Ventas>();
 		
@@ -1328,7 +1321,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static String[][] obtenerMatrizBill(String numFactura) {
-		// TODO Auto-generated method stub
 		
 		DecimalFormat formatea = new DecimalFormat("###,###.##");// Declaramos el formato de los numeros
 		
@@ -1349,7 +1341,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static String[][] obtenerMatrizBillDelete(String numFacturaDelete) {
-		// TODO Auto-generated method stub
+		
 		DecimalFormat formatea = new DecimalFormat("###,###.##");// Declaramos el formato de los numeros
 
 		Connection conexion = AccesoDB.conexion();
@@ -1373,7 +1365,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 	public static int deleteLineaFacturaVentas(String numFacturaDelete, String numServicioDelete, int cantidadDeleteVen,
 			Connection conexion) {
-		// TODO Auto-generated method stub
+		
 		int afectados = 0;
 
 		// Almacenamos en un String la Sentencia SQL
@@ -1389,7 +1381,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static int deleteFacturaVentas(String numFacturaDelete, Connection conexion) {
-		// TODO Auto-generated method stub
 		
 		int afectados = 0;
 
@@ -1408,7 +1399,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	public static int deleteLineaFacturaVentas(String numFacturaDelete, Connection conexion) {
-		// TODO Auto-generated method stub
+		
 		int afectados = 0;
 
 		// Almacenamos en un String la Sentencia SQL
@@ -1424,5 +1415,39 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		System.out.println("Afectados lineaFactura:" + afectados);
 
 		return afectados;		
+	}
+
+	public static ArrayList<Nomina> datosNomina(Connection conexion) {
+		
+		ArrayList<Nomina> lista_NOM = new ArrayList<Nomina>();
+		
+		Nomina n;
+			
+		try {			
+
+			Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
+			// Consulta SQL con resulset
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM NOMINA");			
+
+			// Mientras haya registros anadimos al ArrayList
+			while (rs.next()) { 
+				
+				String codNomina = rs.getString("codNomina");
+				String nifEmpleado = rs.getString("nif_Empleado");
+				String mes = rs.getString("mes");
+				String anio = rs.getString("anio");
+				int salarioBase = rs.getInt("salarioBase");
+				int horasExtra = rs.getInt("horasExtra");
+				int dietas = rs.getInt("dietas");
+				
+				n = new Nomina(codNomina, nifEmpleado, mes, anio, salarioBase, horasExtra, dietas);
+				
+				lista_NOM.add(n);
+			}
+			
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		return lista_NOM;		
 	}
 }

@@ -32,11 +32,14 @@ import vista.Ventana;
 
 public class Eventos implements ActionListener, MouseListener {
 	
+	//Variables que van a ser usuadas varias veces en el programa y que almacenan información
 	Boolean ok_check = false;
 	private Ventana ventana;
 	Connection conexion;
 	ArrayList<Compras> nuevaCompra = new ArrayList<Compras>();
 	ArrayList<Ventas> nuevaVenta = new ArrayList<Ventas>();
+	ArrayList<Empleado> lista_usuarios = new ArrayList<Empleado>();
+	String usuario, contrasena, nifEmpleado;
 	JScrollPane barraDeliNote  = new JScrollPane();
 	JScrollPane barraDeliNoteDelete  = new JScrollPane();
 	JTable tablaDeliNoteDeleteCom;
@@ -57,22 +60,18 @@ public class Eventos implements ActionListener, MouseListener {
 		return;	
 		
 		//Evento LOGIN
-		if (e.getSource() == ventana.getBotonLogin()) {
-			
-			//Creamos un ArrayList donde recogeremos el usuario y la contraseÃ±a de las tablas
-			ArrayList<Empleado> lista_usuarios = new ArrayList<Empleado>();
+		if (e.getSource() == ventana.getBotonLogin()) {			
 			
 			//Accedemos a la BBDD para recoger los datos del usuario y la contasena
 			lista_usuarios = AccesoDB.datosEmpleado(conexion);
 			
 			//Recogemos los valores que introducimos en las cajas de texto
-			String usuario = ventana.getCajaUser().getText();
+			usuario = ventana.getCajaUser().getText();
 			
 			// Para recoger el password se regoje en una secuencia de chars
-			char contrasenaArray[] = ventana.getCajaPass().getPassword();
-			
+			char contrasenaArray[] = ventana.getCajaPass().getPassword();			
 			//Ahora lo pasamos a un String
-			String contrasena = new String (contrasenaArray);
+			contrasena = new String (contrasenaArray);
 			
 			if(usuario.equals("") && contrasena.equals("")) {
 				ventana.getEtiquetaResulLogin().setText("Please, enter user and password");
@@ -153,7 +152,7 @@ public class Eventos implements ActionListener, MouseListener {
 			System.exit(0);
 		}
 		
-		//BOTï¿½N LOGOUT
+		//BOTON LOGOUT
 		else if(e.getSource()==ventana.getBotonLogout()) {
 			
 			ventana.getImagenInicio().setVisible(false);
@@ -190,7 +189,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getPanelBotonesProv().setVisible(false);
 			ventana.getSubPanelEmpDelete().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
-			ventana.getSubPanelEmpUpdate().setVisible(false);			
+			ventana.getSubPanelEmpUpdate().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 			ventana.setSize(400,520);
 			ventana.setResizable(false);
@@ -211,7 +211,65 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getCajaUser().requestFocus();
 			ventana.getEtiquetaResulLogin().setText("");
 
-		}		
+		}
+		
+		else if(e.getSource() == ventana.getBotonUser()) {
+			
+			//Mostramos el panel de Nónima
+			ventana.getPanelNomina().setVisible(true);
+			
+			//Mostraremos en el panel el Usuario que ha accedido al sistema
+			for (Empleado lista : lista_usuarios) {
+				
+				if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena)) {
+					ventana.getJLUsuarioNomina().setText(lista.getNombre()+" "+ lista.getApellidos());
+					//Recogemos el NIF del empleado para luego mostrar las nóminas
+					nifEmpleado = lista.getNif();
+				} 
+			}
+			
+			//Ocultamos el resto de paneles
+			ventana.getImagenInicio().setVisible(false);
+			ventana.getPanelCompras().setVisible(false);
+			ventana.getSubPanelDeliveryNoteCompras().setVisible(false);
+			ventana.getSubPanelComprasDelete().setVisible(false);
+			ventana.getSubPanelInsertCompras().setVisible(false);
+			ventana.getSubPanelBotonesCompras().setVisible(false);
+			ventana.getSubPanelComprasExport().setVisible(false);
+			ventana.getPanelVentas().setVisible(false);
+			ventana.getSubPanelInsertVentas().setVisible(false);
+			ventana.getSubPanelBotonesVentas().setVisible(false);
+			ventana.getSubPanelBills().setVisible(false);
+			ventana.getSubPanelVentasDelete().setVisible(false);
+			ventana.getSubPanelVentasExport().setVisible(false);
+			ventana.getPanelProveedores().setVisible(false);
+			ventana.getPanelClientes().setVisible(false);
+			ventana.getSubPanelInsCliente().setVisible(false);
+			ventana.getPanelBotonesCliente().setVisible(false);
+			ventana.getSubPanelEditCliente().setVisible(false);
+			ventana.getSubPanelElimCliente().setVisible(false);
+			ventana.getPanelCRM().setVisible(false);
+			ventana.getPanelAlmacen().setVisible(false);
+			ventana.getSubPanelAlmacenExport().setVisible(false);
+			ventana.getSubPanelInsProv().setVisible(false);
+			ventana.getSubPanelEditProv().setVisible(false);
+			ventana.getSubPanelElimProv().setVisible(false);
+			ventana.getPanelBotonesProv().setVisible(false);
+			ventana.getSubPanelEmpDelete().setVisible(false);
+			ventana.getSubPanelEmpExport().setVisible(false);
+			ventana.getBotonDeleteEmpFinal().setVisible(false);
+			ventana.getSubPanelEmpUpdate().setVisible(false);
+			
+		}
+		
+		else if(e.getSource() == ventana.getBotonCheckNom()) {
+			
+			//Recogemos en variables el mes y anio de la nomina
+			String anio = ventana.getComboAnnoNomina().getSelectedItem().toString();
+			String mes = ventana.getComboMesNomina().getSelectedItem().toString();
+				
+			
+		}
 		
 		else if (e.getSource()==ventana.getBotonHR()) {
 			
@@ -263,6 +321,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getBotonDeleteEmpFinal().setVisible(false);
 			ventana.getSubPanelEmpUpdate().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -493,6 +552,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpExport().setVisible(false);			
 			ventana.getSubPanelDeliveryNoteCompras().setVisible(false);
 			ventana.getSubPanelComprasDelete().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 		}
 		
 		else if(e.getSource() == ventana.getBotonVerificarCompra()) {	
@@ -704,6 +764,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getPanelBotonesProv().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getSubPanelComprasDelete().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -815,7 +876,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEditProv().setVisible(false);
 			ventana.getSubPanelElimProv().setVisible(false);
 			ventana.getPanelBotonesProv().setVisible(false);
-			ventana.getSubPanelEmpExport().setVisible(false);						
+			ventana.getSubPanelEmpExport().setVisible(false);	
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -1036,6 +1098,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelVentasExport().setVisible(false);
 			ventana.getSubPanelBills().setVisible(false);
 			ventana.getSubPanelVentasDelete().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -1218,7 +1281,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelInsProv().setVisible(false);
 			ventana.getSubPanelEditProv().setVisible(false);
 			ventana.getSubPanelElimProv().setVisible(false);
-			ventana.getPanelBotonesProv().setVisible(false);			
+			ventana.getPanelBotonesProv().setVisible(false);	
+			ventana.getPanelNomina().setVisible(false);
 			//ventana.getSubPanelProvExport().setVisible(false);
 			//ventana.getSubPanelClienteExport().setVisible(false);	
 			
@@ -1327,6 +1391,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasDelete().setVisible(false);
 			ventana.getPanelCompras().setVisible(false);
 			ventana.getSubPanelBotonesCompras().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 		}
 		
 		else if(e.getSource() == ventana.getBotonCheckBillVenDelete()) {
@@ -1508,6 +1573,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasDelete().setVisible(false);
 			ventana.getPanelCompras().setVisible(false);
 			ventana.getSubPanelBotonesCompras().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -1578,11 +1644,12 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelAlmacenExport().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getSubPanelComprasExport().setVisible(false);
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
 		
-		//BOTï¿½N INSERTAR PROVEEDOR 
+		//BOTON INSERTAR PROVEEDOR 
 		else if (e.getSource() == ventana.getBotonInsertProvOk()) {
 
 			if(ventana.getInsertCodProv().getText().isEmpty() || ventana.getInsertNomProv().getText().isEmpty() ||
@@ -1614,7 +1681,7 @@ public class Eventos implements ActionListener, MouseListener {
 					ventana.getResulInsertProv().setText("Supplier added");
 					refreshJTableProveedores();
 				}
-		}
+			}
 			
 		}
 		
@@ -1747,7 +1814,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEditProv().setVisible(false);
 			ventana.getSubPanelElimProv().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
-			ventana.getSubPanelComprasExport().setVisible(false);			
+			ventana.getSubPanelComprasExport().setVisible(false);	
+			ventana.getPanelNomina().setVisible(false);
 			
 		}
 		
@@ -1920,7 +1988,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelElimProv().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getSubPanelComprasExport().setVisible(false);			
-			
+			ventana.getPanelNomina().setVisible(false);
 		}
 		
 		else if(e.getSource()==ventana.getBotonStock()) {
@@ -1961,7 +2029,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelElimProv().setVisible(false);
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getSubPanelComprasExport().setVisible(false);
-			
+			ventana.getPanelNomina().setVisible(false);
 			
 		}	
 		
@@ -2003,44 +2071,7 @@ public class Eventos implements ActionListener, MouseListener {
 			}			
 		}
 		
-		else if(e.getSource()==ventana.getBotonUser()) {
-			
-			ventana.getPanelAlmacen().setVisible(false);
-			ventana.getSubPanelAlmacenExport().setVisible(false);
-			ventana.getPanelEmpleado().setVisible(false);
-			ventana.getSubPanelEmpInsertar().setVisible(false);
-			ventana.getSubPanelEmpUpdate().setVisible(false);
-			ventana.getSubPanelEmpDelete().setVisible(false);
-			ventana.getSubPanelBotonesEmp().setVisible(false);
-			ventana.getImagenInicio().setVisible(false);
-			ventana.getPanelCompras().setVisible(false);
-			ventana.getSubPanelDeliveryNoteCompras().setVisible(false);
-			ventana.getSubPanelComprasDelete().setVisible(false);
-			ventana.getSubPanelInsertCompras().setVisible(false);
-			ventana.getSubPanelBotonesCompras().setVisible(false);
-			ventana.getPanelVentas().setVisible(false);
-			ventana.getSubPanelInsertVentas().setVisible(false);
-			ventana.getSubPanelBotonesVentas().setVisible(false);
-			ventana.getSubPanelBills().setVisible(false);
-			ventana.getSubPanelVentasExport().setVisible(false);
-			ventana.getSubPanelVentasDelete().setVisible(false);
-			ventana.getPanelProveedores().setVisible(false);
-			ventana.getPanelClientes().setVisible(false);
-			ventana.getSubPanelInsCliente().setVisible(false);
-			ventana.getPanelBotonesCliente().setVisible(false);
-			ventana.getSubPanelEditCliente().setVisible(false);
-			ventana.getSubPanelElimCliente().setVisible(false);
-			ventana.getPanelCRM().setVisible(false);			
-			ventana.getSubPanelInsProv().setVisible(false);
-			ventana.getPanelBotonesProv().setVisible(false);
-			ventana.getSubPanelEditProv().setVisible(false);
-			ventana.getSubPanelElimProv().setVisible(false);
-			ventana.getSubPanelEmpExport().setVisible(false);
-			ventana.getSubPanelComprasExport().setVisible(false);			
-			
-		}	
-		
-		//Atrï¿½s
+		//Atras --> Si pulsamos en la imagen del Logo sale la imagen de Inicio
 		else if(e.getSource()==ventana.getImageLogo()) {
 			
 			//Mostramos la imagen de Inicio

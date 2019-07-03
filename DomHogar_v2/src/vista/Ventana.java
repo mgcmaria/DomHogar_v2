@@ -16,6 +16,8 @@ import tablas.Servicio;
 
 public class Ventana extends JFrame{
 	
+	Connection conexion = AccesoDB.conexion();	
+	
 	private static final long serialVersionUID = 1L;
 	
 	//DECLARACION DE COMPONENTES - ATRIBUTOS DE LA CLASE (PRIVADAS)	
@@ -82,7 +84,7 @@ public class Ventana extends JFrame{
 		resultUpdateProv, resulBusquedaProv, resulDeleteProv;
 	private JComboBox <String>comboUpdateProv;
 	
-	//Atributos de ALMACï¿½N
+	//Atributos de ALMACEN
 	private JPanel panelAlmacen, subPanelAlmacenExport;
 	private JScrollPane barraStock, barraStock2;
 	private JButton botonExportStock, botonExportAlmFinal;
@@ -102,6 +104,12 @@ public class Ventana extends JFrame{
 		botonSearchCliente, botonDeleteClienteFinal, botonBills;
 	private JComboBox<String> comboUpdateCliente;
 	
+	//Atributos de NOMINA
+	private JPanel panelNomina;
+	private JLabel JLUsuarioNomina, JLTextoConsulNom, JLDomHogarNom, JLCIFNom, JLDomiEmpresaNom, JLDNIEmpNom, JLSSEmpNom, 
+		JLCatEmpNom,JLGrupoCotEmpNom, JLDevengos, JLTotalDevengosTitulo, JLSalarioBase;
+	private JComboBox<String> comboAnnoNomina, comboMesNomina;
+	private JButton botonCheckNom;
 	
 	//COLORES
 	Color color_blanco = Color.WHITE;
@@ -296,6 +304,110 @@ public class Ventana extends JFrame{
 		panelClientes();
 		panelCRM();
 		panelAlmacen();
+		panelNomina();
+		
+	}
+
+	private void panelNomina() {
+		// TODO Auto-generated method stub
+		
+		panelNomina = new JPanel();
+		panelNomina.setBackground(color_panel);
+		panelNomina.setBounds(200, 40, 750, 580);
+		panelNomina.setLayout(null);
+		add(panelNomina);
+		panelNomina.setVisible(false);
+		
+		JLUsuarioNomina = new JLabel();
+		JLUsuarioNomina.setBounds(20, 0, 710, 60);
+		JLUsuarioNomina.setBorder(null);
+		JLUsuarioNomina.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		JLUsuarioNomina.setForeground(color_azul);//Color del texto
+		JLUsuarioNomina.setHorizontalAlignment(JLabel.CENTER);
+		JLUsuarioNomina.setVerticalAlignment(JLabel.CENTER);
+		panelNomina.add(JLUsuarioNomina);
+		
+		JLTextoConsulNom = new JLabel("Wellcome to consultation of Nominas. Select Year and Month to inquiry.");
+		JLTextoConsulNom.setBounds(20, 70, 710, 30);
+		JLTextoConsulNom.setBorder(null);
+		JLTextoConsulNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLTextoConsulNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLTextoConsulNom);
+		
+		comboAnnoNomina = new JComboBox<String>();
+		comboAnnoNomina.addItem("Year"); 	
+		comboAnnoNomina.addItem("2019"); 
+	    comboAnnoNomina.setSelectedIndex(0); // Foco en el item 0
+	    comboAnnoNomina.setBounds(20, 110, 220, 30);
+	    panelNomina.add(comboAnnoNomina);		
+	    
+	    comboMesNomina = new JComboBox<String>();
+	    comboMesNomina.addItem("Month");
+	    comboMesNomina.addItem("Enero");
+	    comboMesNomina.addItem("Febrero");
+	    comboMesNomina.addItem("Marzo");
+	    comboMesNomina.addItem("Abril");
+	    comboMesNomina.addItem("Mayo");
+	    comboMesNomina.addItem("Junio");	    
+	    comboMesNomina.setSelectedIndex(0); // Foco en el item 0
+	    comboMesNomina.setBounds(250, 110, 220, 30);
+	    panelNomina.add(comboMesNomina);  
+	    
+	    Image checkNomina = new ImageIcon("img\\check.png").getImage();
+		botonCheckNom = new JButton(new ImageIcon(checkNomina.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		botonCheckNom.setBounds(520, 100, 110, 42);
+		botonCheckNom.setBorder(null); // Eliminamos el borde
+		botonCheckNom.setBackground(color_panel);
+		panelNomina.add(botonCheckNom);// Anadimos
+		
+		JLDomHogarNom = new JLabel("DomHogar, S.L.");
+		JLDomHogarNom.setBounds(350, 170, 150, 30);
+		JLDomHogarNom.setBorder(null);
+		JLDomHogarNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDomHogarNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLDomHogarNom);
+		
+		JLCIFNom = new JLabel("B25675368");
+		JLCIFNom.setBounds(350, 200, 100, 30);
+		JLCIFNom.setBorder(null);
+		JLCIFNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLCIFNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLCIFNom);
+		
+		JLDomiEmpresaNom = new JLabel("Pol.Industrial El Pez, S/N, \n 28600, Madrid");
+		JLDomiEmpresaNom.setBounds(350, 230, 300, 30);
+		JLDomiEmpresaNom.setBorder(null);
+		JLDomiEmpresaNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDomiEmpresaNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLDomiEmpresaNom);
+	    
+		JLDNIEmpNom = new JLabel("DNI");
+		JLDNIEmpNom.setBounds(20, 170, 100, 30);
+		JLDNIEmpNom.setBorder(null);
+		JLDNIEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDNIEmpNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLDNIEmpNom); 	
+		
+		JLSSEmpNom = new JLabel("SS");
+		JLSSEmpNom.setBounds(20, 200, 100, 30);
+		JLSSEmpNom.setBorder(null);
+		JLSSEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLSSEmpNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLSSEmpNom); 	
+		
+		JLCatEmpNom = new JLabel("Categoría");
+		JLCatEmpNom.setBounds(20, 230, 100, 30);
+		JLCatEmpNom.setBorder(null);
+		JLCatEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLCatEmpNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLCatEmpNom);
+		
+		JLGrupoCotEmpNom = new JLabel("Grupo Cot");
+		JLGrupoCotEmpNom.setBounds(20, 260, 100, 30);
+		JLGrupoCotEmpNom.setBorder(null);
+		JLGrupoCotEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLGrupoCotEmpNom.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLGrupoCotEmpNom);
 		
 	}
 
@@ -352,8 +464,7 @@ public class Ventana extends JFrame{
 	    //Combo producto
 	    comboProductoCompras = new JComboBox<String>();
 	    comboProductoCompras.addItem("Product's code");	    
-	    //Obtenemos los codigos de producto de la BBDD de la Tabla Compras   
-	    Connection conexion = AccesoDB.conexion();		    
+	    //Obtenemos los codigos de producto de la BBDD de la Tabla Compras   	    
 	    ArrayList<Producto> lista_productos = AccesoDB.datosProducto(conexion);	    
 	    for (Producto p : lista_productos) {
 	    	comboProductoCompras.addItem(p.getCod_Producto());
@@ -700,10 +811,7 @@ public class Ventana extends JFrame{
 		botonExportCompra.setBounds((int) 522.5, 20, 160, 42);
 		botonExportCompra.setBorder(null); // Eliminamos el borde
 		botonExportCompra.setBackground(color_panel);
-		subPanelBotonesCompras.add(botonExportCompra);// Anadimos
-		
-		
-		
+		subPanelBotonesCompras.add(botonExportCompra);// Anadimos		
 	} 
 
 	//PANEL VENTAS
@@ -759,8 +867,7 @@ public class Ventana extends JFrame{
 	    comboServicioVentas = new JComboBox<String>();
 	    comboServicioVentas.addItem("Service code");	   
 
-	    //Obtenemos los codigos de servicio de la BBDD de la Tabla Ventas	   
-	    Connection conexion = AccesoDB.conexion();		    
+	    //Obtenemos los codigos de servicio de la BBDD de la Tabla Ventas	   		    
 	    ArrayList<Servicio> lista_servicios = AccesoDB.datosServicio(conexion);
 	    
 	    for (Servicio s : lista_servicios) {
@@ -1332,7 +1439,6 @@ public class Ventana extends JFrame{
 		resulDeleteProv.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 		resulDeleteProv.setForeground(color_azul);//Color del texto
 		subPanelEmpDelete.add(resulDeleteProv);//Anadimos	
-
 	    
 		//Panel botones PROVEEDORES
 	    
@@ -1363,8 +1469,6 @@ public class Ventana extends JFrame{
 		botonDeliveryNotes.setBorder(null); //Eliminamos el borde
 		botonDeliveryNotes.setBackground(color_panel);
 		panelBotonesProv.add(botonDeliveryNotes);//Anadimos 
-		
-
 
 	}
 	
@@ -1456,12 +1560,11 @@ public class Ventana extends JFrame{
 	    insertMailCliente.setForeground(color_azul);//Color del texto
 	    subPanelInsCliente.add(insertMailCliente);//Anadimos
 		
-			//boton insertar
+		//boton insertar
 	    Image imgBotonInsertClienteOk = new ImageIcon("img\\insert.png").getImage();
 		botonInsertClienteok = new JButton(new ImageIcon(imgBotonInsertClienteOk.getScaledInstance(110,42, Image.SCALE_SMOOTH)));//Creamos el componente
 		botonInsertClienteok.setBounds(550,140,110,42);
 		botonInsertClienteok.setBorder(null); //Eliminamos el borde
-		//Falta incluir la imagen del botï¿½n
 		botonInsertClienteok.setBackground(new Color(186,236,247));
 		subPanelInsCliente.add(botonInsertClienteok);//Anadimos 
 				
@@ -1471,8 +1574,7 @@ public class Ventana extends JFrame{
 		resulInsertCliente.setBorder(null); //Eliminamos el borde
 		resulInsertCliente.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 		resulInsertCliente.setForeground(new Color(000,000,000));//Color del texto
-		subPanelInsCliente.add(resulInsertCliente);//Anadimos	
-		
+		subPanelInsCliente.add(resulInsertCliente);//Anadimos			
 		
 		//SUBPANEL EDITAR CLIENTE
 		
@@ -1537,7 +1639,7 @@ public class Ventana extends JFrame{
 	    insertNewDataCliente.setForeground(color_azul);//Color del texto
 	    subPanelEditCliente.add(insertNewDataCliente);//Anadimos
 		
-			//boton actualizar
+		//boton actualizar
 	    Image imgBotonUpdateFinalCl = new ImageIcon("img\\update.png").getImage();
 		botonUpdateFinalCl = new JButton(new ImageIcon(imgBotonUpdateFinalCl.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		botonUpdateFinalCl.setBounds(20,220,110,42);
@@ -1545,7 +1647,7 @@ public class Ventana extends JFrame{
 		botonUpdateFinalCl.setBorder(null); //Eliminamos el borde
 		subPanelEditCliente.add(botonUpdateFinalCl);//Anadimos 
 		
-			//resultado de la actualizacion
+		//resultado de la actualizacion
 		resultUpdateCliente = new JLabel();//Creamos el componente
 		resultUpdateCliente.setBounds(150,222,500,30);//Posicionamos
 		resultUpdateCliente.setBorder(null); //Eliminamos el borde
@@ -1583,7 +1685,7 @@ public class Ventana extends JFrame{
 	    insertNIFDeleteCli.setForeground(color_azul);//Color del texto
 	    subPanelElimCliente.add(insertNIFDeleteCli);//Anadimos
 		
-		   //boton busqueda
+		//boton busqueda
 	    Image imgBotonSearchCli = new ImageIcon("img\\search.png").getImage();
 		botonSearchCliente = new JButton(new ImageIcon(imgBotonSearchCli.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		botonSearchCliente.setBounds(20,130,110,42);
@@ -1591,7 +1693,7 @@ public class Ventana extends JFrame{
 		botonSearchCliente.setBorder(null); //Eliminamos el borde
 		subPanelElimCliente.add(botonSearchCliente);//Anadimos 
 		
-			//resultado busqueda
+		//resultado busqueda
 		resulBusquedaCli = new JLabel();//Creamos el componente
 		resulBusquedaCli.setBounds(150,130,500,30);//Posicionamos
 		resulBusquedaCli.setBorder(null); //Eliminamos el borde
@@ -1599,7 +1701,7 @@ public class Ventana extends JFrame{
 		resulBusquedaCli.setForeground(color_azul);//Color del texto
 		subPanelElimCliente.add(resulBusquedaCli);//Anadimos
 		
-			//boton borrar el cliente seleccionado
+		//boton borrar el cliente seleccionado
 		Image imgBotonDeleteClienteFinal = new ImageIcon("img\\delete.png").getImage();
 		botonDeleteClienteFinal = new JButton(new ImageIcon(imgBotonDeleteClienteFinal.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		botonDeleteClienteFinal.setBounds(20,190,110,42);
@@ -1608,7 +1710,7 @@ public class Ventana extends JFrame{
 		subPanelElimCliente.add(botonDeleteClienteFinal);//Anadimos 
 		botonDeleteClienteFinal.setVisible(false);
 		
-			//resultado del borrado
+		//resultado del borrado
 		resulDeleteCliente = new JLabel();//Creamos el componente
 		resulDeleteCliente.setBounds(150,190,500,30);//Posicionamos
 		resulDeleteCliente.setBorder(null); //Eliminamos el borde
@@ -1677,7 +1779,7 @@ public class Ventana extends JFrame{
 					
 	}
 
-	//PANEL ALMACï¿½N
+	//PANEL ALMACEN
 	private void panelAlmacen() {
 		panelAlmacen = new JPanel();
 		panelAlmacen.setBackground(color_panel);
@@ -1780,8 +1882,7 @@ public class Ventana extends JFrame{
 	    resulExportAlm.setBorder(null); //Eliminamos el borde
 	    resulExportAlm.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 	    resulExportAlm.setForeground(Color.GRAY);//Color del texto
-	    subPanelAlmacenExport.add( resulExportAlm);//Anadimos	
-		
+	    subPanelAlmacenExport.add( resulExportAlm);//Anadimos			
 
 	}
 
@@ -2214,7 +2315,9 @@ public class Ventana extends JFrame{
 		botonExportVenFinal.addMouseListener(manejador);
 		
 		botonExportStock.addMouseListener(manejador);
-		botonExportAlmFinal.addMouseListener(manejador);		
+		botonExportAlmFinal.addMouseListener(manejador);
+		
+		botonCheckNom.addMouseListener(manejador);
 		
 	}
 
@@ -3924,5 +4027,45 @@ public class Ventana extends JFrame{
 
 	public void setTablaCRM(JTable tablaCRM) {
 		this.tablaCRM = tablaCRM;
+	}
+
+	public JPanel getPanelNomina() {
+		return panelNomina;
+	}
+
+	public void setPanelNomina(JPanel panelNomina) {
+		this.panelNomina = panelNomina;
+	}
+
+	public JLabel getJLUsuarioNomina() {
+		return JLUsuarioNomina;
+	}
+
+	public void setJLUsuarioNomina(JLabel jLUsuarioNomina) {
+		JLUsuarioNomina = jLUsuarioNomina;
+	}
+
+	public JComboBox<String> getComboAnnoNomina() {
+		return comboAnnoNomina;
+	}
+
+	public void setComboAnnoNomina(JComboBox<String> comboAnnoNomina) {
+		this.comboAnnoNomina = comboAnnoNomina;
+	}
+
+	public JComboBox<String> getComboMesNomina() {
+		return comboMesNomina;
+	}
+
+	public void setComboMesNomina(JComboBox<String> comboMesNomina) {
+		this.comboMesNomina = comboMesNomina;
+	}
+
+	public JButton getBotonCheckNom() {
+		return botonCheckNom;
+	}
+
+	public void setBotonCheckNom(JButton botonCheckNom) {
+		this.botonCheckNom = botonCheckNom;
 	}
 }
