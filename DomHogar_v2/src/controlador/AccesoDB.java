@@ -606,6 +606,42 @@ public class AccesoDB {
 		}
 		return afectados;		
 	}
+	
+public static Boolean exportarFicheroProveedores(String user) {
+		
+		File f = new File("C:\\Users\\"+user+"\\proveedores.csv");
+		
+		Connection conexion = AccesoDB.conexion();
+		
+		ArrayList<Proveedor> lista_proveedor = datosProveedor(conexion);
+		
+		try {
+			FileWriter ficheroProveedores = new FileWriter(f);
+			
+			ficheroProveedores.write("Código Proveedor,Nombre Proveedor, Mail");
+			ficheroProveedores.write("\n");
+			
+			for (Proveedor proveedor : lista_proveedor) {
+				
+				ficheroProveedores.write(proveedor.getCodproveedor());
+				ficheroProveedores.write(",");
+				ficheroProveedores.write(proveedor.getNombreProveedor());
+				ficheroProveedores.write(",");
+				ficheroProveedores.write(proveedor.getMail());
+				ficheroProveedores.write("\n");
+			
+			}
+			
+			ficheroProveedores.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+	
 
 	public static Boolean exportarFicheroEmpleados(String user) {
 		
@@ -1286,7 +1322,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 			Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
 			// Consulta SQL con resulset
-			ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, s.nombreServicio, s.importeServicio, lf.cantidad, "
+			ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, s.nombreServicio, s.importeServicio, lf.udsServicio, "
 					+ "lf.numFactura,f.fecha,f.dni_Cliente,c.nombre \r\n" + 
 					"FROM LINEA_FACTURA lf \r\n" + 
 					"JOIN SERVICIO s on lf.codServicio = s.codServicio \r\n" + 
@@ -1300,14 +1336,14 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				String numFactura2 = rs.getString("numFactura");
 				String codServicio = rs.getString("codServicio");
 				String nomServicio = rs.getString("nombreServicio");
+				int udsServicio = rs.getInt("udsServicio");
 				int importeVentaSer = rs.getInt("importeServicio");
-				int cantidad = rs.getInt("cantidad");
-				int cantidadTotal = importeVentaSer*cantidad;
+				int Total = importeVentaSer*udsServicio;
 				String dniCliente = rs.getString("dni_Cliente");
 				String nomCliente = rs.getString("nombre");
 				Date fecha = rs.getDate("fecha");
 				
-				ventas = new Ventas(numFactura2,codServicio,nomServicio, cantidad, importeVentaSer, cantidadTotal, dniCliente,  nomCliente, fecha);
+				ventas = new Ventas(numFactura2,codServicio,nomServicio, udsServicio, importeVentaSer, Total, dniCliente,  nomCliente, fecha);
 				
 				lista_ventas.add(ventas);
 							
@@ -1369,7 +1405,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		int afectados = 0;
 
 		// Almacenamos en un String la Sentencia SQL
-		String sql = "DELETE FROM LINEA_FACTURA WHERE numfactura = '"+numFacturaDelete+"' AND codServicio = '"+numServicioDelete+"' AND cantidad = "+cantidadDeleteVen;
+		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura = '"+numFacturaDelete+"' AND codServicio = '"+numServicioDelete+"' AND udsServicio = "+cantidadDeleteVen;
 
 		try {
 			PreparedStatement sentencia = conexion.prepareStatement(sql);

@@ -74,14 +74,16 @@ public class Ventana extends JFrame{
 	private JTable tablaCRM;
 	
 	//Atributos de PROVEEDORES
-	private JPanel panelProveedores, subPanelInsProv, subPanelEditProv, subPanelElimProv, panelBotonesProv;
-	private JTextField insertCodProv, insertNomProv, insertContProv, insertCODUpdateProv, insertNewDataProv, insertCODDeleteProv;
+	private JPanel panelProveedores, subPanelInsProv, subPanelEditProv, subPanelElimProv, panelBotonesProv, subPanelProvExport ;
+	private JTextField insertCodProv, insertNomProv, insertContProv, insertCODUpdateProv, insertNewDataProv, insertCODDeleteProv,
+	insertUsuarioPCProveedor;
 	private JScrollPane barraProveedores;
 	private JTable tablaProveedores;
 	private JButton botonInsertProveedor, botonActualizarProveedor, botonBorrarProveedor, botonInsertProvOk, 
-		botonDeliveryNotes, botonUpdateEmpFinalPr, botonSearchProv, botonDeleteProvFinal, botonUpdateFinalPr;
+	botonExportProveedor, botonUpdateEmpFinalPr, botonSearchProv, botonDeleteProvFinal, botonUpdateFinalPr,
+	botonExportProvFinal;
 	private JLabel nuevoProv, resulInsertProv, editProv, elimProv, labelPreguntaCambioProv, labelNewDataProv,
-		resultUpdateProv, resulBusquedaProv, resulDeleteProv;
+		resultUpdateProv, resulBusquedaProv, resulDeleteProv, exportProveedor, insertRutaExportProv, resulExportProv ;
 	private JComboBox <String>comboUpdateProv;
 	
 	//Atributos de ALMACEN
@@ -1439,6 +1441,54 @@ public class Ventana extends JFrame{
 		resulDeleteProv.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 		resulDeleteProv.setForeground(color_azul);//Color del texto
 		subPanelEmpDelete.add(resulDeleteProv);//Anadimos	
+		
+		//exportar proveedores
+		subPanelProvExport = new JPanel();
+		subPanelProvExport.setBounds(200, 270, 750, 268);
+		subPanelProvExport.setBackground(color_panel);
+		subPanelProvExport.setLayout(null);
+		add(subPanelProvExport);
+		subPanelProvExport.setVisible(false);
+		
+		exportProveedor = new JLabel("export suppliers to file");
+		exportProveedor.setBounds(20, 0, 710, 60);
+		exportProveedor.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		exportProveedor.setForeground(color_azul);//Color del texto
+		exportProveedor.setHorizontalAlignment(JLabel.CENTER);
+		exportProveedor.setVerticalAlignment(JLabel.CENTER);
+		subPanelProvExport.add(exportProveedor);//Anadimos al panel
+		
+		insertUsuarioPCProveedor = new JTextField();//Creamos el componente
+		TextPrompt placeholder12 = new TextPrompt("Insert user PC. Ej. ejemplo", insertUsuarioPCProveedor);
+		placeholder12.changeAlpha(0.75f);
+		placeholder12.changeStyle(Font.ITALIC);
+	    insertUsuarioPCProveedor.setBounds(20,70,200,30);//Posicionamos		
+	    insertUsuarioPCProveedor.setBorder(BorderFactory.createLineBorder(color_azul, 2)); //Eliminamos el borde
+	    insertUsuarioPCProveedor.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+	    insertUsuarioPCProveedor.setBackground(Color.WHITE); //Color de fondo
+	    insertUsuarioPCProveedor.setForeground(color_azul);//Color del texto
+	    subPanelProvExport.add(insertUsuarioPCProveedor);//Anadimos	
+		
+		insertRutaExportProv = new JLabel("You'll find the file in C:\\Users\\youruser. Name of file: proveedores.csv ");//Creamos el componente
+	    insertRutaExportProv.setBounds(20,120,670,30);//Posicionamos		
+	    insertRutaExportProv.setBorder(null); //Eliminamos el borde
+	    insertRutaExportProv.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
+	    insertRutaExportProv.setForeground(color_azul);//Color del texto
+	    subPanelProvExport.add(insertRutaExportProv);//Anadimos
+	    
+	    Image imgBotonExportProvFinal = new ImageIcon("img\\export to file.png").getImage();
+		botonExportProvFinal = new JButton(new ImageIcon(imgBotonExportProvFinal.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		botonExportProvFinal.setBounds(20,180,160,42);
+		botonExportProvFinal.setBackground(new Color(186,236,247));
+		botonExportProvFinal.setBorder(null); //Eliminamos el borde
+		subPanelProvExport.add(botonExportProvFinal);//Anadimos 
+				
+	    resulExportProv = new JLabel();//Creamos el componente
+	    resulExportProv.setBounds(200,180,500,30);//Posicionamos
+	    resulExportProv.setBorder(null); //Eliminamos el borde
+	    resulExportProv.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
+	    resulExportProv.setForeground(Color.GRAY);//Color del texto
+	    subPanelProvExport.add(resulExportProv);//Anadimos	
 	    
 		//Panel botones PROVEEDORES
 	    
@@ -1463,12 +1513,12 @@ public class Ventana extends JFrame{
 		botonBorrarProveedor.setBackground(color_panel);
 		panelBotonesProv.add(botonBorrarProveedor);//Anadimos 
 		
-		Image imgbotonDeliveryNotes = new ImageIcon("img\\delivery notes.png").getImage();
-		botonDeliveryNotes = new JButton(new ImageIcon(imgbotonDeliveryNotes.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
-		botonDeliveryNotes.setBounds((int) 522.5, 20, 160, 42);
-		botonDeliveryNotes.setBorder(null); //Eliminamos el borde
-		botonDeliveryNotes.setBackground(color_panel);
-		panelBotonesProv.add(botonDeliveryNotes);//Anadimos 
+		Image imgbotonExportProveedor = new ImageIcon("img\\export to file.png").getImage();
+		botonExportProveedor = new JButton(new ImageIcon(imgbotonExportProveedor.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
+		botonExportProveedor.setBounds((int) 522.5, 20, 160, 42);
+		botonExportProveedor.setBorder(null); //Eliminamos el borde
+		botonExportProveedor.setBackground(color_panel);
+		panelBotonesProv.add(botonExportProveedor);//Anadimos 
 
 	}
 	
@@ -2278,11 +2328,12 @@ public class Ventana extends JFrame{
 		
 		botonActualizarProveedor.addMouseListener(manejador);
 		botonBorrarProveedor.addMouseListener(manejador);
-		botonDeliveryNotes.addMouseListener(manejador);		
+		botonExportProveedor.addMouseListener(manejador);
 		botonUpdateFinalPr.addMouseListener(manejador);
 		botonSearchProv.addMouseListener(manejador);
 		botonDeleteProvFinal.addMouseListener(manejador);	
 		botonInsertProvOk.addMouseListener(manejador);
+		botonExportProvFinal.addMouseListener(manejador);
 		
 		botonInsertClienteok.addMouseListener(manejador);
 		botonActualizarCliente.addMouseListener(manejador);
@@ -2829,13 +2880,6 @@ public class Ventana extends JFrame{
 		return elimProv;
 	}
 	
-	public JButton getBotonDeliveryNotes() {
-		return botonDeliveryNotes;
-	}
-
-	public void setBotonDeliveryNotes(JButton botonDeliveryNotes) {
-		this.botonDeliveryNotes = botonDeliveryNotes;
-	}
 	public void setElimProv(JLabel elimProv) {
 		this.elimProv = elimProv;
 	}
@@ -4067,5 +4111,61 @@ public class Ventana extends JFrame{
 
 	public void setBotonCheckNom(JButton botonCheckNom) {
 		this.botonCheckNom = botonCheckNom;
+	}
+
+	public JPanel getSubPanelProvExport() {
+		return subPanelProvExport;
+	}
+
+	public void setSubPanelProvExport(JPanel subPanelProvExport) {
+		this.subPanelProvExport = subPanelProvExport;
+	}
+
+	public JTextField getInsertUsuarioPCProveedor() {
+		return insertUsuarioPCProveedor;
+	}
+
+	public void setInsertUsuarioPCProveedor(JTextField insertUsuarioPCProveedor) {
+		this.insertUsuarioPCProveedor = insertUsuarioPCProveedor;
+	}
+
+	public JButton getBotonExportProveedor() {
+		return botonExportProveedor;
+	}
+
+	public void setBotonExportProveedor(JButton botonExportProveedor) {
+		this.botonExportProveedor = botonExportProveedor;
+	}
+
+	public JButton getBotonExportProvFinal() {
+		return botonExportProvFinal;
+	}
+
+	public void setBotonExportProvFinal(JButton botonExportProvFinal) {
+		this.botonExportProvFinal = botonExportProvFinal;
+	}
+
+	public JLabel getExportProveedor() {
+		return exportProveedor;
+	}
+
+	public void setExportProveedor(JLabel exportProveedor) {
+		this.exportProveedor = exportProveedor;
+	}
+
+	public JLabel getInsertRutaExportProv() {
+		return insertRutaExportProv;
+	}
+
+	public void setInsertRutaExportProv(JLabel insertRutaExportProv) {
+		this.insertRutaExportProv = insertRutaExportProv;
+	}
+
+	public JLabel getResulExportProv() {
+		return resulExportProv;
+	}
+
+	public void setResulExportProv(JLabel resulExportProv) {
+		this.resulExportProv = resulExportProv;
 	}
 }
