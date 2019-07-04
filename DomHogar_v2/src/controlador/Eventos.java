@@ -261,6 +261,9 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonDeleteEmpFinal().setVisible(false);
 			ventana.getSubPanelEmpUpdate().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getPanelEmpleado().setVisible(false);
+			ventana.getSubPanelEmpInsertar().setVisible(false);
+			ventana.getSubPanelBotonesEmp().setVisible(false);
 			
 		}
 		
@@ -1172,7 +1175,7 @@ public class Eventos implements ActionListener, MouseListener {
 				} 
 			}
 			
-			//Si algun componente de la los valores del Insert estï¿½ vacï¿½o
+			//Si algun componente de los valores del Insert esta vacïo
 			if(ventana.getJTFnumFactura().getText().isEmpty() || ventana.getComboServicioVentas().getSelectedItem().toString().contains("Service code") ||
 				    ventana.getComboClienteVentas().getSelectedItem().toString().contains("Customer's code"))
 				{

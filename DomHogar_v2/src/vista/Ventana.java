@@ -108,10 +108,15 @@ public class Ventana extends JFrame{
 	
 	//Atributos de NOMINA
 	private JPanel panelNomina;
-	private JLabel JLUsuarioNomina, JLTextoConsulNom, JLDomHogarNom, JLCIFNom, JLDomiEmpresaNom, JLDNIEmpNom, JLSSEmpNom, 
-		JLCatEmpNom,JLGrupoCotEmpNom, JLDevengos, JLTotalDevengosTitulo, JLSalarioBase;
+	private JLabel JLUsuarioNomina, JLTextoConsulNom, JLDatosTrabajador, JLDatosEmpresa, JLDomHogarNom, JLCIFNom, 
+		JLDomiEmpresaNom, JLDNIEmpNom, JLresultDNIEmpNomima, JLSSEmpNom, JLresulSSEmpNomina, JLCatEmpNom, JLRESULCatEmpNomina, 
+		JLGrupoCotEmpNom, JLresulGrupoCotEmpNomina, JLresulIRPF, JLIRPF, JLDevengosTitulo, JLSalarioBase, JLresulSalarioBase, 
+		JLHorasExtras, JLresulHorasExtras, JLDietas, JLresulDietas, JLTotaldevengado, JLresulTotalDevengado,
+		JLRetencionesTitulo, JLFormacion, JLresulFormacion, JLDesempleo, JLresulDesempleo, JLConComunes, JLresulConComunes,
+		JLTotalDeducir, JLresulTotalDeducir;
 	private JComboBox<String> comboAnnoNomina, comboMesNomina;
 	private JButton botonCheckNom;
+	private JTextField tiraDatosTrabajador, tiraDatosEmpresa, tiraPeriodo;
 	
 	//COLORES
 	Color color_blanco = Color.WHITE;
@@ -321,16 +326,16 @@ public class Ventana extends JFrame{
 		panelNomina.setVisible(false);
 		
 		JLUsuarioNomina = new JLabel();
-		JLUsuarioNomina.setBounds(20, 0, 710, 60);
+		JLUsuarioNomina.setBounds(20, 0, 710, 45);
 		JLUsuarioNomina.setBorder(null);
-		JLUsuarioNomina.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		JLUsuarioNomina.setFont(new Font("Segoe UI",Font.BOLD,36));//Damos formato al contenido
 		JLUsuarioNomina.setForeground(color_azul);//Color del texto
 		JLUsuarioNomina.setHorizontalAlignment(JLabel.CENTER);
 		JLUsuarioNomina.setVerticalAlignment(JLabel.CENTER);
 		panelNomina.add(JLUsuarioNomina);
 		
-		JLTextoConsulNom = new JLabel("Wellcome to consultation of Nominas. Select Year and Month to inquiry.");
-		JLTextoConsulNom.setBounds(20, 70, 710, 30);
+		JLTextoConsulNom = new JLabel("Wellcome to Nominas consult. Select Year and Month to inquiry.");
+		JLTextoConsulNom.setBounds(20, 45, 710, 30);
 		JLTextoConsulNom.setBorder(null);
 		JLTextoConsulNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLTextoConsulNom.setForeground(color_azul);//Color del texto
@@ -340,7 +345,7 @@ public class Ventana extends JFrame{
 		comboAnnoNomina.addItem("Year"); 	
 		comboAnnoNomina.addItem("2019"); 
 	    comboAnnoNomina.setSelectedIndex(0); // Foco en el item 0
-	    comboAnnoNomina.setBounds(20, 110, 220, 30);
+	    comboAnnoNomina.setBounds(20, 80, 220, 30);
 	    panelNomina.add(comboAnnoNomina);		
 	    
 	    comboMesNomina = new JComboBox<String>();
@@ -352,64 +357,273 @@ public class Ventana extends JFrame{
 	    comboMesNomina.addItem("Mayo");
 	    comboMesNomina.addItem("Junio");	    
 	    comboMesNomina.setSelectedIndex(0); // Foco en el item 0
-	    comboMesNomina.setBounds(250, 110, 220, 30);
+	    comboMesNomina.setBounds(250, 80, 220, 30);
 	    panelNomina.add(comboMesNomina);  
 	    
 	    Image checkNomina = new ImageIcon("img\\check.png").getImage();
 		botonCheckNom = new JButton(new ImageIcon(checkNomina.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
-		botonCheckNom.setBounds(520, 100, 110, 42);
+		botonCheckNom.setBounds(520, 80, 110, 42);
 		botonCheckNom.setBorder(null); // Eliminamos el borde
 		botonCheckNom.setBackground(color_panel);
 		panelNomina.add(botonCheckNom);// Anadimos
 		
-		JLDomHogarNom = new JLabel("DomHogar, S.L.");
-		JLDomHogarNom.setBounds(350, 170, 150, 30);
-		JLDomHogarNom.setBorder(null);
-		JLDomHogarNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLDomHogarNom.setForeground(color_azul);//Color del texto
-		panelNomina.add(JLDomHogarNom);
+		//******************//TRABAJADOR
 		
-		JLCIFNom = new JLabel("B25675368");
-		JLCIFNom.setBounds(350, 200, 100, 30);
-		JLCIFNom.setBorder(null);
-		JLCIFNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLCIFNom.setForeground(color_azul);//Color del texto
-		panelNomina.add(JLCIFNom);
+		JLDatosTrabajador = new JLabel("Datos Trabajador");
+		JLDatosTrabajador.setBounds(20, 130, 300, 30);
+		JLDatosTrabajador.setBorder(null);
+		JLDatosTrabajador.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDatosTrabajador.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLDatosTrabajador);
 		
-		JLDomiEmpresaNom = new JLabel("Pol.Industrial El Pez, S/N, \n 28600, Madrid");
-		JLDomiEmpresaNom.setBounds(350, 230, 300, 30);
-		JLDomiEmpresaNom.setBorder(null);
-		JLDomiEmpresaNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLDomiEmpresaNom.setForeground(color_azul);//Color del texto
-		panelNomina.add(JLDomiEmpresaNom);
-	    
-		JLDNIEmpNom = new JLabel("DNI");
-		JLDNIEmpNom.setBounds(20, 170, 100, 30);
+		tiraDatosTrabajador = new JTextField();
+		tiraDatosTrabajador.setBounds(20, 160, 300, 5);
+		tiraDatosTrabajador.setBackground(Color.gray);
+		panelNomina.add(tiraDatosTrabajador);
+		
+		JLDNIEmpNom = new JLabel("DNI: ");
+		JLDNIEmpNom.setBounds(20, 170, 100, 25);
 		JLDNIEmpNom.setBorder(null);
 		JLDNIEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLDNIEmpNom.setForeground(color_azul);//Color del texto
+		JLDNIEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLDNIEmpNom); 	
 		
-		JLSSEmpNom = new JLabel("SS");
-		JLSSEmpNom.setBounds(20, 200, 100, 30);
+		JLresultDNIEmpNomima = new JLabel("123456789X");
+		JLresultDNIEmpNomima.setBounds(130, 170, 200, 25);
+		JLresultDNIEmpNomima.setBorder(null);
+		JLresultDNIEmpNomima.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresultDNIEmpNomima.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresultDNIEmpNomima); 	
+		
+		JLSSEmpNom = new JLabel("SS: ");
+		JLSSEmpNom.setBounds(20, 195, 100, 25);
 		JLSSEmpNom.setBorder(null);
 		JLSSEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLSSEmpNom.setForeground(color_azul);//Color del texto
+		JLSSEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLSSEmpNom); 	
 		
-		JLCatEmpNom = new JLabel("Categoría");
-		JLCatEmpNom.setBounds(20, 230, 100, 30);
+		JLresulSSEmpNomina = new JLabel("28euqijdl98349183921");
+		JLresulSSEmpNomina.setBounds(130, 195, 200, 25);
+		JLresulSSEmpNomina.setBorder(null);
+		JLresulSSEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulSSEmpNomina.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulSSEmpNomina); 	
+		
+		JLCatEmpNom = new JLabel("Categoría: ");
+		JLCatEmpNom.setBounds(20, 220, 100, 25);
 		JLCatEmpNom.setBorder(null);
 		JLCatEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLCatEmpNom.setForeground(color_azul);//Color del texto
+		JLCatEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLCatEmpNom);
 		
-		JLGrupoCotEmpNom = new JLabel("Grupo Cot");
-		JLGrupoCotEmpNom.setBounds(20, 260, 100, 30);
+		JLRESULCatEmpNomina = new JLabel("ejemplo");
+		JLRESULCatEmpNomina.setBounds(130, 220, 100, 25);
+		JLRESULCatEmpNomina.setBorder(null);
+		JLRESULCatEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLRESULCatEmpNomina.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLRESULCatEmpNomina);
+		
+		JLGrupoCotEmpNom = new JLabel("Grupo Cot: ");
+		JLGrupoCotEmpNom.setBounds(20, 245, 100, 25);
 		JLGrupoCotEmpNom.setBorder(null);
 		JLGrupoCotEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLGrupoCotEmpNom.setForeground(color_azul);//Color del texto
+		JLGrupoCotEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLGrupoCotEmpNom);
+		
+		JLresulGrupoCotEmpNomina = new JLabel("ejemplo");
+		JLresulGrupoCotEmpNomina.setBounds(130, 245, 100, 25);
+		JLresulGrupoCotEmpNomina.setBorder(null);
+		JLresulGrupoCotEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulGrupoCotEmpNomina.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLresulGrupoCotEmpNomina);
+		
+		//******************//EMPRESA
+		
+		JLDatosEmpresa = new JLabel("Datos Empresa");
+		JLDatosEmpresa.setBounds(350, 130, 300, 30);
+		JLDatosEmpresa.setBorder(null);
+		JLDatosEmpresa.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDatosEmpresa.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLDatosEmpresa);
+		
+		tiraDatosEmpresa = new JTextField();
+		tiraDatosEmpresa.setBounds(350, 160, 320, 5);
+		tiraDatosEmpresa.setBackground(Color.gray);
+		panelNomina.add(tiraDatosEmpresa);
+		
+		JLDomHogarNom = new JLabel("DomHogar, S.L.");
+		JLDomHogarNom.setBounds(350, 170, 300, 25);
+		JLDomHogarNom.setBorder(null);
+		JLDomHogarNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDomHogarNom.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLDomHogarNom);
+		
+		JLCIFNom = new JLabel("CIF: B25675368, SL");
+		JLCIFNom.setBounds(350, 195, 300, 25);
+		JLCIFNom.setBorder(null);
+		JLCIFNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLCIFNom.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLCIFNom);
+		
+		JLDomiEmpresaNom = new JLabel("Pol.Industrial El Pez, S/N, 28600, Madrid");
+		JLDomiEmpresaNom.setBounds(350, 220, 300, 50);
+		JLDomiEmpresaNom.setBorder(null);
+		JLDomiEmpresaNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDomiEmpresaNom.setForeground(Color.gray);//Color del texto
+		panelNomina.add(JLDomiEmpresaNom);
+		
+		//******************//LIQUIDACION
+		
+		tiraPeriodo = new JTextField();
+		tiraPeriodo.setBounds(20, 270, 650, 5);
+		tiraPeriodo.setBackground(Color.gray);
+		panelNomina.add(tiraPeriodo);
+		
+		//******************//DEVENGOS
+		
+		JLDevengosTitulo = new JLabel("DEVENGOS");
+		JLDevengosTitulo.setBounds(20, 280, 100, 25);
+		JLDevengosTitulo.setBorder(null);
+		JLDevengosTitulo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDevengosTitulo.setBackground(Color.black);
+		JLDevengosTitulo.setForeground(Color.DARK_GRAY);//Color del texto
+		panelNomina.add(JLDevengosTitulo);
+		
+		JLSalarioBase = new JLabel("Salario Base: ");
+		JLSalarioBase.setBounds(40, 305, 100, 25);
+		JLSalarioBase.setBorder(null);
+		JLSalarioBase.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLSalarioBase.setBackground(Color.black);
+		JLSalarioBase.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLSalarioBase);
+		
+		JLresulSalarioBase = new JLabel("1.100 €");
+		JLresulSalarioBase.setBounds(330, 305, 100, 25);
+		JLresulSalarioBase.setBorder(null);
+		JLresulSalarioBase.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido	
+		JLresulSalarioBase.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulSalarioBase);
+		
+		JLHorasExtras = new JLabel("Horas Extras: ");
+		JLHorasExtras.setBounds(40, 330, 100, 25);
+		JLHorasExtras.setBorder(null);
+		JLHorasExtras.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLHorasExtras.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLHorasExtras);
+		
+		JLresulHorasExtras = new JLabel("8");
+		JLresulHorasExtras.setBounds(330, 330, 100, 25);
+		JLresulHorasExtras.setBorder(null);
+		JLresulHorasExtras.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulHorasExtras.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulHorasExtras);
+		
+		JLDietas = new JLabel("Dietas: ");
+		JLDietas.setBounds(40, 355, 100, 25);
+		JLDietas.setBorder(null);
+		JLDietas.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDietas.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLDietas);
+		
+		JLresulDietas = new JLabel("10");
+		JLresulDietas.setBounds(330, 355, 100, 25);
+		JLresulDietas.setBorder(null);
+		JLresulDietas.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulDietas.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulDietas);
+		
+		JLTotaldevengado = new JLabel("Total Devengado: ");
+		JLTotaldevengado.setBounds(150, 380, 180, 25);
+		JLTotaldevengado.setBorder(null);
+		JLTotaldevengado.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLTotaldevengado.setForeground(Color.DARK_GRAY);//Color del texto
+		panelNomina.add(JLTotaldevengado);
+		
+		JLresulTotalDevengado = new JLabel("1400 €");
+		JLresulTotalDevengado.setBounds(330, 380, 100, 25);
+		JLresulTotalDevengado.setBorder(null);
+		JLresulTotalDevengado.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulTotalDevengado.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulTotalDevengado);		
+		
+		//******************//RETENCION
+		
+		JLRetencionesTitulo = new JLabel("RETENCIONES");
+		JLRetencionesTitulo.setBounds(20, 405, 100, 25);
+		JLRetencionesTitulo.setBorder(null);
+		JLRetencionesTitulo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLRetencionesTitulo.setForeground(Color.DARK_GRAY);//Color del texto
+		panelNomina.add(JLRetencionesTitulo);		
+		
+		JLConComunes = new JLabel("Con.Comunes - 4,70%: ");
+		JLConComunes.setBounds(40, 430, 200, 25);
+		JLConComunes.setBorder(null);
+		JLConComunes.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLConComunes.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLConComunes);
+		
+		JLresulConComunes = new JLabel("55 €");
+		JLresulConComunes.setBounds(330, 430, 100, 25);
+		JLresulConComunes.setBorder(null);
+		JLresulConComunes.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulConComunes.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulConComunes);	
+		
+		JLDesempleo= new JLabel("Desempleo - 1,55%: ");
+		JLDesempleo.setBounds(40, 455, 150, 25);
+		JLDesempleo.setBorder(null);
+		JLDesempleo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLDesempleo.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLDesempleo);
+		
+		JLresulDesempleo = new JLabel("2,25 €");
+		JLresulDesempleo.setBounds(330, 455, 100, 25);
+		JLresulDesempleo.setBorder(null);
+		JLresulDesempleo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulDesempleo.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulDesempleo);
+		
+		JLFormacion= new JLabel("Formación - 0,10%: ");
+		JLFormacion.setBounds(40, 480, 150, 25);
+		JLFormacion.setBorder(null);
+		JLFormacion.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLFormacion.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLFormacion);
+		
+		JLresulFormacion = new JLabel("1,10 €");
+		JLresulFormacion.setBounds(330, 480, 100, 25);
+		JLresulFormacion.setBorder(null);
+		JLresulFormacion.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulFormacion.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulFormacion);
+		
+		JLIRPF= new JLabel("I.R.P.F. - 11%: ");
+		JLIRPF.setBounds(40, 505, 150, 25);
+		JLIRPF.setBorder(null);
+		JLIRPF.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLIRPF.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLIRPF);
+		
+		JLresulIRPF = new JLabel("250 €");
+		JLresulIRPF.setBounds(330, 505, 100, 25);
+		JLresulIRPF.setBorder(null);
+		JLresulIRPF.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulIRPF.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulIRPF);
+		
+		JLTotalDeducir = new JLabel("Total a Deducir: ");
+		JLTotalDeducir.setBounds(150, 530, 180, 25);
+		JLTotalDeducir.setBorder(null);
+		JLTotalDeducir.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLTotalDeducir.setForeground(Color.DARK_GRAY);//Color del texto
+		panelNomina.add(JLTotalDeducir);
+		
+		JLresulTotalDeducir = new JLabel("439 €");
+		JLresulTotalDeducir.setBounds(330, 530, 100, 25);
+		JLresulTotalDeducir.setBorder(null);
+		JLresulTotalDeducir.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulTotalDeducir.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulTotalDeducir);	
 		
 	}
 
