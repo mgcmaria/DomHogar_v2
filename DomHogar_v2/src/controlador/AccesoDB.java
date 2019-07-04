@@ -309,7 +309,7 @@ public class AccesoDB {
 		int afectados = 0;
 		
 		// Almacenamos en un String la Sentencia SQL
-		String sql = "UPDATE CLIENTE SET " +campo+"= '"+nuevoDato+"' WHERE CODPROVEEDOR='"+dni+"';";
+		String sql = "UPDATE CLIENTE SET " +campo+"= '"+nuevoDato+"' WHERE DNI_CLIENTE='"+dni+"';";
 		
 		try {
 			PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -934,7 +934,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		
 		try {
 			// Almacenamos en un String la Sentencia SQL
-			String sql = "INSERT INTO FACTURA (NUMFACTURA, DNI_CLIENTE, FECHA, ) " + "VALUES (?, ?, ?)";
+			String sql = "INSERT INTO FACTURA (NUMFACTURA, DNI_CLIENTE, FECHA) " + "VALUES (?, ?, ?)";
 
 			String numFactura = null;
 			String dniCliente = null;
@@ -947,6 +947,8 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				fecha = v.getFecha();
 
 			}
+			
+			System.out.println(numFactura);
 
 			// Con PreparedStatement recogemos los valores introducidos
 			PreparedStatement sentencia;
@@ -961,6 +963,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		} catch (SQLException e) {
 			e.getMessage();
 		}
+		System.out.println(afectados1);
 		return afectados1;
 	}
 

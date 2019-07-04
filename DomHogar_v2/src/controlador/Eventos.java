@@ -1837,6 +1837,10 @@ public class Eventos implements ActionListener, MouseListener {
 		else if(e.getSource()==ventana.getBotonCustomers()) {
 			
 			//Mostramos panel de clientes
+			ventana.getInsertNIFCliente().setText("");
+			ventana.getInsertNomCliente().setText("");
+			ventana.getInsertTelCliente().setText("");
+			ventana.getResulInsertCliente().setText("");
 			ventana.getPanelClientes().setVisible(true);
 			ventana.getSubPanelInsCliente().setVisible(true);
 			ventana.getPanelBotonesCliente().setVisible(true);
@@ -1879,8 +1883,8 @@ public class Eventos implements ActionListener, MouseListener {
 		//BOT�N INSERTAR CLIENTE
 		else if (e.getSource() == ventana.getBotonInsertClienteok()) {
 
-			if(ventana.getInsertCodProv().getText().isEmpty() || ventana.getInsertNomProv().getText().isEmpty() ||
-					ventana.getInsertContProv().getText().isEmpty())
+			if(ventana.getInsertNIFCliente().getText().isEmpty() || ventana.getInsertNomCliente().getText().isEmpty() ||
+					ventana.getInsertTelCliente().getText().isEmpty())
 			{
 				ventana.getResulInsertCliente().setForeground(Color.GRAY);
 				ventana.getResulInsertCliente().setText("Please, complete all the fields");
@@ -2378,9 +2382,9 @@ public class Eventos implements ActionListener, MouseListener {
 			Image imgBotonBorrarCliente = new ImageIcon("img\\delete customer hover.png").getImage();
 			ventana.getBotonBorrarCliente().setIcon(new ImageIcon(imgBotonBorrarCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
-		else if (e.getSource()==ventana.getBotonBills()) {
-			Image imgBotonBills = new ImageIcon("img\\bills hover.png").getImage();
-			ventana.getBotonBills().setIcon(new ImageIcon(imgBotonBills.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		else if (e.getSource()==ventana.getBotonClienteExport()) {
+			Image imgBotonClienteExport = new ImageIcon("img\\export to file hover.png").getImage();
+			ventana.getBotonClienteExport().setIcon(new ImageIcon(imgBotonClienteExport.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}		
 		else if (e.getSource()==ventana.getBotonUpdateFinalCl()) {
 			Image imgBotonUpdateFinalCl = new ImageIcon("img\\update hover.png").getImage();
@@ -2588,7 +2592,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonDeleteProvFinal().setIcon(new ImageIcon(imgBotonDeleteProvFinal.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		}
 		else if (e.getSource()==ventana.getBotonInsertClienteok()) {
-			Image imgBotonInsertClienteok = new ImageIcon("img\\insert customer.png").getImage();
+			Image imgBotonInsertClienteok = new ImageIcon("img\\insert.png").getImage();
 			ventana.getBotonInsertClienteok().setIcon(new ImageIcon(imgBotonInsertClienteok.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		}		
 		else if (e.getSource()==ventana.getBotonActualizarCliente()) {
@@ -2599,9 +2603,9 @@ public class Eventos implements ActionListener, MouseListener {
 			Image imgBotonBorrarCliente = new ImageIcon("img\\delete customer.png").getImage();
 			ventana.getBotonBorrarCliente().setIcon(new ImageIcon(imgBotonBorrarCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
-		else if (e.getSource()==ventana.getBotonBills()) {
-			Image imgBotonBills = new ImageIcon("img\\bills.png").getImage();
-			ventana.getBotonBills().setIcon(new ImageIcon(imgBotonBills.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		else if (e.getSource()==ventana.getBotonClienteExport()) {
+			Image imgBotonClienteExport = new ImageIcon("img\\export to file.png").getImage();
+			ventana.getBotonClienteExport().setIcon(new ImageIcon(imgBotonClienteExport.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}		
 		else if (e.getSource()==ventana.getBotonUpdateFinalCl()) {
 			Image imgBotonUpdateFinalCl = new ImageIcon("img\\update.png").getImage();
@@ -2836,7 +2840,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonDeleteProvFinal().setContentAreaFilled(false);
 		}
 		else if (e.getSource()==ventana.getBotonInsertClienteok()) {
-			Image imgBotonInsertClienteok = new ImageIcon("img\\insert customer press.png").getImage();
+			Image imgBotonInsertClienteok = new ImageIcon("img\\insert press.png").getImage();
 			ventana.getBotonInsertClienteok().setIcon(new ImageIcon(imgBotonInsertClienteok.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 			ventana.getBotonInsertClienteok().setContentAreaFilled(false);
 		}		
@@ -2850,10 +2854,10 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonBorrarCliente().setIcon(new ImageIcon(imgBotonBorrarCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 			ventana.getBotonBorrarCliente().setContentAreaFilled(false);
 		}
-		else if (e.getSource()==ventana.getBotonBills()) {
-			Image imgBotonBills = new ImageIcon("img\\bills press.png").getImage();
-			ventana.getBotonBills().setIcon(new ImageIcon(imgBotonBills.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
-			ventana.getBotonBills().setContentAreaFilled(false);
+		else if (e.getSource()==ventana.getBotonClienteExport()) {
+			Image imgBotonClienteExport = new ImageIcon("img\\export to file press.png").getImage();
+			ventana.getBotonClienteExport().setIcon(new ImageIcon(imgBotonClienteExport.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+			ventana.getBotonClienteExport().setContentAreaFilled(false);
 		}		
 		else if (e.getSource()==ventana.getBotonUpdateFinalCl()) {
 			Image imgBotonUpdateFinalCl = new ImageIcon("img\\update press.png").getImage();
@@ -3092,7 +3096,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonDeleteProvFinal().setIcon(new ImageIcon(imgBotonDeleteProvFinal.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		}
 		else if (e.getSource()==ventana.getBotonInsertClienteok()) {
-			Image imgBotonInsertClienteok = new ImageIcon("img\\insert customer.png").getImage();
+			Image imgBotonInsertClienteok = new ImageIcon("img\\insert.png").getImage();
 			ventana.getBotonInsertClienteok().setIcon(new ImageIcon(imgBotonInsertClienteok.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		}		
 		else if (e.getSource()==ventana.getBotonActualizarCliente()) {
@@ -3103,9 +3107,9 @@ public class Eventos implements ActionListener, MouseListener {
 			Image imgBotonBorrarCliente = new ImageIcon("img\\delete customer.png").getImage();
 			ventana.getBotonBorrarCliente().setIcon(new ImageIcon(imgBotonBorrarCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
-		else if (e.getSource()==ventana.getBotonBills()) {
-			Image imgBotonBills = new ImageIcon("img\\bills.png").getImage();
-			ventana.getBotonBills().setIcon(new ImageIcon(imgBotonBills.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		else if (e.getSource()==ventana.getBotonClienteExport()) {
+			Image imgBotonClienteExport = new ImageIcon("img\\export to file.png").getImage();
+			ventana.getBotonClienteExport().setIcon(new ImageIcon(imgBotonClienteExport.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}		
 		else if (e.getSource()==ventana.getBotonUpdateFinalCl()) {
 			Image imgBotonUpdateFinalCl = new ImageIcon("img\\update.png").getImage();

@@ -95,15 +95,15 @@ public class Ventana extends JFrame{
 	private JTextField insertUsuarioPCAlmacen;
 	
 	//Atributos de CLIENTES
-	private JPanel panelClientes, subPanelInsCliente, panelBotonesCliente, subPanelEditCliente, subPanelElimCliente;
+	private JPanel panelClientes, subPanelInsCliente, panelBotonesCliente, subPanelEditCliente, subPanelElimCliente, subPanelClienteExport;
 	private JScrollPane barraClientes;
 	private JTable tablaClientes;
 	private JLabel nuevoCliente, resulInsertCliente, editCliente, labelPreguntaCambioCliente, labelNewDataCliente,
-		resultUpdateCliente, elimCliente, resulBusquedaCli, resulDeleteCliente;
+	resultUpdateCliente, elimCliente, resulBusquedaCli, resulDeleteCliente, exportCliente, insertRutaExportCliente, resulExportCliente;
 	private JTextField insertNIFCliente, insertNomCliente, insertTelCliente, insertNIFUpdateCliente, insertNIFDeleteCli,
-		insertNewDataCliente, insertMailCliente;
+	insertNewDataCliente, insertMailCliente, insertUsuarioPCCliente;
 	private JButton botonInsertClienteok, botonActualizarCliente, botonBorrarCliente, botonUpdateFinalCl,
-		botonSearchCliente, botonDeleteClienteFinal, botonBills;
+	botonSearchCliente, botonDeleteClienteFinal, botonClienteExport, botonExportClienteFinal;
 	private JComboBox<String> comboUpdateCliente;
 	
 	//Atributos de NOMINA
@@ -1849,7 +1849,7 @@ public class Ventana extends JFrame{
 		add(subPanelEditCliente);
 		subPanelEditCliente.setVisible(false);	
 		
-		editCliente = new JLabel("update supplier");
+		editCliente = new JLabel("update customer");
 		editCliente.setBounds(20, 0, 710, 60);
 		editCliente.setBorder(null);
 		editCliente.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
@@ -1982,6 +1982,55 @@ public class Ventana extends JFrame{
 		resulDeleteCliente.setForeground(color_azul);//Color del texto
 		subPanelElimCliente.add(resulDeleteCliente);//Anadimos	
 		
+		//exportamos
+		subPanelClienteExport = new JPanel();
+		subPanelClienteExport.setBounds(200, 270, 750, 268);
+		subPanelClienteExport.setBackground(color_panel);
+		subPanelClienteExport.setLayout(null);
+		add(subPanelClienteExport);
+		subPanelClienteExport.setVisible(false);
+		
+		exportCliente = new JLabel("export customers to file");
+		exportCliente.setBounds(20, 0, 710, 60);
+		exportCliente.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		exportCliente.setForeground(color_azul);//Color del texto
+		exportCliente.setHorizontalAlignment(JLabel.CENTER);
+		exportCliente.setVerticalAlignment(JLabel.CENTER);
+		subPanelClienteExport.add(exportCliente);//Anadimos al panel
+		
+		insertUsuarioPCCliente = new JTextField();//Creamos el componente
+		TextPrompt placeholder12 = new TextPrompt("Insert user PC. Ej. ejemplo", insertUsuarioPCCliente);
+		placeholder12.changeAlpha(0.75f);
+		placeholder12.changeStyle(Font.ITALIC);
+	    insertUsuarioPCCliente.setBounds(20,70,200,30);//Posicionamos		
+	    insertUsuarioPCCliente.setBorder(BorderFactory.createLineBorder(color_azul, 2)); //Eliminamos el borde
+	    insertUsuarioPCCliente.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+	    insertUsuarioPCCliente.setBackground(Color.WHITE); //Color de fondo
+	    insertUsuarioPCCliente.setForeground(color_azul);//Color del texto
+	    subPanelClienteExport.add(insertUsuarioPCCliente);//Anadimos	
+		
+		insertRutaExportCliente = new JLabel("You'll find the file in C:\\Users\\youruser. Name of file: clientes.csv ");//Creamos el componente
+		insertRutaExportCliente.setBounds(20,120,670,30);//Posicionamos		
+		insertRutaExportCliente.setBorder(null); //Eliminamos el borde
+		insertRutaExportCliente.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
+		insertRutaExportCliente.setForeground(color_azul);//Color del texto
+	    subPanelClienteExport.add(insertRutaExportCliente);//Anadimos
+	    
+	    Image imgBotonExportClienteFinal = new ImageIcon("img\\export to file.png").getImage();
+		botonExportClienteFinal = new JButton(new ImageIcon(imgBotonExportClienteFinal.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		botonExportClienteFinal.setBounds(20,180,160,42);
+		botonExportClienteFinal.setBackground(new Color(186,236,247));
+		botonExportClienteFinal.setBorder(null); //Eliminamos el borde
+		subPanelClienteExport.add(botonExportClienteFinal);//Anadimos 
+				
+	    resulExportCliente = new JLabel();//Creamos el componente
+	    resulExportCliente.setBounds(200,180,500,30);//Posicionamos
+	    resulExportCliente.setBorder(null); //Eliminamos el borde
+	    resulExportCliente.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
+	    resulExportCliente.setForeground(Color.GRAY);//Color del texto
+	    subPanelClienteExport.add(resulExportCliente);//Anadimos	
+				
+		
 		//Panel botones CLIENTES
 	    
 		panelBotonesCliente = new JPanel();
@@ -2008,12 +2057,12 @@ public class Ventana extends JFrame{
 		panelBotonesCliente.add(botonBorrarCliente);//Anadimos 
 		
 		//cambiar imagen boton
-		Image imgbotonBills = new ImageIcon("img\\bills.png").getImage();
-		botonBills = new JButton(new ImageIcon(imgbotonBills.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
-		botonBills.setBounds((int) 522.5, 20, 160, 42);
-		botonBills.setBorder(null); //Eliminamos el borde
-		botonBills.setBackground(color_panel);
-		panelBotonesCliente.add(botonBills);//Anadimos 
+		Image imgbotonExpCliente = new ImageIcon("img\\exporto to file.png").getImage();
+		botonClienteExport = new JButton(new ImageIcon(imgbotonExpCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
+		botonClienteExport.setBounds((int) 522.5, 20, 160, 42);
+		botonClienteExport.setBorder(null); //Eliminamos el borde
+		botonClienteExport.setBackground(color_panel);
+		panelBotonesCliente.add(botonClienteExport);//Anadimos 
 
 	}
 	
@@ -2555,7 +2604,8 @@ public class Ventana extends JFrame{
 		botonUpdateFinalCl.addMouseListener(manejador);
 		botonSearchCliente.addMouseListener(manejador);
 		botonDeleteClienteFinal.addMouseListener(manejador);		
-		botonBills.addMouseListener(manejador);	
+		botonClienteExport.addMouseListener(manejador);	
+		botonExportClienteFinal.addMouseListener(manejador);	
 		
 		botonVerificarCompra.addMouseListener(manejador);
 		botonInsertCompraFinal.addMouseListener(manejador);
@@ -3326,13 +3376,6 @@ public class Ventana extends JFrame{
 		this.insertMailCliente = insertMailCliente;
 	}
 
-	public JButton getBotonBills() {
-		return botonBills;
-	}
-
-	public void setBotonBills(JButton botonBills) {
-		this.botonBills = botonBills;
-	}
 
 	public JTextField getInsertUsuarioPCCompras() {
 		return insertUsuarioPCCompras;
@@ -4381,5 +4424,61 @@ public class Ventana extends JFrame{
 
 	public void setResulExportProv(JLabel resulExportProv) {
 		this.resulExportProv = resulExportProv;
+	}
+
+	public JPanel getSubPanelClienteExport() {
+		return subPanelClienteExport;
+	}
+
+	public void setSubPanelClienteExport(JPanel subPanelClienteExport) {
+		this.subPanelClienteExport = subPanelClienteExport;
+	}
+
+	public JLabel getExportCliente() {
+		return exportCliente;
+	}
+
+	public void setExportCliente(JLabel exportCliente) {
+		this.exportCliente = exportCliente;
+	}
+
+	public JLabel getInsertRutaExportCliente() {
+		return insertRutaExportCliente;
+	}
+
+	public void setInsertRutaExportCliente(JLabel insertRutaExportCliente) {
+		this.insertRutaExportCliente = insertRutaExportCliente;
+	}
+
+	public JLabel getResulExportCliente() {
+		return resulExportCliente;
+	}
+
+	public void setResulExportCliente(JLabel resulExportCliente) {
+		this.resulExportCliente = resulExportCliente;
+	}
+
+	public JTextField getInsertUsuarioPCCliente() {
+		return insertUsuarioPCCliente;
+	}
+
+	public void setInsertUsuarioPCCliente(JTextField insertUsuarioPCCliente) {
+		this.insertUsuarioPCCliente = insertUsuarioPCCliente;
+	}
+
+	public JButton getBotonClienteExport() {
+		return botonClienteExport;
+	}
+
+	public void setBotonClienteExport(JButton botonClienteExport) {
+		this.botonClienteExport = botonClienteExport;
+	}
+
+	public JButton getBotonExportClienteFinal() {
+		return botonExportClienteFinal;
+	}
+
+	public void setBotonExportClienteFinal(JButton botonExportClienteFinal) {
+		this.botonExportClienteFinal = botonExportClienteFinal;
 	}
 }
