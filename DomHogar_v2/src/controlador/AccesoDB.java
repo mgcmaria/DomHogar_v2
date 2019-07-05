@@ -826,7 +826,42 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 	
 
+	public static Boolean exportarFicheroClientes(String user) {
 	
+	File f = new File("C:\\Users\\"+user+"\\clientes.csv");
+	
+	Connection conexion = AccesoDB.conexion();
+	
+	ArrayList<Cliente> lista_clientes = datosCliente(conexion);
+	
+	try {
+		FileWriter ficheroClientes = new FileWriter(f);
+		
+		ficheroClientes.write("DNI Cliente,Nombre Cliente, Mail, Teléfono");
+		ficheroClientes.write("\n");
+		
+		for (Cliente cliente : lista_clientes) {
+			
+			ficheroClientes.write(cliente.getDni_Cliente());
+			ficheroClientes.write(",");
+			ficheroClientes.write(cliente.getNombre());
+			ficheroClientes.write(",");
+			ficheroClientes.write(cliente.getEmail());
+			ficheroClientes.write(",");
+			ficheroClientes.write(Integer.toString(cliente.getTelefono()));
+			ficheroClientes.write("\n");
+		
+		}
+		
+		ficheroClientes.close();
+		
+	} catch (IOException e) {
+		e.printStackTrace();
+		return false;
+	}
+	return true;
+	
+}
 
 	public static ArrayList<Producto> datosProducto(Connection conexion) {
 		
@@ -1036,14 +1071,14 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		try {			
 
 			Statement sentencia = conexion.createStatement(); 
-			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, la.cantidad, lf.uds_Producto from PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto join LINEA_FACTURA lf on lf.cod_Producto = la.codproducto");		
+			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, la.cantidad, lf.udsServicio from LINEA_FACTURA lf , PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto");		
 
 			while (rs.next()) { 
 				
 				String codProducto = rs.getString("cod_Producto");
 				String nomProducto = rs.getString("nombreProducto");
 				int udsCompradas = rs.getInt("cantidad");
-				int udsVendidas = rs.getInt("uds_Producto");
+				int udsVendidas = rs.getInt("udsServicio");
 				int total = udsCompradas-udsVendidas;
 				
 				almacen = new Almacen(codProducto,nomProducto, udsCompradas, udsVendidas, total);
@@ -1058,24 +1093,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		
 		return lista_Almacen;
 	}
-	
-	public static String[][] obtenerMatrizStockResumen() {
-		
-		Connection conexion = AccesoDB.conexion();
-		
-		ArrayList<Almacen> listaAlmacen = AccesoDB.datosAlmacenResumen(conexion);
-
-		String matrizInfoAlmacen[][] = new String[listaAlmacen.size()][5];
-
-		for (int i = 0; i < listaAlmacen.size(); i++) {
-			matrizInfoAlmacen[i][0] = listaAlmacen.get(i).getCodProducto()+"";
-			matrizInfoAlmacen[i][1] = listaAlmacen.get(i).getNomProducto()+"";
-			matrizInfoAlmacen[i][2] = listaAlmacen.get(i).getUdsCompradas()+"";
-			matrizInfoAlmacen[i][3] = listaAlmacen.get(i).getUdsVendidas()+"";
-			matrizInfoAlmacen[i][4] = listaAlmacen.get(i).getTotal()+"";
-		}
-		return matrizInfoAlmacen;		
-	}	
 	
 	public static ArrayList<Almacen> datosAlmacenResumen(Connection conexion) {
 		

@@ -87,11 +87,11 @@ public class Ventana extends JFrame{
 	private JComboBox <String>comboUpdateProv;
 	
 	//Atributos de ALMACEN
-	private JPanel panelAlmacen, subPanelAlmacenExport;
-	private JScrollPane barraStock, barraStock2;
+	private JPanel panelAlmacen, subPanelAlmacenExport, subPanelBotonStock, subPanelAlmacenBlue;
+	private JScrollPane barraStock;
 	private JButton botonExportStock, botonExportAlmFinal;
-	private JTable tablaAlmacen, tablaAlmacen2;
-	private JLabel detalleAlmacen, resumenAlmacen, exportResAlm, resulExportAlm, insertRutaExportAlm;
+	private JTable tablaAlmacen;
+	private JLabel detalleAlmacen, resulExportAlm, insertRutaExportAlm, exportStock;
 	private JTextField insertUsuarioPCAlmacen;
 	
 	//Atributos de CLIENTES
@@ -2123,7 +2123,7 @@ public class Ventana extends JFrame{
 		panelBotonesCliente.add(botonBorrarCliente);//Anadimos 
 		
 		//cambiar imagen boton
-		Image imgbotonExpCliente = new ImageIcon("img\\exporto to file.png").getImage();
+		Image imgbotonExpCliente = new ImageIcon("img\\export to file.png").getImage();
 		botonClienteExport = new JButton(new ImageIcon(imgbotonExpCliente.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
 		botonClienteExport.setBounds((int) 522.5, 20, 160, 42);
 		botonClienteExport.setBorder(null); //Eliminamos el borde
@@ -2162,21 +2162,13 @@ public class Ventana extends JFrame{
 	private void panelAlmacen() {
 		panelAlmacen = new JPanel();
 		panelAlmacen.setBackground(color_panel);
-		panelAlmacen.setBounds(200, 40, 750, 580);
+		panelAlmacen.setBounds(200, 40, 750, 230);
 		panelAlmacen.setLayout(null);
 		add(panelAlmacen);
 		panelAlmacen.setVisible(false);
 		
-		detalleAlmacen = new JLabel("detalle almac�n");
-		detalleAlmacen.setBounds(20, 0, 710, 60);
-		detalleAlmacen.setFont(new Font("Segoe UI",Font.BOLD,30));//Damos formato al contenido
-		detalleAlmacen.setForeground(color_azul);//Color del texto
-		detalleAlmacen.setHorizontalAlignment(JLabel.CENTER);
-		detalleAlmacen.setVerticalAlignment(JLabel.CENTER);
-		panelAlmacen.add(detalleAlmacen);//Anadimos
-		
 		barraStock = new JScrollPane();
-		barraStock.setBounds(20, 55, 710, 190);
+		barraStock.setBounds(20, 20, 710, 190);
 		panelAlmacen.add(barraStock);
 		
 		String titulosAlmacen[] = {"C�digo Producto", "Nombre Producto", "Unidades compradas", "Unidades Vendidas", "Total"};
@@ -2187,49 +2179,28 @@ public class Ventana extends JFrame{
 		tablaAlmacen.getColumnModel().getColumn(1).setPreferredWidth(115);
 		tablaAlmacen.getColumnModel().getColumn(2).setPreferredWidth(140);
 		barraStock.setViewportView(tablaAlmacen);
-
-		Image imgbotonExportStock = new ImageIcon("img\\export to file.png").getImage();
-		botonExportStock = new JButton(new ImageIcon(imgbotonExportStock.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
-		botonExportStock.setBounds(295, 255, 160, 42);
-		botonExportStock.setBorder(null); //Eliminamos el borde
-		botonExportStock.setBackground(color_panel);
-		panelAlmacen.add(botonExportStock);//Anadimos 
-		
-		resumenAlmacen = new JLabel("resumen almac�n");
-		resumenAlmacen.setBounds(20, 310, 710, 60);
-		resumenAlmacen.setFont(new Font("Segoe UI",Font.BOLD,30));//Damos formato al contenido
-		resumenAlmacen.setForeground(color_azul);//Color del texto
-		resumenAlmacen.setHorizontalAlignment(JLabel.CENTER);
-		resumenAlmacen.setVerticalAlignment(JLabel.CENTER);
-		panelAlmacen.add(resumenAlmacen);//Anadimos
-		
-		barraStock2 = new JScrollPane();
-		barraStock2.setBounds(20, 365, 710, 150);
-		panelAlmacen.add(barraStock2);
-		
-		String titulosAlmacen2[] = {"C�digo Producto", "Nombre Producto", "Unidades compradas", "Unidades Vendidas", "Total"};
-		String infoAlmacen2[][] = AccesoDB.obtenerMatrizStockResumen();
-		
-		tablaAlmacen2 = new JTable(infoAlmacen2,titulosAlmacen2);
-		tablaAlmacen2.getColumnModel().getColumn(0).setPreferredWidth(50);
-		tablaAlmacen2.getColumnModel().getColumn(1).setPreferredWidth(115);
-		tablaAlmacen2.getColumnModel().getColumn(2).setPreferredWidth(140);
-		barraStock2.setViewportView(tablaAlmacen2);
 		
 		subPanelAlmacenExport = new JPanel();
-		subPanelAlmacenExport.setBounds(200, 40, 750, 580);
+		subPanelAlmacenExport.setBounds(200, 270, 750, 268);
 		subPanelAlmacenExport.setBackground(color_panel);
 		subPanelAlmacenExport.setLayout(null);
 		add(subPanelAlmacenExport);
 		subPanelAlmacenExport.setVisible(false);
 		
-		exportResAlm = new JLabel("export stock resume to file");
-		exportResAlm.setBounds(20, 0, 710, 60);
-		exportResAlm.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
-		exportResAlm.setForeground(color_azul);//Color del texto
-		exportResAlm.setHorizontalAlignment(JLabel.CENTER);
-		exportResAlm.setVerticalAlignment(JLabel.CENTER);
-		subPanelAlmacenExport.add(exportResAlm);//Anadimos al panel
+		subPanelAlmacenBlue = new JPanel();
+		subPanelAlmacenBlue.setBounds(200, 270, 750, 268);
+		subPanelAlmacenBlue.setBackground(color_panel);
+		subPanelAlmacenBlue.setLayout(null);
+		add(subPanelAlmacenBlue);
+		subPanelAlmacenBlue.setVisible(false);
+		
+		exportStock = new JLabel("export stock to file");
+		exportStock.setBounds(20, 0, 710, 60);
+		exportStock.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		exportStock.setForeground(color_azul);//Color del texto
+		exportStock.setHorizontalAlignment(JLabel.CENTER);
+		exportStock.setVerticalAlignment(JLabel.CENTER);
+		subPanelAlmacenExport.add(exportStock);//Anadimos al panel
 		
 		insertUsuarioPCAlmacen = new JTextField();//Creamos el componente
 		TextPrompt placeholder12 = new TextPrompt("Insert user PC. Ej. ejemplo", insertUsuarioPCAlmacen);
@@ -2248,20 +2219,35 @@ public class Ventana extends JFrame{
 	    insertRutaExportAlm.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
 	    insertRutaExportAlm.setForeground(color_azul);//Color del texto
 	    subPanelAlmacenExport.add(insertRutaExportAlm);//Anadimos
-	    
+			    
 	    Image imgBotonExportAlmFinal = new ImageIcon("img\\export to file.png").getImage();
 		botonExportAlmFinal = new JButton(new ImageIcon(imgBotonExportAlmFinal.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
-		botonExportAlmFinal.setBounds(20,180,160,42);
-		botonExportAlmFinal.setBackground(new Color(186,236,247));
-		botonExportAlmFinal.setBorder(null); //Eliminamos el borde
-		subPanelAlmacenExport.add(botonExportAlmFinal);//Anadimos 
+		botonExportAlmFinal .setBounds(20,180,160,42);
+		botonExportAlmFinal .setBackground(new Color(186,236,247));
+		botonExportAlmFinal .setBorder(null); //Eliminamos el borde
+		subPanelAlmacenExport.add(botonExportAlmFinal );//Anadimos 
 				
 	    resulExportAlm = new JLabel();//Creamos el componente
 	    resulExportAlm.setBounds(200,180,500,30);//Posicionamos
 	    resulExportAlm.setBorder(null); //Eliminamos el borde
 	    resulExportAlm.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 	    resulExportAlm.setForeground(Color.GRAY);//Color del texto
-	    subPanelAlmacenExport.add( resulExportAlm);//Anadimos			
+	    subPanelAlmacenExport.add(resulExportAlm);//Anadimos	
+	    
+	    subPanelBotonStock = new JPanel();
+		subPanelBotonStock.setBounds(200, 538, 750, 82);
+		subPanelBotonStock.setBackground(color_panel);
+		subPanelBotonStock.setLayout(null);
+		add(subPanelBotonStock);
+		subPanelBotonStock.setVisible(false);
+
+		Image imgbotonExportStock = new ImageIcon("img\\export to file.png").getImage();
+		botonExportStock = new JButton(new ImageIcon(imgbotonExportStock.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
+		botonExportStock.setBounds(295, 20, 160, 42);
+		botonExportStock.setBorder(null); //Eliminamos el borde
+		botonExportStock.setBackground(color_panel);
+		subPanelBotonStock.add(botonExportStock);//Anadimos 
+		
 
 	}
 
@@ -3860,14 +3846,6 @@ public class Ventana extends JFrame{
 		this.subPanelAlmacenExport = subPanelAlmacenExport;
 	}
 
-	public JScrollPane getBarraStock2() {
-		return barraStock2;
-	}
-
-	public void setBarraStock2(JScrollPane barraStock2) {
-		this.barraStock2 = barraStock2;
-	}
-
 	public JButton getBotonExportAlmFinal() {
 		return botonExportAlmFinal;
 	}
@@ -3876,28 +3854,12 @@ public class Ventana extends JFrame{
 		this.botonExportAlmFinal = botonExportAlmFinal;
 	}
 
-	public JTable getTablaAlmacen2() {
-		return tablaAlmacen2;
-	}
-
-	public void setTablaAlmacen2(JTable tablaAlmacen2) {
-		this.tablaAlmacen2 = tablaAlmacen2;
-	}
-
 	public JLabel getDetalleAlmacen() {
 		return detalleAlmacen;
 	}
 
 	public void setDetalleAlmacen(JLabel detalleAlmacen) {
 		this.detalleAlmacen = detalleAlmacen;
-	}
-
-	public JLabel getResumenAlmacen() {
-		return resumenAlmacen;
-	}
-
-	public void setResumenAlmacen(JLabel resumenAlmacen) {
-		this.resumenAlmacen = resumenAlmacen;
 	}
 
 	public JLabel getResulExportAlm() {
@@ -4298,14 +4260,6 @@ public class Ventana extends JFrame{
 
 	public void setLabelPreguntaCambioProv(JLabel labelPreguntaCambioProv) {
 		this.labelPreguntaCambioProv = labelPreguntaCambioProv;
-	}
-
-	public JLabel getExportResAlm() {
-		return exportResAlm;
-	}
-
-	public void setExportResAlm(JLabel exportResAlm) {
-		this.exportResAlm = exportResAlm;
 	}
 
 	public JLabel getLabelPreguntaCambioCliente() {
@@ -4866,5 +4820,21 @@ public class Ventana extends JFrame{
 
 	public void setJLresulPeriodoLiq(JLabel jLresulPeriodoLiq) {
 		JLresulPeriodoLiq = jLresulPeriodoLiq;
+	}
+
+	public JPanel getSubPanelBotonStock() {
+		return subPanelBotonStock;
+	}
+
+	public void setSubPanelBotonStock(JPanel subPanelBotonStock) {
+		this.subPanelBotonStock = subPanelBotonStock;
+	}
+
+	public JPanel getSubPanelAlmacenBlue() {
+		return subPanelAlmacenBlue;
+	}
+
+	public void setSubPanelAlmacenBlue(JPanel subPanelAlmacenBlue) {
+		this.subPanelAlmacenBlue = subPanelAlmacenBlue;
 	}
 }

@@ -193,6 +193,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpUpdate().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 			ventana.setSize(400,520);
 			ventana.setResizable(false);
@@ -284,7 +286,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getPanelEmpleado().setVisible(false);
 			ventana.getSubPanelEmpInsertar().setVisible(false);
 			ventana.getSubPanelBotonesEmp().setVisible(false);
-			
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource() == ventana.getBotonCheckNom()) {
@@ -414,6 +417,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpUpdate().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -646,6 +651,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasDelete().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource() == ventana.getBotonVerificarCompra()) {	
@@ -859,6 +866,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasDelete().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource() == ventana.getBotonCheckDeliNoteCom()) {
@@ -972,6 +981,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpExport().setVisible(false);	
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -1161,6 +1172,15 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getPanelVentas().setVisible(true);
 			ventana.getSubPanelInsertVentas().setVisible(true);
 			ventana.getSubPanelBotonesVentas().setVisible(true);
+			ventana.getJTFnumFactura().setText("");
+			ventana.getComboServicioVentas().setSelectedIndex(0);
+			ventana.getJLresulComboSerVenta().setText("");
+			ventana.getJTFcantidadVenta().setText("");
+			ventana.getJLresulimporVentaServ().setText("");
+			ventana.getJLresulimporTotalServ().setText("");
+			ventana.getComboClienteVentas().setSelectedIndex(0);
+			ventana.getJLresulComboClienteVentas().setText("");
+			ventana.getJLresulinsertVentafinal().setText("");
 						
 			//Ocultamos el resto
 			ventana.getPanelEmpleado().setVisible(false);
@@ -1194,6 +1214,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelVentasDelete().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -1379,7 +1401,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getPanelBotonesProv().setVisible(false);	
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
-			//ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -1488,6 +1511,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelBotonesCompras().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource() == ventana.getBotonCheckBillVenDelete()) {
@@ -1671,7 +1696,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelBotonesCompras().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
-			
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource() == ventana.getBotonExportVenFinal()) {
@@ -1743,6 +1769,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasExport().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -1963,6 +1991,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasExport().setVisible(false);	
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 			
 		}
 		
@@ -2098,6 +2128,42 @@ public class Eventos implements ActionListener, MouseListener {
 			}
 		}
 		
+		else if(e.getSource() == ventana.getBotonClienteExport()) {
+			
+			//Limpiamos la etiqueta usuario
+			ventana.getInsertUsuarioPCCliente().setText("");
+			ventana.getResulExportCliente().setText("");
+			
+			//Ocultamos los paneles de insert, update empleado y boton delete
+			ventana.getSubPanelInsCliente().setVisible(false);
+			ventana.getSubPanelEditCliente().setVisible(false);
+			ventana.getSubPanelElimCliente().setVisible(false);
+
+			
+			//Mostramos el panel de Export
+			ventana.getSubPanelClienteExport().setVisible(true);
+			ventana.getPanelBotonesCliente().setVisible(true);
+		}
+		
+		else if(e.getSource() == ventana.getBotonExportClienteFinal()) {
+			
+			//Recojemos el usuario del PC
+			String user = ventana.getInsertUsuarioPCCliente().getText();
+			
+			Boolean ok_fichero = AccesoDB.exportarFicheroClientes(user);
+			
+			if (ok_fichero == true) {
+				
+				ventana.getResulExportCliente().setText("File created");
+				
+			} else {
+				
+				ventana.getResulExportCliente().setText("Error creating file");
+			}
+			
+		}
+		
+		
 		else if(e.getSource()==ventana.getBotonCRM()) {
 			
 			//Mostramos panel Servicios
@@ -2137,6 +2203,8 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasExport().setVisible(false);			
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
+			ventana.getSubPanelBotonStock().setVisible(false);	
 		}
 		
 		else if(e.getSource()==ventana.getBotonStock()) {
@@ -2144,6 +2212,8 @@ public class Eventos implements ActionListener, MouseListener {
 			//Mostramos panel de Stock
 			ventana.getPanelAlmacen().setVisible(true);
 			ventana.getSubPanelAlmacenExport().setVisible(false);
+			ventana.getSubPanelBotonStock().setVisible(true);	
+			ventana.getSubPanelAlmacenBlue().setVisible(true);	
 	
 			
 			//Ocultamos el resto
@@ -2179,6 +2249,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelComprasExport().setVisible(false);
 			ventana.getPanelNomina().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
 			
 		}	
 		
@@ -2187,9 +2258,9 @@ public class Eventos implements ActionListener, MouseListener {
 			//Limpiamos la etiqueta usuario
 			ventana.getInsertUsuarioPCAlmacen().setText("");
 			ventana.getResulExportAlm().setText("");
-			
-			//Ocultamos los paneles de insert, update empleado y boton delete
-			ventana.getPanelAlmacen().setVisible(false);
+				
+			//ventana.getPanelAlmacen().setVisible(true);
+			ventana.getSubPanelBotonStock().setVisible(true);
 
 			//Mostramos el panel de Export
 			ventana.getSubPanelAlmacenExport().setVisible(true);
@@ -2258,6 +2329,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelEmpExport().setVisible(false);
 			ventana.getSubPanelComprasExport().setVisible(false);
 			ventana.getSubPanelProvExport().setVisible(false);
+			ventana.getSubPanelClienteExport().setVisible(false);	
 					
 		}
 		
@@ -2575,11 +2647,15 @@ public class Eventos implements ActionListener, MouseListener {
 		
 		else if (e.getSource()==ventana.getBotonExportProvFinal ()) {
 			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file hover.png").getImage();
-			ventana.getBotonExportProvFinal ().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+			ventana.getBotonExportProvFinal().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
 		else if (e.getSource()==ventana.getBotonCheckNom()) {
 			Image imgBotonCheckNomina  = new ImageIcon("img\\check hover.png").getImage();
-			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+			ventana.getBotonCheckNom().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		}
+		else if (e.getSource()==ventana.getBotonExportClienteFinal()) {
+			Image imgBotonExportClienteFinal  = new ImageIcon("img\\export to file hover.png").getImage();
+			ventana.getBotonExportClienteFinal().setIcon(new ImageIcon(imgBotonExportClienteFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
 	}
 
@@ -2804,6 +2880,10 @@ public class Eventos implements ActionListener, MouseListener {
 		else if (e.getSource()==ventana.getBotonCheckNom()) {
 			Image imgBotonCheckNomina  = new ImageIcon("img\\check.png").getImage();
 			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		}
+		else if (e.getSource()==ventana.getBotonExportClienteFinal()) {
+			Image imgBotonExportClienteFinal  = new ImageIcon("img\\export to file.png").getImage();
+			ventana.getBotonExportClienteFinal().setIcon(new ImageIcon(imgBotonExportClienteFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
 		
 	}
@@ -3093,6 +3173,11 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 			ventana.getBotonCheckNom().setContentAreaFilled(false);
 		}
+		else if (e.getSource()==ventana.getBotonExportClienteFinal()) {
+			Image imgBotonExportClienteFinal  = new ImageIcon("img\\export to file press.png").getImage();
+			ventana.getBotonExportClienteFinal().setIcon(new ImageIcon(imgBotonExportClienteFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+			ventana.getBotonExportClienteFinal().setContentAreaFilled(false);
+		}
 		
 	}
 
@@ -3317,6 +3402,10 @@ public class Eventos implements ActionListener, MouseListener {
 		else if (e.getSource()==ventana.getBotonCheckNom()) {
 			Image imgBotonCheckNomina  = new ImageIcon("img\\check.png").getImage();
 			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		}
+		else if (e.getSource()==ventana.getBotonExportClienteFinal()) {
+			Image imgBotonExportClienteFinal  = new ImageIcon("img\\export to file.png").getImage();
+			ventana.getBotonExportClienteFinal().setIcon(new ImageIcon(imgBotonExportClienteFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
 		
 	}
