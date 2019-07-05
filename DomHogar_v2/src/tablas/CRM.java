@@ -3,11 +3,12 @@ package tablas;
 public class CRM {
 	
 	public String nombre, email;
-	public int telefono, DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack, Wifi_Surveillance_Cameras;
+	public int id, telefono, DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack, Wifi_Surveillance_Cameras;
 	
-	public CRM(String nombre, String email, int telefono, int decoWifi_pack, int wifi_Signal_Expansion,
+	public CRM(int id, String nombre, String email, int telefono, int decoWifi_pack, int wifi_Signal_Expansion,
 			int smart_Plugs_Pack, int smart_Bulbs_Pack, int wifi_Surveillance_Cameras) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.email = email;
 		this.telefono = telefono;
@@ -18,6 +19,12 @@ public class CRM {
 		Wifi_Surveillance_Cameras = wifi_Surveillance_Cameras;
 	}
 
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getNombre() {
 		return nombre;
 	}

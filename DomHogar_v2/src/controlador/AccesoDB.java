@@ -1294,6 +1294,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			// Mientras haya registros anadimos al ArrayList
 			while (rs.next()) { 
 				
+				int id = rs.getInt("id");
 				String nombre = rs.getString("nombre");
 				String email = rs.getString("email");
 				int telefono = rs.getInt("telefono");
@@ -1303,7 +1304,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				int Smart_Bulbs_Pack  = rs.getInt("Smart_Bulbs_Pack");
 				int Wifi_Surveillance_Cameras = rs.getInt("Wifi_Surveillance_Cameras");
 				
-				c = new CRM(nombre,email,telefono,DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack,  Wifi_Surveillance_Cameras);
+				c = new CRM(id, nombre,email,telefono,DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack,  Wifi_Surveillance_Cameras);
 				
 				lista_CRM.add(c);							
 			}
@@ -1456,7 +1457,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		return afectados;		
 	}
 
-	public static ArrayList<Nomina> datosNomina(Connection conexion) {
+	public static ArrayList<Nomina> datosNomina(String nifEmpleado2, String anio2, String mes2, Connection conexion) {
 		
 		ArrayList<Nomina> lista_NOM = new ArrayList<Nomina>();
 		
@@ -1466,20 +1467,27 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 			Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
 			// Consulta SQL con resulset
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM NOMINA");			
+			ResultSet rs = sentencia.executeQuery("SELECT n.codNomina, n.nif_Empleado, e.SS, e.perfil, e.gruCotizacion, "
+					+ "n.mes, n.anio, n.salarioBase, n.horasExtra, n.dietas "
+					+ "FROM NOMINA n "
+					+ "JOIN EMPLEADO e ON n.nif_Empleado=e.NIF_Empleado "
+					+ "WHERE n.nif_Empleado='"+nifEmpleado2+"' AND n.mes='"+mes2+"' AND n.anio="+anio2);			
 
 			// Mientras haya registros anadimos al ArrayList
 			while (rs.next()) { 
 				
 				String codNomina = rs.getString("codNomina");
 				String nifEmpleado = rs.getString("nif_Empleado");
+				String ss = rs.getString("SS");
+				String categoria = rs.getString("perfil");
+				String grupoCotizacion = rs.getString("gruCotizacion");
 				String mes = rs.getString("mes");
 				String anio = rs.getString("anio");
 				int salarioBase = rs.getInt("salarioBase");
 				int horasExtra = rs.getInt("horasExtra");
 				int dietas = rs.getInt("dietas");
 				
-				n = new Nomina(codNomina, nifEmpleado, mes, anio, salarioBase, horasExtra, dietas);
+				n = new Nomina(codNomina, nifEmpleado, ss, categoria, grupoCotizacion, mes, anio, salarioBase, horasExtra, dietas);
 				
 				lista_NOM.add(n);
 			}

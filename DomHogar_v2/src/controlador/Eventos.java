@@ -24,6 +24,7 @@ import javax.swing.table.TableModel;
 import tablas.Cliente;
 import tablas.Compras;
 import tablas.Empleado;
+import tablas.Nomina;
 import tablas.Producto;
 import tablas.Proveedor;
 import tablas.Servicio;
@@ -216,14 +217,33 @@ public class Eventos implements ActionListener, MouseListener {
 		
 		else if(e.getSource() == ventana.getBotonUser()) {
 			
+			//Limpiamos las etiquetas de la nómina
+			ventana.getJLresulCodNomina().setText("");
+			ventana.getJLresulPeriodoLiq().setText("");
+			ventana.getJLresultDNIEmpNomima().setText("");
+			ventana.getJLresulSSEmpNomina().setText("");
+			ventana.getJLRESULCatEmpNomina().setText("");
+			ventana.getJLresulGrupoCotEmpNomina().setText("");
+			ventana.getJLresulSalarioBase().setText("");
+			ventana.getJLresulHorasExtras().setText("");
+			ventana.getJLresulDietas().setText("");			
+			ventana.getJLresulTotalDevengado().setText("");
+			ventana.getJLresulConComunes().setText("");
+			ventana.getJLresulDesempleo().setText("");
+			ventana.getJLresulFormacion().setText("");
+			ventana.getJLresulIRPF().setText("");
+			ventana.getJLresulTotalDeducir().setText("");
+			ventana.getJLresulTotalPercibir().setText("");
+			
 			//Mostramos el panel de Nónima
-			ventana.getPanelNomina().setVisible(true);
+			ventana.getPanelNominaInicio().setVisible(true);
+			ventana.getPanelNomina().setVisible(false);
 			
 			//Mostraremos en el panel el Usuario que ha accedido al sistema
 			for (Empleado lista : lista_usuarios) {
 				
 				if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena)) {
-					ventana.getJLUsuarioNomina().setText(lista.getNombre()+" "+ lista.getApellidos());
+					ventana.getJLUsuarioNominaInicio().setText(lista.getNombre()+" "+ lista.getApellidos());
 					//Recogemos el NIF del empleado para luego mostrar las nóminas
 					nifEmpleado = lista.getNif();
 				} 
@@ -269,10 +289,76 @@ public class Eventos implements ActionListener, MouseListener {
 		
 		else if(e.getSource() == ventana.getBotonCheckNom()) {
 			
+			//Mostramos el panel de Nónima
+			ventana.getPanelNominaInicio().setVisible(false);
+			ventana.getPanelNomina().setVisible(true);
+			
+			//Mostraremos en el panel el Usuario que ha accedido al sistema
+			for (Empleado lista : lista_usuarios) {
+				
+				if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena)) {
+					ventana.getJLUsuarioNomina().setText(lista.getNombre()+" "+ lista.getApellidos());
+					//Recogemos el NIF del empleado para luego mostrar las nóminas
+				} 
+			}
+			
 			//Recogemos en variables el mes y anio de la nomina
 			String anio = ventana.getComboAnnoNomina().getSelectedItem().toString();
 			String mes = ventana.getComboMesNomina().getSelectedItem().toString();
+			
+			ArrayList<Nomina> nom = AccesoDB.datosNomina(nifEmpleado, anio, mes, conexion);
+			
+			int totDev = 0;
+			int horasExtras = 0;
+			int dietas = 0;
+			double conCom = 0;
+			double desempleo = 0;
+			double formacion = 0;
+			double irpf = 0;
+			double totDeducir = 0;
+			double totPercibir = 0;
+			
+			if(nom.size() == 0) {
 				
+				//Mostramos Dialog 
+  				JOptionPane.showMessageDialog(new JFrame(), 
+  						"Error to consult",
+  						"Nomina",
+  						JOptionPane.ERROR_MESSAGE);
+				
+			} else {
+				for (Nomina n : nom) {
+					
+					horasExtras = n.getHorasExtra()*100;
+					dietas = n.getDietas()*70;
+					totDev = n.getSalarioBase()+horasExtras+dietas;
+					conCom=totDev*0.047;
+					desempleo=totDev*0.0155;
+					formacion = totDev*0.01;
+					irpf = totDev*0.11;
+					totDeducir = conCom+desempleo+formacion+irpf;
+					totPercibir = totDev - totDeducir;
+					
+					ventana.getJLresulCodNomina().setText(n.getCodNomina());
+					ventana.getJLresulPeriodoLiq().setText(n.getMes() + " / "+n.getAnio());
+					ventana.getJLresultDNIEmpNomima().setText(n.getNif_Empleado());
+					ventana.getJLresulSSEmpNomina().setText(n.getSs());
+					ventana.getJLRESULCatEmpNomina().setText(n.getCategoria());
+					ventana.getJLresulGrupoCotEmpNomina().setText(n.getGrupoCotizacion());
+					ventana.getJLresulSalarioBase().setText(Integer.toString(n.getSalarioBase())+" €");
+					ventana.getJLresulHorasExtras().setText(Integer.toString(horasExtras)+ " €");
+					ventana.getJLresulDietas().setText(Integer.toString(dietas)+" €");
+					
+					ventana.getJLresulTotalDevengado().setText(Integer.toString(totDev)+" €");
+					ventana.getJLresulConComunes().setText(Double.toString(conCom)+" €");
+					ventana.getJLresulDesempleo().setText(Double.toString(desempleo)+" €");
+					ventana.getJLresulFormacion().setText(Double.toString(formacion)+" €");
+					ventana.getJLresulIRPF().setText(Double.toString(irpf)+" €");
+					ventana.getJLresulTotalDeducir().setText(Double.toString(totDeducir)+" €");
+					ventana.getJLresulTotalPercibir().setText(Double.toString(totPercibir)+" €");
+					
+				}
+			}			
 			
 		}
 		
@@ -2491,6 +2577,10 @@ public class Eventos implements ActionListener, MouseListener {
 			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file hover.png").getImage();
 			ventana.getBotonExportProvFinal ().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}
+		else if (e.getSource()==ventana.getBotonCheckNom()) {
+			Image imgBotonCheckNomina  = new ImageIcon("img\\check hover.png").getImage();
+			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		}
 	}
 
 	@Override
@@ -2710,6 +2800,10 @@ public class Eventos implements ActionListener, MouseListener {
 		else if (e.getSource()==ventana.getBotonExportProvFinal ()) {
 			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file.png").getImage();
 			ventana.getBotonExportProvFinal ().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
+		}
+		else if (e.getSource()==ventana.getBotonCheckNom()) {
+			Image imgBotonCheckNomina  = new ImageIcon("img\\check.png").getImage();
+			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
 		}
 		
 	}
@@ -2990,9 +3084,14 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getBotonDeleteFactura().setContentAreaFilled(false);
 		}
 		else if (e.getSource()==ventana.getBotonExportProvFinal ()) {
-			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file.png").getImage();
+			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file press.png").getImage();
 			ventana.getBotonExportProvFinal ().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 			ventana.getBotonExportProvFinal().setContentAreaFilled(false);
+		}
+		else if (e.getSource()==ventana.getBotonCheckNom()) {
+			Image imgBotonCheckNomina  = new ImageIcon("img\\check press.png").getImage();
+			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+			ventana.getBotonCheckNom().setContentAreaFilled(false);
 		}
 		
 	}
@@ -3215,6 +3314,10 @@ public class Eventos implements ActionListener, MouseListener {
 			Image imgBotonExportProvFinal  = new ImageIcon("img\\export to file.png").getImage();
 			ventana.getBotonExportProvFinal ().setIcon(new ImageIcon(imgBotonExportProvFinal .getScaledInstance(160,42, Image.SCALE_SMOOTH)));
 		}	
+		else if (e.getSource()==ventana.getBotonCheckNom()) {
+			Image imgBotonCheckNomina  = new ImageIcon("img\\check.png").getImage();
+			ventana.getBotonCheckNom ().setIcon(new ImageIcon(imgBotonCheckNomina .getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		}
 		
 	}
 }

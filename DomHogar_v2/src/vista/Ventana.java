@@ -107,13 +107,14 @@ public class Ventana extends JFrame{
 	private JComboBox<String> comboUpdateCliente;
 	
 	//Atributos de NOMINA
-	private JPanel panelNomina;
-	private JLabel JLUsuarioNomina, JLTextoConsulNom, JLDatosTrabajador, JLDatosEmpresa, JLDomHogarNom, JLCIFNom, 
+	private JPanel panelNominaInicio, panelNomina;
+	private JLabel JLUsuarioNominaInicio, JLUsuarioNomina, JLTextoConsulNom, JLDatosTrabajador, JLDatosEmpresa, JLDomHogarNom, JLCIFNom, 
 		JLDomiEmpresaNom, JLDNIEmpNom, JLresultDNIEmpNomima, JLSSEmpNom, JLresulSSEmpNomina, JLCatEmpNom, JLRESULCatEmpNomina, 
 		JLGrupoCotEmpNom, JLresulGrupoCotEmpNomina, JLresulIRPF, JLIRPF, JLDevengosTitulo, JLSalarioBase, JLresulSalarioBase, 
 		JLHorasExtras, JLresulHorasExtras, JLDietas, JLresulDietas, JLTotaldevengado, JLresulTotalDevengado,
 		JLRetencionesTitulo, JLFormacion, JLresulFormacion, JLDesempleo, JLresulDesempleo, JLConComunes, JLresulConComunes,
-		JLTotalDeducir, JLresulTotalDeducir;
+		JLTotalDeducir, JLresulTotalDeducir, JLTotalPercibir, JLresulTotalPercibir, JLCodNomina, JLresulCodNomina, 
+		JLPeriodoLiquidacion, JLresulPeriodoLiq;
 	private JComboBox<String> comboAnnoNomina, comboMesNomina;
 	private JButton botonCheckNom;
 	private JTextField tiraDatosTrabajador, tiraDatosEmpresa, tiraPeriodo;
@@ -198,7 +199,7 @@ public class Ventana extends JFrame{
 		botonExit = new JButton("");//Creamos el componente
 		botonExit.setBounds(200,360,136,42);
 		botonExit.setIcon(new ImageIcon("imagenes/exit_login.png"));
-		botonExit.setBorder(new MatteBorder(null));
+		botonExit.setBorder(null);
 		botonExit.setBackground(color_blanco);
 		add(botonExit);//Anadimos					
 		
@@ -312,6 +313,61 @@ public class Ventana extends JFrame{
 		panelCRM();
 		panelAlmacen();
 		panelNomina();
+		panelNominaInicio();
+		
+	}
+
+	private void panelNominaInicio() {
+		// TODO Auto-generated method stub
+		
+		panelNominaInicio = new JPanel();
+		panelNominaInicio.setBackground(color_panel);
+		panelNominaInicio.setBounds(200, 40, 750, 580);
+		panelNominaInicio.setLayout(null);
+		add(panelNominaInicio);
+		panelNominaInicio.setVisible(false);
+		
+		JLUsuarioNominaInicio = new JLabel();
+		JLUsuarioNominaInicio.setBounds(20, 0, 710, 45);
+		JLUsuarioNominaInicio.setBorder(null);
+		JLUsuarioNominaInicio.setFont(new Font("Segoe UI",Font.BOLD,36));//Damos formato al contenido
+		JLUsuarioNominaInicio.setForeground(color_azul);//Color del texto
+		JLUsuarioNominaInicio.setHorizontalAlignment(JLabel.CENTER);
+		JLUsuarioNominaInicio.setVerticalAlignment(JLabel.CENTER);
+		panelNominaInicio.add(JLUsuarioNominaInicio);
+		
+		JLTextoConsulNom = new JLabel("Wellcome to Nominas consult. Select Year and Month to inquiry.");
+		JLTextoConsulNom.setBounds(20, 45, 710, 30);
+		JLTextoConsulNom.setBorder(null);
+		JLTextoConsulNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLTextoConsulNom.setForeground(color_azul);//Color del texto
+		panelNominaInicio.add(JLTextoConsulNom);
+		
+		comboAnnoNomina = new JComboBox<String>();
+		comboAnnoNomina.addItem("Year"); 	
+		comboAnnoNomina.addItem("2019"); 
+	    comboAnnoNomina.setSelectedIndex(0); // Foco en el item 0
+	    comboAnnoNomina.setBounds(20, 80, 220, 30);
+	    panelNominaInicio.add(comboAnnoNomina);		
+	    
+	    comboMesNomina = new JComboBox<String>();
+	    comboMesNomina.addItem("Month");
+	    comboMesNomina.addItem("Enero");
+	    comboMesNomina.addItem("Febrero");
+	    comboMesNomina.addItem("Marzo");
+	    comboMesNomina.addItem("Abril");
+	    comboMesNomina.addItem("Mayo");
+	    comboMesNomina.addItem("Junio");	    
+	    comboMesNomina.setSelectedIndex(0); // Foco en el item 0
+	    comboMesNomina.setBounds(250, 80, 220, 30);
+	    panelNominaInicio.add(comboMesNomina);  
+	    
+	    Image checkNomina = new ImageIcon("img\\check.png").getImage();
+		botonCheckNom = new JButton(new ImageIcon(checkNomina.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		botonCheckNom.setBounds(520, 70, 110, 42);
+		botonCheckNom.setBorder(null); // Eliminamos el borde
+		botonCheckNom.setBackground(color_panel);
+		panelNominaInicio.add(botonCheckNom);// Anadimos
 		
 	}
 
@@ -334,139 +390,135 @@ public class Ventana extends JFrame{
 		JLUsuarioNomina.setVerticalAlignment(JLabel.CENTER);
 		panelNomina.add(JLUsuarioNomina);
 		
-		JLTextoConsulNom = new JLabel("Wellcome to Nominas consult. Select Year and Month to inquiry.");
-		JLTextoConsulNom.setBounds(20, 45, 710, 30);
-		JLTextoConsulNom.setBorder(null);
-		JLTextoConsulNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLTextoConsulNom.setForeground(color_azul);//Color del texto
-		panelNomina.add(JLTextoConsulNom);
+		JLCodNomina = new JLabel("Codigo Nomina: ");
+		JLCodNomina.setBounds(20, 55, 200, 25);
+		JLCodNomina.setBorder(null);
+		JLCodNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLCodNomina.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLCodNomina);
 		
-		comboAnnoNomina = new JComboBox<String>();
-		comboAnnoNomina.addItem("Year"); 	
-		comboAnnoNomina.addItem("2019"); 
-	    comboAnnoNomina.setSelectedIndex(0); // Foco en el item 0
-	    comboAnnoNomina.setBounds(20, 80, 220, 30);
-	    panelNomina.add(comboAnnoNomina);		
-	    
-	    comboMesNomina = new JComboBox<String>();
-	    comboMesNomina.addItem("Month");
-	    comboMesNomina.addItem("Enero");
-	    comboMesNomina.addItem("Febrero");
-	    comboMesNomina.addItem("Marzo");
-	    comboMesNomina.addItem("Abril");
-	    comboMesNomina.addItem("Mayo");
-	    comboMesNomina.addItem("Junio");	    
-	    comboMesNomina.setSelectedIndex(0); // Foco en el item 0
-	    comboMesNomina.setBounds(250, 80, 220, 30);
-	    panelNomina.add(comboMesNomina);  
-	    
-	    Image checkNomina = new ImageIcon("img\\check.png").getImage();
-		botonCheckNom = new JButton(new ImageIcon(checkNomina.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
-		botonCheckNom.setBounds(520, 80, 110, 42);
-		botonCheckNom.setBorder(null); // Eliminamos el borde
-		botonCheckNom.setBackground(color_panel);
-		panelNomina.add(botonCheckNom);// Anadimos
+		JLresulCodNomina = new JLabel();
+		JLresulCodNomina.setBounds(220, 55, 200, 25);
+		JLresulCodNomina.setBorder(null);
+		JLresulCodNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulCodNomina.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulCodNomina);
+		
+		JLPeriodoLiquidacion = new JLabel("Periodo de Liquidacion: ");
+		JLPeriodoLiquidacion.setBounds(20, 80, 300, 25);
+		JLPeriodoLiquidacion.setBorder(null);
+		JLPeriodoLiquidacion.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLPeriodoLiquidacion.setForeground(Color.GRAY);//Color del texto
+		panelNomina.add(JLPeriodoLiquidacion);
+		
+		JLresulPeriodoLiq = new JLabel();
+		JLresulPeriodoLiq.setBounds(220, 80, 200, 25);
+		JLresulPeriodoLiq.setBorder(null);
+		JLresulPeriodoLiq.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
+		JLresulPeriodoLiq.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulPeriodoLiq);
+		
 		
 		//******************//TRABAJADOR
 		
 		JLDatosTrabajador = new JLabel("Datos Trabajador");
-		JLDatosTrabajador.setBounds(20, 130, 300, 30);
+		JLDatosTrabajador.setBounds(20, 110, 300, 30);
 		JLDatosTrabajador.setBorder(null);
 		JLDatosTrabajador.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDatosTrabajador.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLDatosTrabajador);
 		
 		tiraDatosTrabajador = new JTextField();
-		tiraDatosTrabajador.setBounds(20, 160, 300, 5);
+		tiraDatosTrabajador.setBounds(20, 140, 300, 5);
 		tiraDatosTrabajador.setBackground(Color.gray);
 		panelNomina.add(tiraDatosTrabajador);
 		
 		JLDNIEmpNom = new JLabel("DNI: ");
-		JLDNIEmpNom.setBounds(20, 170, 100, 25);
+		JLDNIEmpNom.setBounds(20, 150, 100, 25);
 		JLDNIEmpNom.setBorder(null);
 		JLDNIEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDNIEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLDNIEmpNom); 	
 		
-		JLresultDNIEmpNomima = new JLabel("123456789X");
-		JLresultDNIEmpNomima.setBounds(130, 170, 200, 25);
+		JLresultDNIEmpNomima = new JLabel();
+		JLresultDNIEmpNomima.setBounds(130, 150, 200, 25);
 		JLresultDNIEmpNomima.setBorder(null);
 		JLresultDNIEmpNomima.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresultDNIEmpNomima.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresultDNIEmpNomima); 	
 		
 		JLSSEmpNom = new JLabel("SS: ");
-		JLSSEmpNom.setBounds(20, 195, 100, 25);
+		JLSSEmpNom.setBounds(20, 175, 100, 25);
 		JLSSEmpNom.setBorder(null);
 		JLSSEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLSSEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLSSEmpNom); 	
 		
-		JLresulSSEmpNomina = new JLabel("28euqijdl98349183921");
-		JLresulSSEmpNomina.setBounds(130, 195, 200, 25);
+		JLresulSSEmpNomina = new JLabel();
+		JLresulSSEmpNomina.setBounds(130, 175, 200, 25);
 		JLresulSSEmpNomina.setBorder(null);
 		JLresulSSEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulSSEmpNomina.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulSSEmpNomina); 	
 		
 		JLCatEmpNom = new JLabel("Categoría: ");
-		JLCatEmpNom.setBounds(20, 220, 100, 25);
+		JLCatEmpNom.setBounds(20, 200, 100, 25);
 		JLCatEmpNom.setBorder(null);
 		JLCatEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLCatEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLCatEmpNom);
 		
-		JLRESULCatEmpNomina = new JLabel("ejemplo");
-		JLRESULCatEmpNomina.setBounds(130, 220, 100, 25);
+		JLRESULCatEmpNomina = new JLabel();
+		JLRESULCatEmpNomina.setBounds(130, 200, 100, 25);
 		JLRESULCatEmpNomina.setBorder(null);
 		JLRESULCatEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLRESULCatEmpNomina.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLRESULCatEmpNomina);
 		
 		JLGrupoCotEmpNom = new JLabel("Grupo Cot: ");
-		JLGrupoCotEmpNom.setBounds(20, 245, 100, 25);
+		JLGrupoCotEmpNom.setBounds(20, 225, 100, 25);
 		JLGrupoCotEmpNom.setBorder(null);
 		JLGrupoCotEmpNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLGrupoCotEmpNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLGrupoCotEmpNom);
 		
-		JLresulGrupoCotEmpNomina = new JLabel("ejemplo");
-		JLresulGrupoCotEmpNomina.setBounds(130, 245, 100, 25);
+		JLresulGrupoCotEmpNomina = new JLabel();
+		JLresulGrupoCotEmpNomina.setBounds(130, 225, 100, 25);
 		JLresulGrupoCotEmpNomina.setBorder(null);
 		JLresulGrupoCotEmpNomina.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLresulGrupoCotEmpNomina.setForeground(Color.gray);//Color del texto
+		JLresulGrupoCotEmpNomina.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulGrupoCotEmpNomina);
 		
 		//******************//EMPRESA
 		
 		JLDatosEmpresa = new JLabel("Datos Empresa");
-		JLDatosEmpresa.setBounds(350, 130, 300, 30);
+		JLDatosEmpresa.setBounds(350, 110, 300, 30);
 		JLDatosEmpresa.setBorder(null);
 		JLDatosEmpresa.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDatosEmpresa.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLDatosEmpresa);
 		
 		tiraDatosEmpresa = new JTextField();
-		tiraDatosEmpresa.setBounds(350, 160, 320, 5);
+		tiraDatosEmpresa.setBounds(350, 140, 320, 5);
 		tiraDatosEmpresa.setBackground(Color.gray);
 		panelNomina.add(tiraDatosEmpresa);
 		
 		JLDomHogarNom = new JLabel("DomHogar, S.L.");
-		JLDomHogarNom.setBounds(350, 170, 300, 25);
+		JLDomHogarNom.setBounds(350, 150, 300, 25);
 		JLDomHogarNom.setBorder(null);
 		JLDomHogarNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDomHogarNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLDomHogarNom);
 		
 		JLCIFNom = new JLabel("CIF: B25675368, SL");
-		JLCIFNom.setBounds(350, 195, 300, 25);
+		JLCIFNom.setBounds(350, 175, 300, 25);
 		JLCIFNom.setBorder(null);
 		JLCIFNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLCIFNom.setForeground(Color.gray);//Color del texto
 		panelNomina.add(JLCIFNom);
 		
 		JLDomiEmpresaNom = new JLabel("Pol.Industrial El Pez, S/N, 28600, Madrid");
-		JLDomiEmpresaNom.setBounds(350, 220, 300, 50);
+		JLDomiEmpresaNom.setBounds(350, 200, 300, 25);
 		JLDomiEmpresaNom.setBorder(null);
 		JLDomiEmpresaNom.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDomiEmpresaNom.setForeground(Color.gray);//Color del texto
@@ -475,14 +527,14 @@ public class Ventana extends JFrame{
 		//******************//LIQUIDACION
 		
 		tiraPeriodo = new JTextField();
-		tiraPeriodo.setBounds(20, 270, 650, 5);
+		tiraPeriodo.setBounds(20, 250, 650, 5);
 		tiraPeriodo.setBackground(Color.gray);
 		panelNomina.add(tiraPeriodo);
 		
 		//******************//DEVENGOS
 		
 		JLDevengosTitulo = new JLabel("DEVENGOS");
-		JLDevengosTitulo.setBounds(20, 280, 100, 25);
+		JLDevengosTitulo.setBounds(20, 260, 100, 25);
 		JLDevengosTitulo.setBorder(null);
 		JLDevengosTitulo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDevengosTitulo.setBackground(Color.black);
@@ -490,140 +542,154 @@ public class Ventana extends JFrame{
 		panelNomina.add(JLDevengosTitulo);
 		
 		JLSalarioBase = new JLabel("Salario Base: ");
-		JLSalarioBase.setBounds(40, 305, 100, 25);
+		JLSalarioBase.setBounds(40, 285, 100, 25);
 		JLSalarioBase.setBorder(null);
 		JLSalarioBase.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLSalarioBase.setBackground(Color.black);
 		JLSalarioBase.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLSalarioBase);
 		
-		JLresulSalarioBase = new JLabel("1.100 €");
-		JLresulSalarioBase.setBounds(330, 305, 100, 25);
+		JLresulSalarioBase = new JLabel();
+		JLresulSalarioBase.setBounds(330, 285, 100, 25);
 		JLresulSalarioBase.setBorder(null);
 		JLresulSalarioBase.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido	
 		JLresulSalarioBase.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulSalarioBase);
 		
 		JLHorasExtras = new JLabel("Horas Extras: ");
-		JLHorasExtras.setBounds(40, 330, 100, 25);
+		JLHorasExtras.setBounds(40, 310, 100, 25);
 		JLHorasExtras.setBorder(null);
 		JLHorasExtras.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLHorasExtras.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLHorasExtras);
 		
-		JLresulHorasExtras = new JLabel("8");
-		JLresulHorasExtras.setBounds(330, 330, 100, 25);
+		JLresulHorasExtras = new JLabel();
+		JLresulHorasExtras.setBounds(330, 310, 100, 25);
 		JLresulHorasExtras.setBorder(null);
 		JLresulHorasExtras.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulHorasExtras.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulHorasExtras);
 		
 		JLDietas = new JLabel("Dietas: ");
-		JLDietas.setBounds(40, 355, 100, 25);
+		JLDietas.setBounds(40, 335, 100, 25);
 		JLDietas.setBorder(null);
 		JLDietas.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDietas.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLDietas);
 		
-		JLresulDietas = new JLabel("10");
-		JLresulDietas.setBounds(330, 355, 100, 25);
+		JLresulDietas = new JLabel();
+		JLresulDietas.setBounds(330, 335, 100, 25);
 		JLresulDietas.setBorder(null);
 		JLresulDietas.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulDietas.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulDietas);
 		
 		JLTotaldevengado = new JLabel("Total Devengado: ");
-		JLTotaldevengado.setBounds(150, 380, 180, 25);
+		JLTotaldevengado.setBounds(150, 360, 180, 25);
 		JLTotaldevengado.setBorder(null);
 		JLTotaldevengado.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLTotaldevengado.setForeground(Color.DARK_GRAY);//Color del texto
 		panelNomina.add(JLTotaldevengado);
 		
-		JLresulTotalDevengado = new JLabel("1400 €");
-		JLresulTotalDevengado.setBounds(330, 380, 100, 25);
+		JLresulTotalDevengado = new JLabel();
+		JLresulTotalDevengado.setBounds(350, 360, 100, 25);
 		JLresulTotalDevengado.setBorder(null);
-		JLresulTotalDevengado.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLresulTotalDevengado.setForeground(color_azul);//Color del texto
+		JLresulTotalDevengado.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
+		JLresulTotalDevengado.setForeground(Color.DARK_GRAY);//Color del texto
 		panelNomina.add(JLresulTotalDevengado);		
 		
 		//******************//RETENCION
 		
 		JLRetencionesTitulo = new JLabel("RETENCIONES");
-		JLRetencionesTitulo.setBounds(20, 405, 100, 25);
+		JLRetencionesTitulo.setBounds(20, 385, 100, 25);
 		JLRetencionesTitulo.setBorder(null);
 		JLRetencionesTitulo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLRetencionesTitulo.setForeground(Color.DARK_GRAY);//Color del texto
 		panelNomina.add(JLRetencionesTitulo);		
 		
 		JLConComunes = new JLabel("Con.Comunes - 4,70%: ");
-		JLConComunes.setBounds(40, 430, 200, 25);
+		JLConComunes.setBounds(40, 410, 200, 25);
 		JLConComunes.setBorder(null);
 		JLConComunes.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLConComunes.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLConComunes);
 		
-		JLresulConComunes = new JLabel("55 €");
-		JLresulConComunes.setBounds(330, 430, 100, 25);
+		JLresulConComunes = new JLabel();
+		JLresulConComunes.setBounds(330, 410, 100, 25);
 		JLresulConComunes.setBorder(null);
 		JLresulConComunes.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulConComunes.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulConComunes);	
 		
 		JLDesempleo= new JLabel("Desempleo - 1,55%: ");
-		JLDesempleo.setBounds(40, 455, 150, 25);
+		JLDesempleo.setBounds(40, 435, 150, 25);
 		JLDesempleo.setBorder(null);
 		JLDesempleo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLDesempleo.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLDesempleo);
 		
-		JLresulDesempleo = new JLabel("2,25 €");
-		JLresulDesempleo.setBounds(330, 455, 100, 25);
+		JLresulDesempleo = new JLabel();
+		JLresulDesempleo.setBounds(330, 435, 100, 25);
 		JLresulDesempleo.setBorder(null);
 		JLresulDesempleo.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulDesempleo.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulDesempleo);
 		
 		JLFormacion= new JLabel("Formación - 0,10%: ");
-		JLFormacion.setBounds(40, 480, 150, 25);
+		JLFormacion.setBounds(40, 460, 150, 25);
 		JLFormacion.setBorder(null);
 		JLFormacion.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLFormacion.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLFormacion);
 		
-		JLresulFormacion = new JLabel("1,10 €");
-		JLresulFormacion.setBounds(330, 480, 100, 25);
+		JLresulFormacion = new JLabel();
+		JLresulFormacion.setBounds(330, 460, 100, 25);
 		JLresulFormacion.setBorder(null);
 		JLresulFormacion.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulFormacion.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulFormacion);
 		
 		JLIRPF= new JLabel("I.R.P.F. - 11%: ");
-		JLIRPF.setBounds(40, 505, 150, 25);
+		JLIRPF.setBounds(40, 485, 150, 25);
 		JLIRPF.setBorder(null);
 		JLIRPF.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLIRPF.setForeground(Color.GRAY);//Color del texto
 		panelNomina.add(JLIRPF);
 		
-		JLresulIRPF = new JLabel("250 €");
-		JLresulIRPF.setBounds(330, 505, 100, 25);
+		JLresulIRPF = new JLabel();
+		JLresulIRPF.setBounds(330, 485, 100, 25);
 		JLresulIRPF.setBorder(null);
 		JLresulIRPF.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLresulIRPF.setForeground(color_azul);//Color del texto
 		panelNomina.add(JLresulIRPF);
 		
 		JLTotalDeducir = new JLabel("Total a Deducir: ");
-		JLTotalDeducir.setBounds(150, 530, 180, 25);
+		JLTotalDeducir.setBounds(150, 510, 180, 25);
 		JLTotalDeducir.setBorder(null);
 		JLTotalDeducir.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		JLTotalDeducir.setForeground(Color.DARK_GRAY);//Color del texto
 		panelNomina.add(JLTotalDeducir);
 		
-		JLresulTotalDeducir = new JLabel("439 €");
-		JLresulTotalDeducir.setBounds(330, 530, 100, 25);
+		JLresulTotalDeducir = new JLabel();
+		JLresulTotalDeducir.setBounds(350, 510, 100, 25);
 		JLresulTotalDeducir.setBorder(null);
-		JLresulTotalDeducir.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
-		JLresulTotalDeducir.setForeground(color_azul);//Color del texto
+		JLresulTotalDeducir.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
+		JLresulTotalDeducir.setForeground(Color.DARK_GRAY);//Color del texto
 		panelNomina.add(JLresulTotalDeducir);	
+		
+		JLTotalPercibir = new JLabel("Total a Percibir: ");
+		JLTotalPercibir.setBounds(400, 545, 140, 25);
+		JLTotalPercibir.setBorder(null);
+		JLTotalPercibir.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
+		JLTotalPercibir.setForeground(Color.DARK_GRAY);//Color del texto
+		panelNomina.add(JLTotalPercibir);
+		
+		JLresulTotalPercibir = new JLabel();
+		JLresulTotalPercibir.setBounds(545, 545, 100, 25);
+		JLresulTotalPercibir.setBorder(null);
+		JLresulTotalPercibir.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
+		JLresulTotalPercibir.setForeground(color_azul);//Color del texto
+		panelNomina.add(JLresulTotalPercibir);	
 		
 	}
 
@@ -4338,12 +4404,12 @@ public class Ventana extends JFrame{
 		this.panelNomina = panelNomina;
 	}
 
-	public JLabel getJLUsuarioNomina() {
-		return JLUsuarioNomina;
+	public JLabel getJLUsuarioNominaInicio() {
+		return JLUsuarioNominaInicio;
 	}
 
-	public void setJLUsuarioNomina(JLabel jLUsuarioNomina) {
-		JLUsuarioNomina = jLUsuarioNomina;
+	public void setJLUsuarioNominaInicio(JLabel jLUsuarioNomina) {
+		JLUsuarioNominaInicio = jLUsuarioNomina;
 	}
 
 	public JComboBox<String> getComboAnnoNomina() {
@@ -4480,5 +4546,325 @@ public class Ventana extends JFrame{
 
 	public void setBotonExportClienteFinal(JButton botonExportClienteFinal) {
 		this.botonExportClienteFinal = botonExportClienteFinal;
+	}
+
+	public JPanel getPanelNominaInicio() {
+		return panelNominaInicio;
+	}
+
+	public void setPanelNominaInicio(JPanel panelNominaInicio) {
+		this.panelNominaInicio = panelNominaInicio;
+	}
+
+	public JLabel getJLUsuarioNomina() {
+		return JLUsuarioNomina;
+	}
+
+	public void setJLUsuarioNomina(JLabel jLUsuarioNomina) {
+		JLUsuarioNomina = jLUsuarioNomina;
+	}
+
+	public JLabel getJLTextoConsulNom() {
+		return JLTextoConsulNom;
+	}
+
+	public void setJLTextoConsulNom(JLabel jLTextoConsulNom) {
+		JLTextoConsulNom = jLTextoConsulNom;
+	}
+
+	public JLabel getJLDatosTrabajador() {
+		return JLDatosTrabajador;
+	}
+
+	public void setJLDatosTrabajador(JLabel jLDatosTrabajador) {
+		JLDatosTrabajador = jLDatosTrabajador;
+	}
+
+	public JLabel getJLDatosEmpresa() {
+		return JLDatosEmpresa;
+	}
+
+	public void setJLDatosEmpresa(JLabel jLDatosEmpresa) {
+		JLDatosEmpresa = jLDatosEmpresa;
+	}
+
+	public JLabel getJLDomHogarNom() {
+		return JLDomHogarNom;
+	}
+
+	public void setJLDomHogarNom(JLabel jLDomHogarNom) {
+		JLDomHogarNom = jLDomHogarNom;
+	}
+
+	public JLabel getJLCIFNom() {
+		return JLCIFNom;
+	}
+
+	public void setJLCIFNom(JLabel jLCIFNom) {
+		JLCIFNom = jLCIFNom;
+	}
+
+	public JLabel getJLDomiEmpresaNom() {
+		return JLDomiEmpresaNom;
+	}
+
+	public void setJLDomiEmpresaNom(JLabel jLDomiEmpresaNom) {
+		JLDomiEmpresaNom = jLDomiEmpresaNom;
+	}
+
+	public JLabel getJLDNIEmpNom() {
+		return JLDNIEmpNom;
+	}
+
+	public void setJLDNIEmpNom(JLabel jLDNIEmpNom) {
+		JLDNIEmpNom = jLDNIEmpNom;
+	}
+
+	public JLabel getJLresultDNIEmpNomima() {
+		return JLresultDNIEmpNomima;
+	}
+
+	public void setJLresultDNIEmpNomima(JLabel jLresultDNIEmpNomima) {
+		JLresultDNIEmpNomima = jLresultDNIEmpNomima;
+	}
+
+	public JLabel getJLSSEmpNom() {
+		return JLSSEmpNom;
+	}
+
+	public void setJLSSEmpNom(JLabel jLSSEmpNom) {
+		JLSSEmpNom = jLSSEmpNom;
+	}
+
+	public JLabel getJLresulSSEmpNomina() {
+		return JLresulSSEmpNomina;
+	}
+
+	public void setJLresulSSEmpNomina(JLabel jLresulSSEmpNomina) {
+		JLresulSSEmpNomina = jLresulSSEmpNomina;
+	}
+
+	public JLabel getJLCatEmpNom() {
+		return JLCatEmpNom;
+	}
+
+	public void setJLCatEmpNom(JLabel jLCatEmpNom) {
+		JLCatEmpNom = jLCatEmpNom;
+	}
+
+	public JLabel getJLRESULCatEmpNomina() {
+		return JLRESULCatEmpNomina;
+	}
+
+	public void setJLRESULCatEmpNomina(JLabel jLRESULCatEmpNomina) {
+		JLRESULCatEmpNomina = jLRESULCatEmpNomina;
+	}
+
+	public JLabel getJLGrupoCotEmpNom() {
+		return JLGrupoCotEmpNom;
+	}
+
+	public void setJLGrupoCotEmpNom(JLabel jLGrupoCotEmpNom) {
+		JLGrupoCotEmpNom = jLGrupoCotEmpNom;
+	}
+
+	public JLabel getJLresulGrupoCotEmpNomina() {
+		return JLresulGrupoCotEmpNomina;
+	}
+
+	public void setJLresulGrupoCotEmpNomina(JLabel jLresulGrupoCotEmpNomina) {
+		JLresulGrupoCotEmpNomina = jLresulGrupoCotEmpNomina;
+	}
+
+	public JLabel getJLresulIRPF() {
+		return JLresulIRPF;
+	}
+
+	public void setJLresulIRPF(JLabel jLresulIRPF) {
+		JLresulIRPF = jLresulIRPF;
+	}
+
+	public JLabel getJLIRPF() {
+		return JLIRPF;
+	}
+
+	public void setJLIRPF(JLabel jLIRPF) {
+		JLIRPF = jLIRPF;
+	}
+
+	public JLabel getJLDevengosTitulo() {
+		return JLDevengosTitulo;
+	}
+
+	public void setJLDevengosTitulo(JLabel jLDevengosTitulo) {
+		JLDevengosTitulo = jLDevengosTitulo;
+	}
+
+	public JLabel getJLSalarioBase() {
+		return JLSalarioBase;
+	}
+
+	public void setJLSalarioBase(JLabel jLSalarioBase) {
+		JLSalarioBase = jLSalarioBase;
+	}
+
+	public JLabel getJLresulSalarioBase() {
+		return JLresulSalarioBase;
+	}
+
+	public void setJLresulSalarioBase(JLabel jLresulSalarioBase) {
+		JLresulSalarioBase = jLresulSalarioBase;
+	}
+
+	public JLabel getJLHorasExtras() {
+		return JLHorasExtras;
+	}
+
+	public void setJLHorasExtras(JLabel jLHorasExtras) {
+		JLHorasExtras = jLHorasExtras;
+	}
+
+	public JLabel getJLresulHorasExtras() {
+		return JLresulHorasExtras;
+	}
+
+	public void setJLresulHorasExtras(JLabel jLresulHorasExtras) {
+		JLresulHorasExtras = jLresulHorasExtras;
+	}
+
+	public JLabel getJLDietas() {
+		return JLDietas;
+	}
+
+	public void setJLDietas(JLabel jLDietas) {
+		JLDietas = jLDietas;
+	}
+
+	public JLabel getJLresulDietas() {
+		return JLresulDietas;
+	}
+
+	public void setJLresulDietas(JLabel jLresulDietas) {
+		JLresulDietas = jLresulDietas;
+	}
+
+	public JLabel getJLTotaldevengado() {
+		return JLTotaldevengado;
+	}
+
+	public void setJLTotaldevengado(JLabel jLTotaldevengado) {
+		JLTotaldevengado = jLTotaldevengado;
+	}
+
+	public JLabel getJLresulTotalDevengado() {
+		return JLresulTotalDevengado;
+	}
+
+	public void setJLresulTotalDevengado(JLabel jLresulTotalDevengado) {
+		JLresulTotalDevengado = jLresulTotalDevengado;
+	}
+
+	public JLabel getJLRetencionesTitulo() {
+		return JLRetencionesTitulo;
+	}
+
+	public void setJLRetencionesTitulo(JLabel jLRetencionesTitulo) {
+		JLRetencionesTitulo = jLRetencionesTitulo;
+	}
+
+	public JLabel getJLFormacion() {
+		return JLFormacion;
+	}
+
+	public void setJLFormacion(JLabel jLFormacion) {
+		JLFormacion = jLFormacion;
+	}
+
+	public JLabel getJLresulFormacion() {
+		return JLresulFormacion;
+	}
+
+	public void setJLresulFormacion(JLabel jLresulFormacion) {
+		JLresulFormacion = jLresulFormacion;
+	}
+
+	public JLabel getJLDesempleo() {
+		return JLDesempleo;
+	}
+
+	public void setJLDesempleo(JLabel jLDesempleo) {
+		JLDesempleo = jLDesempleo;
+	}
+
+	public JLabel getJLresulDesempleo() {
+		return JLresulDesempleo;
+	}
+
+	public void setJLresulDesempleo(JLabel jLresulDesempleo) {
+		JLresulDesempleo = jLresulDesempleo;
+	}
+
+	public JLabel getJLConComunes() {
+		return JLConComunes;
+	}
+
+	public void setJLConComunes(JLabel jLConComunes) {
+		JLConComunes = jLConComunes;
+	}
+
+	public JLabel getJLresulConComunes() {
+		return JLresulConComunes;
+	}
+
+	public void setJLresulConComunes(JLabel jLresulConComunes) {
+		JLresulConComunes = jLresulConComunes;
+	}
+
+	public JLabel getJLTotalDeducir() {
+		return JLTotalDeducir;
+	}
+
+	public void setJLTotalDeducir(JLabel jLTotalDeducir) {
+		JLTotalDeducir = jLTotalDeducir;
+	}
+
+	public JLabel getJLresulTotalDeducir() {
+		return JLresulTotalDeducir;
+	}
+
+	public void setJLresulTotalDeducir(JLabel jLresulTotalDeducir) {
+		JLresulTotalDeducir = jLresulTotalDeducir;
+	}
+
+	public JLabel getJLTotalPercibir() {
+		return JLTotalPercibir;
+	}
+
+	public void setJLTotalPercibir(JLabel jLTotalPercibir) {
+		JLTotalPercibir = jLTotalPercibir;
+	}
+
+	public JLabel getJLresulTotalPercibir() {
+		return JLresulTotalPercibir;
+	}
+
+	public void setJLresulTotalPercibir(JLabel jLresulTotalPercibir) {
+		JLresulTotalPercibir = jLresulTotalPercibir;
+	}
+
+	public JLabel getJLresulCodNomina() {
+		return JLresulCodNomina;
+	}
+
+	public void setJLresulCodNomina(JLabel jLresulCodNomina) {
+		JLresulCodNomina = jLresulCodNomina;
+	}
+
+	public JLabel getJLresulPeriodoLiq() {
+		return JLresulPeriodoLiq;
+	}
+
+	public void setJLresulPeriodoLiq(JLabel jLresulPeriodoLiq) {
+		JLresulPeriodoLiq = jLresulPeriodoLiq;
 	}
 }
