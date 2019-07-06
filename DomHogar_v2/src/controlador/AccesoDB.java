@@ -352,8 +352,8 @@ public class AccesoDB {
 			matrizInfoCompras[i][1] = listaCompras.get(i).getCodProducto()+"";
 			matrizInfoCompras[i][2] = listaCompras.get(i).getNomProducto()+"";
 			matrizInfoCompras[i][3] = formatea.format(listaCompras.get(i).getCantidad())+"";
-			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" Ã¢â€šÂ¬";
-			matrizInfoCompras[i][5] = formatea.format(listaCompras.get(i).getImporteTotal())+" Ã¢â€šÂ¬";
+			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" €";
+			matrizInfoCompras[i][5] = formatea.format(listaCompras.get(i).getImporteTotal())+" €";
 			matrizInfoCompras[i][6] = listaCompras.get(i).getCodProveedor()+"";
 			matrizInfoCompras[i][7] = listaCompras.get(i).getNomProveedor()+"";
 			matrizInfoCompras[i][8] = listaCompras.get(i).getFechaAlbaran()+"";
@@ -421,8 +421,8 @@ public class AccesoDB {
 				matrizInfoVentas[i][1] = listaVentas.get(i).getCodServicio()+"";
 				matrizInfoVentas[i][2] = listaVentas.get(i).getNombreServicio()+"";
 				matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
-				matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteServicio())+"Ã¯Â¿Â½";
-				matrizInfoVentas[i][5] = formatea.format(listaVentas.get(i).getTotal())+" â‚¬";
+				matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getImporteServicio())+" €";
+				matrizInfoVentas[i][5] = formatea.format(listaVentas.get(i).getTotal())+" €";
 				matrizInfoVentas[i][6] = listaVentas.get(i).getDni_Cliente()+"";
 				matrizInfoVentas[i][7] = listaVentas.get(i).getNombre()+"";
 				matrizInfoVentas[i][8] = listaVentas.get(i).getFecha()+"";
@@ -1281,22 +1281,23 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 		ArrayList<CRM> listaCRM = AccesoDB.datosCRM(conexion);
 
-		String matrizInfoCRM[][] = new String[listaCRM.size()][8];
+		String matrizInfoCRM[][] = new String[listaCRM.size()][9];
 
 		for (int i = 0; i < listaCRM.size(); i++) {
-			matrizInfoCRM[i][0] = listaCRM.get(i).getNombre()+"";
-			matrizInfoCRM[i][1] = listaCRM.get(i).getEmail()+"";
-			matrizInfoCRM[i][2] = listaCRM.get(i).getTelefono()+"";
-			matrizInfoCRM[i][3] = listaCRM.get(i).getDecoWifi_pack()+"";
-			matrizInfoCRM[i][4] = listaCRM.get(i).getWifi_Signal_Expansion()+"";
-			matrizInfoCRM[i][5] = listaCRM.get(i).getSmart_Plugs_Pack()+"";
-			matrizInfoCRM[i][6] = listaCRM.get(i).getSmart_Bulbs_Pack()+"";
-			matrizInfoCRM[i][7] = listaCRM.get(i).getWifi_Surveillance_Cameras()+"";
+			matrizInfoCRM[i][0] = listaCRM.get(i).getId()+"";
+			matrizInfoCRM[i][1] = listaCRM.get(i).getNombre()+"";
+			matrizInfoCRM[i][2] = listaCRM.get(i).getEmail()+"";
+			matrizInfoCRM[i][3] = listaCRM.get(i).getTelefono()+"";
+			matrizInfoCRM[i][4] = listaCRM.get(i).getDecoWifi_pack()+"";
+			matrizInfoCRM[i][5] = listaCRM.get(i).getWifi_Signal_Expansion()+"";
+			matrizInfoCRM[i][6] = listaCRM.get(i).getSmart_Plugs_Pack()+"";
+			matrizInfoCRM[i][7] = listaCRM.get(i).getSmart_Bulbs_Pack()+"";
+			matrizInfoCRM[i][8] = listaCRM.get(i).getWifi_Surveillance_Cameras()+"";
 		}
 		return matrizInfoCRM;		
 	}
 
-	private static ArrayList<CRM> datosCRM(Connection conexion) {
+	static ArrayList<CRM> datosCRM(Connection conexion) {
 		
 		ArrayList<CRM> lista_CRM = new ArrayList<CRM>();
 		
@@ -1320,8 +1321,11 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				int Smart_Plugs_Pack = rs.getInt("Smart_Plugs_Pack");
 				int Smart_Bulbs_Pack  = rs.getInt("Smart_Bulbs_Pack");
 				int Wifi_Surveillance_Cameras = rs.getInt("Wifi_Surveillance_Cameras");
+				String observaciones = rs.getString("obs");
+				String fecha = rs.getString("fecha");
 				
-				c = new CRM(id, nombre,email,telefono,DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack,  Wifi_Surveillance_Cameras);
+				c = new CRM(id, nombre,email,telefono,DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack,  Wifi_Surveillance_Cameras,
+						observaciones, fecha);
 				
 				lista_CRM.add(c);							
 			}
@@ -1390,9 +1394,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaVentas.size(); i++) {
 			matrizInfoVentas[i][0] = listaVentas.get(i).getCodServicio()+"";
 			matrizInfoVentas[i][1] = listaVentas.get(i).getNombreServicio()+"";			
-			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" â‚¬";			
+			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" €";			
 			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
-			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" â‚¬";
+			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" €";
 		}
 		return matrizInfoVentas;	
 	}
@@ -1410,9 +1414,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaVentas.size(); i++) {
 			matrizInfoVentas[i][0] = listaVentas.get(i).getCodServicio()+"";
 			matrizInfoVentas[i][1] = listaVentas.get(i).getNombreServicio()+"";			
-			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" â‚¬";			
+			matrizInfoVentas[i][2] = formatea.format(listaVentas.get(i).getImporteServicio())+" €";			
 			matrizInfoVentas[i][3] = formatea.format(listaVentas.get(i).getUdsServicio())+"";
-			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" â‚¬";
+			matrizInfoVentas[i][4] = formatea.format(listaVentas.get(i).getTotal())+" €";
 			matrizInfoVentas[i][5] = listaVentas.get(i).getDni_Cliente()+"";
 			matrizInfoVentas[i][6] = listaVentas.get(i).getNombre()+"";
 			matrizInfoVentas[i][7] = listaVentas.get(i).getFecha()+"";
@@ -1455,12 +1459,13 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		return afectados;	
 	}
 
+	
 	public static int deleteLineaFacturaVentas(String numFacturaDelete, Connection conexion) {
-		
+
 		int afectados = 0;
 
 		// Almacenamos en un String la Sentencia SQL
-		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura = '"+ numFacturaDelete +"'";
+		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura = '" + numFacturaDelete + "'";
 
 		try {
 			PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -1471,8 +1476,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 		System.out.println("Afectados lineaFactura:" + afectados);
 
-		return afectados;		
+		return afectados;
 	}
+	 
 
 	public static ArrayList<Nomina> datosNomina(String nifEmpleado2, String anio2, String mes2, Connection conexion) {
 		
@@ -1513,5 +1519,24 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			e.getMessage();
 		}
 		return lista_NOM;		
+	}
+
+	public static int updateCRM(CRM c, Connection conexion) {
+		
+		int afect = 0;
+		
+		// Almacenamos en un String la Sentencia SQL
+		String sql = "UPDATE CRM SET DecoWifi_pack="+c.getDecoWifi_pack()+", Wifi_Signal_Expansion="+c.Wifi_Signal_Expansion+
+				", Smart_Plugs_Pack="+c.getSmart_Plugs_Pack()+", Smart_Bulbs_Pack="+c.getSmart_Bulbs_Pack()+
+				", Wifi_Surveillance_Cameras="+c.getWifi_Surveillance_Cameras()+", obs='"+c.getObservaciones()+
+				"', fecha='"+c.getFecha()+"' WHERE id="+c.getId()+";";
+		
+		try {
+			PreparedStatement sentencia = conexion.prepareStatement(sql);
+			afect = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return afect;		
 	}
 }

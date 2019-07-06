@@ -2,11 +2,11 @@ package tablas;
 
 public class CRM {
 	
-	public String nombre, email;
+	public String nombre, email, observaciones, fecha;
 	public int id, telefono, DecoWifi_pack, Wifi_Signal_Expansion, Smart_Plugs_Pack, Smart_Bulbs_Pack, Wifi_Surveillance_Cameras;
-	
+		
 	public CRM(int id, String nombre, String email, int telefono, int decoWifi_pack, int wifi_Signal_Expansion,
-			int smart_Plugs_Pack, int smart_Bulbs_Pack, int wifi_Surveillance_Cameras) {
+			int smart_Plugs_Pack, int smart_Bulbs_Pack, int wifi_Surveillance_Cameras, String observaciones, String fecha) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -17,8 +17,36 @@ public class CRM {
 		Smart_Plugs_Pack = smart_Plugs_Pack;
 		Smart_Bulbs_Pack = smart_Bulbs_Pack;
 		Wifi_Surveillance_Cameras = wifi_Surveillance_Cameras;
+		this.observaciones = observaciones;
+		this.fecha = fecha;
+	}
+	
+	//Sobrecarga del constructor para update CRM
+	public CRM(int id, int decoWifi_pack, int wifi_Signal_Expansion, int smart_Plugs_Pack, int smart_Bulbs_Pack, 
+			int wifi_Surveillance_Cameras, String observaciones, String fecha) {
+		super();
+		this.id = id;
+		DecoWifi_pack = decoWifi_pack;
+		Wifi_Signal_Expansion = wifi_Signal_Expansion;
+		Smart_Plugs_Pack = smart_Plugs_Pack;
+		Smart_Bulbs_Pack = smart_Bulbs_Pack;
+		Wifi_Surveillance_Cameras = wifi_Surveillance_Cameras;
+		this.observaciones = observaciones;
+		this.fecha = fecha;
 	}
 
+	public String getObservaciones() {
+		return observaciones;
+	}
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+	public String getFecha() {
+		return fecha;
+	}
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 	public int getId() {
 		return id;
 	}

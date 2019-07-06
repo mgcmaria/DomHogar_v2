@@ -4,7 +4,7 @@ import java.awt.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
+import com.toedter.calendar.JDateChooser;
 
 import controlador.AccesoDB;
 import controlador.Eventos;
@@ -72,6 +72,11 @@ public class Ventana extends JFrame{
 	private JPanel panelCRM;
 	private JScrollPane barraCRM;
 	private JTable tablaCRM;
+	private JButton botonCheckCRM, botonUpdateCRM;
+	private JLabel JLslectorJTableCRM, JLtextArea, JLDateContact, JLServiciosCRM;
+	private JTextArea jtx;
+	private JDateChooser calendarEntradaPro;
+	private JCheckBox sv1, sv2, sv3, sv4, sv5;
 	
 	//Atributos de PROVEEDORES
 	private JPanel panelProveedores, subPanelInsProv, subPanelEditProv, subPanelElimProv, panelBotonesProv, subPanelProvExport ;
@@ -87,9 +92,9 @@ public class Ventana extends JFrame{
 	private JComboBox <String>comboUpdateProv;
 	
 	//Atributos de ALMACEN
-	private JPanel panelAlmacen, subPanelAlmacenExport, subPanelBotonStock, subPanelAlmacenBlue;
+	private JPanel panelAlmacen;
 	private JScrollPane barraStock;
-	private JButton botonExportStock, botonExportAlmFinal;
+	private JButton botonExportAlmFinal;
 	private JTable tablaAlmacen;
 	private JLabel detalleAlmacen, resulExportAlm, insertRutaExportAlm, exportStock;
 	private JTextField insertUsuarioPCAlmacen;
@@ -2143,35 +2148,120 @@ public class Ventana extends JFrame{
 		panelCRM.setVisible(false);
 		
 		barraCRM = new JScrollPane();
-		barraCRM.setBounds(20, 20, 710, 190);
+		barraCRM.setBounds(20, 20, 710, 200);
 		panelCRM.add(barraCRM);
 		
-		String titulosClientes[] = {"Name", "Email", "Phone Number", "Deco Wifi Pack", "wifi Signal Expansion", 
-				"Smart plugs Pack", "Smart_Bulbs_Pack", "wifi Surveillance Cameras"};
+		String titulosClientes[] = {"ID", "Name", "Email", "Phone Number", "Deco Wifi Pack", "Wifi Signal Expansion", 
+				"Smart plugs Pack", "Smart_Bulbs_Pack", "Wifi Surveillance Cameras"};
 		String infoClientes[][] = AccesoDB.obtenerMatrizCRM();
 		
 		tablaCRM = new JTable(infoClientes,titulosClientes);
+		tablaCRM.getColumnModel().getColumn(0).setPreferredWidth(5);
 		barraCRM.setViewportView(tablaCRM);	
 				
 		ColorearFilas colorear = new ColorearFilas();
 		tablaCRM.setDefaultRenderer (Object.class, colorear);
-					
+		
+		Image checkNomina = new ImageIcon("img\\check.png").getImage();
+		botonCheckCRM = new JButton(new ImageIcon(checkNomina.getScaledInstance(110,42, Image.SCALE_SMOOTH)));
+		botonCheckCRM.setBounds(20, 240, 110, 42);
+		botonCheckCRM.setBorder(null); // Eliminamos el borde
+		botonCheckCRM.setBackground(color_panel);
+		panelCRM.add(botonCheckCRM);// Anadimos
+		
+		JLslectorJTableCRM = new JLabel("(* Select a row to manage pre-client)");// Creamos el componente
+		JLslectorJTableCRM.setBounds(140, 240, 500, 30);// Posicionamos
+		JLslectorJTableCRM.setBorder(null); // Eliminamos el borde
+		JLslectorJTableCRM.setFont(new Font("Segoe UI", Font.BOLD, 14));// Damos formato al contenido
+		JLslectorJTableCRM.setForeground(color_azul);// Color del texto
+		JLslectorJTableCRM.setVerticalAlignment(JLabel.CENTER);
+		panelCRM.add(JLslectorJTableCRM);// Anadimos
+		
+		JLtextArea = new JLabel("Change the comments putting the result of conversation");// Creamos el componente
+		JLtextArea.setBounds(20, 300, 400, 30);// Posicionamos
+		JLtextArea.setBorder(null); // Eliminamos el borde
+		JLtextArea.setFont(new Font("Segoe UI", Font.BOLD, 14));// Damos formato al contenido
+		JLtextArea.setForeground(color_azul);// Color del texto
+		JLtextArea.setVerticalAlignment(JLabel.CENTER);
+		panelCRM.add(JLtextArea);// Anadimos		
+		
+		jtx = new JTextArea();
+		jtx.setBounds(20, 340, 400, 60);
+		jtx.setLineWrap(true);
+		jtx.setWrapStyleWord(true);
+		panelCRM.add(jtx);	
+		
+		JLDateContact = new JLabel("Select the date of contact");// Creamos el componente
+		JLDateContact.setBounds(440, 300, 200, 30);// Posicionamos
+		JLDateContact.setBorder(null); // Eliminamos el borde
+		JLDateContact.setFont(new Font("Segoe UI", Font.BOLD, 14));// Damos formato al contenido
+		JLDateContact.setForeground(color_azul);// Color del texto
+		JLDateContact.setVerticalAlignment(JLabel.CENTER);
+		panelCRM.add(JLDateContact);// Anadimos		
+				
+		calendarEntradaPro = new JDateChooser("yyyy/MM/dd", "####/##/##", '_');
+		calendarEntradaPro.getJCalendar();
+		calendarEntradaPro.repaint();
+		calendarEntradaPro.setBounds(440,340,200,30);	
+		panelCRM.add(calendarEntradaPro);	
+		
+		JLServiciosCRM = new JLabel("Confirm the services whose pre-client is interested in");// Creamos el componente
+		JLServiciosCRM.setBounds(20, 410, 400, 30);// Posicionamos
+		JLServiciosCRM.setBorder(null); // Eliminamos el borde
+		JLServiciosCRM.setFont(new Font("Segoe UI", Font.BOLD, 14));// Damos formato al contenido
+		JLServiciosCRM.setForeground(color_azul);// Color del texto
+		JLServiciosCRM.setVerticalAlignment(JLabel.CENTER);
+		panelCRM.add(JLServiciosCRM);// Anadimos		
+		
+		sv1 = new JCheckBox("Deco Wifi Pack"); 
+		sv1.setBounds(20, 450, 200, 20);
+		sv1.setBackground(color_panel);
+		panelCRM.add(sv1);
+		
+		sv2 = new JCheckBox("Wifi Signal Expansion");
+		sv2.setBounds(20, 470, 200, 20);
+		sv2.setBackground(color_panel);
+		panelCRM.add(sv2);
+		
+		sv3 = new JCheckBox("Smart plugs Pack");
+		sv3.setBounds(20, 490, 200, 20);
+		sv3.setBackground(color_panel);
+		panelCRM.add(sv3);
+		
+		sv4 = new JCheckBox("Smart_Bulbs_Pack");
+		sv4.setBounds(20, 510, 200, 20);
+		sv4.setBackground(color_panel);
+		panelCRM.add(sv4);
+		
+		sv5 = new JCheckBox("Wifi Surveillance Cameras");
+		sv5.setBounds(20, 530, 200, 20);	
+		sv5.setBackground(color_panel);
+		panelCRM.add(sv5);		
+		
+		Image updateCRM = new ImageIcon("img\\update.png").getImage();
+		botonUpdateCRM = new JButton(new ImageIcon(updateCRM.getScaledInstance(110, 42, Image.SCALE_SMOOTH)));
+		botonUpdateCRM.setBounds(440, 470, 110, 42);
+		botonUpdateCRM.setBorder(null); // Eliminamos el borde
+		botonUpdateCRM.setBackground(color_panel);
+		panelCRM.add(botonUpdateCRM);
+		 					
 	}
 
 	//PANEL ALMACEN
 	private void panelAlmacen() {
+		
 		panelAlmacen = new JPanel();
 		panelAlmacen.setBackground(color_panel);
-		panelAlmacen.setBounds(200, 40, 750, 230);
+		panelAlmacen.setBounds(200, 40, 750, 580);
 		panelAlmacen.setLayout(null);
 		add(panelAlmacen);
 		panelAlmacen.setVisible(false);
 		
 		barraStock = new JScrollPane();
-		barraStock.setBounds(20, 20, 710, 190);
+		barraStock.setBounds(20, 20, 710, 350);
 		panelAlmacen.add(barraStock);
 		
-		String titulosAlmacen[] = {"Cï¿½digo Producto", "Nombre Producto", "Unidades compradas", "Unidades Vendidas", "Total"};
+		String titulosAlmacen[] = {"Código Producto", "Nombre Producto", "Unidades compradas", "Unidades Vendidas", "Total"};
 		String infoAlmacen[][] = AccesoDB.obtenerMatrizStock();
 		
 		tablaAlmacen = new JTable(infoAlmacen,titulosAlmacen);
@@ -2180,74 +2270,45 @@ public class Ventana extends JFrame{
 		tablaAlmacen.getColumnModel().getColumn(2).setPreferredWidth(140);
 		barraStock.setViewportView(tablaAlmacen);
 		
-		subPanelAlmacenExport = new JPanel();
-		subPanelAlmacenExport.setBounds(200, 270, 750, 268);
-		subPanelAlmacenExport.setBackground(color_panel);
-		subPanelAlmacenExport.setLayout(null);
-		add(subPanelAlmacenExport);
-		subPanelAlmacenExport.setVisible(false);
-		
-		subPanelAlmacenBlue = new JPanel();
-		subPanelAlmacenBlue.setBounds(200, 270, 750, 268);
-		subPanelAlmacenBlue.setBackground(color_panel);
-		subPanelAlmacenBlue.setLayout(null);
-		add(subPanelAlmacenBlue);
-		subPanelAlmacenBlue.setVisible(false);
-		
 		exportStock = new JLabel("export stock to file");
-		exportStock.setBounds(20, 0, 710, 60);
-		exportStock.setFont(new Font("Segoe UI",Font.BOLD,40));//Damos formato al contenido
+		exportStock.setBounds(20, 370, 710, 40);
+		exportStock.setFont(new Font("Segoe UI",Font.BOLD,36));//Damos formato al contenido
 		exportStock.setForeground(color_azul);//Color del texto
 		exportStock.setHorizontalAlignment(JLabel.CENTER);
 		exportStock.setVerticalAlignment(JLabel.CENTER);
-		subPanelAlmacenExport.add(exportStock);//Anadimos al panel
+		panelAlmacen.add(exportStock);//Anadimos al panel
 		
 		insertUsuarioPCAlmacen = new JTextField();//Creamos el componente
 		TextPrompt placeholder12 = new TextPrompt("Insert user PC. Ej. ejemplo", insertUsuarioPCAlmacen);
 		placeholder12.changeAlpha(0.75f);
 		placeholder12.changeStyle(Font.ITALIC);
-		insertUsuarioPCAlmacen.setBounds(20,70,200,30);//Posicionamos		
+		insertUsuarioPCAlmacen.setBounds(20,420,200,30);//Posicionamos		
 		insertUsuarioPCAlmacen.setBorder(BorderFactory.createLineBorder(color_azul, 2)); //Eliminamos el borde
 		insertUsuarioPCAlmacen.setFont(new Font("Segoe UI",Font.BOLD,14));//Damos formato al contenido
 		insertUsuarioPCAlmacen.setBackground(Color.WHITE); //Color de fondo
 		insertUsuarioPCAlmacen.setForeground(color_azul);//Color del texto
-	    subPanelAlmacenExport.add(insertUsuarioPCAlmacen);//Anadimos	
+		panelAlmacen.add(insertUsuarioPCAlmacen);//Anadimos	
 		
 		insertRutaExportAlm = new JLabel("You'll find the file in C:\\Users\\youruser. Name of file: almacen.csv ");//Creamos el componente
-	    insertRutaExportAlm.setBounds(20,120,670,30);//Posicionamos		
+	    insertRutaExportAlm.setBounds(20,460,670,30);//Posicionamos		
 	    insertRutaExportAlm.setBorder(null); //Eliminamos el borde
 	    insertRutaExportAlm.setFont(new Font("Segoe UI",Font.BOLD,18));//Damos formato al contenido
 	    insertRutaExportAlm.setForeground(color_azul);//Color del texto
-	    subPanelAlmacenExport.add(insertRutaExportAlm);//Anadimos
+	    panelAlmacen.add(insertRutaExportAlm);//Anadimos
 			    
 	    Image imgBotonExportAlmFinal = new ImageIcon("img\\export to file.png").getImage();
 		botonExportAlmFinal = new JButton(new ImageIcon(imgBotonExportAlmFinal.getScaledInstance(160,42, Image.SCALE_SMOOTH)));
-		botonExportAlmFinal .setBounds(20,180,160,42);
+		botonExportAlmFinal .setBounds(20,500,160,42);
 		botonExportAlmFinal .setBackground(new Color(186,236,247));
 		botonExportAlmFinal .setBorder(null); //Eliminamos el borde
-		subPanelAlmacenExport.add(botonExportAlmFinal );//Anadimos 
+		panelAlmacen.add(botonExportAlmFinal );//Anadimos 
 				
 	    resulExportAlm = new JLabel();//Creamos el componente
-	    resulExportAlm.setBounds(200,180,500,30);//Posicionamos
+	    resulExportAlm.setBounds(200,500,500,30);//Posicionamos
 	    resulExportAlm.setBorder(null); //Eliminamos el borde
 	    resulExportAlm.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 	    resulExportAlm.setForeground(Color.GRAY);//Color del texto
-	    subPanelAlmacenExport.add(resulExportAlm);//Anadimos	
-	    
-	    subPanelBotonStock = new JPanel();
-		subPanelBotonStock.setBounds(200, 538, 750, 82);
-		subPanelBotonStock.setBackground(color_panel);
-		subPanelBotonStock.setLayout(null);
-		add(subPanelBotonStock);
-		subPanelBotonStock.setVisible(false);
-
-		Image imgbotonExportStock = new ImageIcon("img\\export to file.png").getImage();
-		botonExportStock = new JButton(new ImageIcon(imgbotonExportStock.getScaledInstance(160,42, Image.SCALE_SMOOTH)));//Creamos el componente
-		botonExportStock.setBounds(295, 20, 160, 42);
-		botonExportStock.setBorder(null); //Eliminamos el borde
-		botonExportStock.setBackground(color_panel);
-		subPanelBotonStock.add(botonExportStock);//Anadimos 
-		
+	    panelAlmacen.add(resulExportAlm);//Anadimos	
 
 	}
 
@@ -2680,11 +2741,13 @@ public class Ventana extends JFrame{
 		botonDeleteFactura.addMouseListener(manejador);	
 		botonExportVenta.addMouseListener(manejador);
 		botonExportVenFinal.addMouseListener(manejador);
-		
-		botonExportStock.addMouseListener(manejador);
+	
 		botonExportAlmFinal.addMouseListener(manejador);
 		
 		botonCheckNom.addMouseListener(manejador);
+		
+		botonCheckCRM.addMouseListener(manejador);
+		botonUpdateCRM.addMouseListener(manejador);
 		
 	}
 
@@ -3821,15 +3884,6 @@ public class Ventana extends JFrame{
 	public void setBarraStock(JScrollPane barraStock) {
 		this.barraStock = barraStock;
 	}
-
-	public JButton getBotonExportStock() {
-		return botonExportStock;
-	}
-
-	public void setBotonExportStock(JButton botonExportStock) {
-		this.botonExportStock = botonExportStock;
-	}
-
 	public JTable getTablaAlmacen() {
 		return tablaAlmacen;
 	}
@@ -3837,15 +3891,6 @@ public class Ventana extends JFrame{
 	public void setTablaAlmacen(JTable tablaAlmacen) {
 		this.tablaAlmacen = tablaAlmacen;
 	}
-
-	public JPanel getSubPanelAlmacenExport() {
-		return subPanelAlmacenExport;
-	}
-
-	public void setSubPanelAlmacenExport(JPanel subPanelAlmacenExport) {
-		this.subPanelAlmacenExport = subPanelAlmacenExport;
-	}
-
 	public JButton getBotonExportAlmFinal() {
 		return botonExportAlmFinal;
 	}
@@ -4822,19 +4867,91 @@ public class Ventana extends JFrame{
 		JLresulPeriodoLiq = jLresulPeriodoLiq;
 	}
 
-	public JPanel getSubPanelBotonStock() {
-		return subPanelBotonStock;
+	public JButton getBotonCheckCRM() {
+		return botonCheckCRM;
 	}
 
-	public void setSubPanelBotonStock(JPanel subPanelBotonStock) {
-		this.subPanelBotonStock = subPanelBotonStock;
+	public void setBotonCheckCRM(JButton botonCheckCRM) {
+		this.botonCheckCRM = botonCheckCRM;
 	}
 
-	public JPanel getSubPanelAlmacenBlue() {
-		return subPanelAlmacenBlue;
+	public JTextArea getJtx() {
+		return jtx;
 	}
 
-	public void setSubPanelAlmacenBlue(JPanel subPanelAlmacenBlue) {
-		this.subPanelAlmacenBlue = subPanelAlmacenBlue;
+	public void setJtx(JTextArea jtx) {
+		this.jtx = jtx;
+	}
+
+	public JLabel getJLtextArea() {
+		return JLtextArea;
+	}
+
+	public void setJLtextArea(JLabel jLtextArea) {
+		JLtextArea = jLtextArea;
+	}
+
+	public JLabel getJLDateContact() {
+		return JLDateContact;
+	}
+
+	public void setJLDateContact(JLabel jLDateContact) {
+		JLDateContact = jLDateContact;
+	}
+
+	public JDateChooser getCalendarEntradaPro() {
+		return calendarEntradaPro;
+	}
+
+	public void setCalendarEntradaPro(JDateChooser calendarEntradaPro) {
+		this.calendarEntradaPro = calendarEntradaPro;
+	}
+
+	public JButton getBotonUpdateCRM() {
+		return botonUpdateCRM;
+	}
+
+	public void setBotonUpdateCRM(JButton botonUpdateCRM) {
+		this.botonUpdateCRM = botonUpdateCRM;
+	}
+
+	public JCheckBox getSv1() {
+		return sv1;
+	}
+
+	public void setSv1(JCheckBox sv1) {
+		this.sv1 = sv1;
+	}
+
+	public JCheckBox getSv2() {
+		return sv2;
+	}
+
+	public void setSv2(JCheckBox sv2) {
+		this.sv2 = sv2;
+	}
+
+	public JCheckBox getSv3() {
+		return sv3;
+	}
+
+	public void setSv3(JCheckBox sv3) {
+		this.sv3 = sv3;
+	}
+
+	public JCheckBox getSv4() {
+		return sv4;
+	}
+
+	public void setSv4(JCheckBox sv4) {
+		this.sv4 = sv4;
+	}
+
+	public JCheckBox getSv5() {
+		return sv5;
+	}
+
+	public void setSv5(JCheckBox sv5) {
+		this.sv5 = sv5;
 	}
 }
