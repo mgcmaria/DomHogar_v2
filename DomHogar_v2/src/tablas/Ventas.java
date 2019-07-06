@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Ventas {
 	
-	private int importeServicio, udsServicio, Total;
+	private int importeServicio, udsServicio, Total, codLinea;
 	private String numFactura, codServicio, nombreServicio, nombre, dni_Cliente;
 	private Date fecha;
 	
@@ -20,7 +20,31 @@ public class Ventas {
 		this.nombre = nombre;
 		this.dni_Cliente = dni_Cliente;
 		this.fecha = fecha;
+		this.setTotal(Total);		
+	}
+	
+	public Ventas(String numFactura, String codServicio, String nombreServicio, int udsServicio, int importeServicio,int Total,
+			String dni_Cliente, String nombre, Date fecha, int codLinea) {
+		
+		super();
+		this.importeServicio = importeServicio;
+		this.udsServicio = udsServicio;
+		this.numFactura = numFactura;
+		this.codServicio = codServicio;
+		this.nombreServicio = nombreServicio;
+		this.nombre = nombre;
+		this.dni_Cliente = dni_Cliente;
+		this.fecha = fecha;
 		this.setTotal(Total);
+		this.codLinea = codLinea;
+	}
+
+	public int getCodLinea() {
+		return codLinea;
+	}
+
+	public void setCodLinea(int codLinea) {
+		this.codLinea = codLinea;
 	}
 
 	public int getImporteServicio() {

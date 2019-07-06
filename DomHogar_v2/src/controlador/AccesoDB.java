@@ -459,8 +459,8 @@ public class AccesoDB {
 					String nombre = rs.getString("nombre");
 					Date fecha = rs.getDate("fecha");
 					
-					ventas = new Ventas(numFactura,codServicio,nombreServicio, udsServicio, importeServicio, Total, nombre, dni_Cliente, fecha);
-
+					ventas = new Ventas(numFactura,codServicio,nombreServicio, udsServicio, importeServicio, Total, 
+							nombre, dni_Cliente, fecha);
 					
 					lista_ventas.add(ventas);
 								
@@ -992,7 +992,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			sentencia.setString(2, dniCliente);
 			sentencia.setDate(3, fecha);
 
-
 			afectados1 = sentencia.executeUpdate(); // Ejecutamos la inserciï¿½n
 
 		} catch (SQLException e) {
@@ -1347,7 +1346,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 			Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
 			// Consulta SQL con resulset
-			ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, s.nombreServicio, s.importeServicio, lf.udsServicio, "
+			ResultSet rs = sentencia.executeQuery("SELECT lf.codServicio, lf.codLinea, s.nombreServicio, s.importeServicio, lf.udsServicio, "
 					+ "lf.numFactura,f.fecha,f.dni_Cliente,c.nombre \r\n" + 
 					"FROM LINEA_FACTURA lf \r\n" + 
 					"JOIN SERVICIO s on lf.codServicio = s.codServicio \r\n" + 
@@ -1367,11 +1366,12 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				String dniCliente = rs.getString("dni_Cliente");
 				String nomCliente = rs.getString("nombre");
 				Date fecha = rs.getDate("fecha");
+				int codLinea = rs.getInt("codLinea");
 				
-				ventas = new Ventas(numFactura2,codServicio,nomServicio, udsServicio, importeVentaSer, Total, dniCliente,  nomCliente, fecha);
+				ventas = new Ventas(numFactura2,codServicio,nomServicio, udsServicio, importeVentaSer, Total, 
+						dniCliente,  nomCliente, fecha, codLinea);
 				
-				lista_ventas.add(ventas);
-							
+				lista_ventas.add(ventas);							
 			}
 			
 		} catch (SQLException e) {
@@ -1409,7 +1409,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 		ArrayList<Ventas> listaVentas = AccesoDB.datosVentasBill(numFacturaDelete, conexion);
 
-		String matrizInfoVentas[][] = new String[listaVentas.size()][8];
+		String matrizInfoVentas[][] = new String[listaVentas.size()][9];
 
 		for (int i = 0; i < listaVentas.size(); i++) {
 			matrizInfoVentas[i][0] = listaVentas.get(i).getCodServicio()+"";
@@ -1420,6 +1420,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			matrizInfoVentas[i][5] = listaVentas.get(i).getDni_Cliente()+"";
 			matrizInfoVentas[i][6] = listaVentas.get(i).getNombre()+"";
 			matrizInfoVentas[i][7] = listaVentas.get(i).getFecha()+"";
+			matrizInfoVentas[i][8] = listaVentas.get(i).getCodLinea()+"";
 		}
 		return matrizInfoVentas;
 	}
@@ -1460,12 +1461,12 @@ public static Boolean exportarFicheroAlmacen(String user) {
 	}
 
 	
-	public static int deleteLineaFacturaVentas(String numFacturaDelete, Connection conexion) {
+	public static int deleteLineaFacturaVentas(int codLinea, Connection conexion) {
 
 		int afectados = 0;
 
 		// Almacenamos en un String la Sentencia SQL
-		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura = '" + numFacturaDelete + "'";
+		String sql = "DELETE FROM LINEA_FACTURA WHERE codLinea =" +codLinea;
 
 		try {
 			PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -1538,5 +1539,21 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			e.printStackTrace();
 		}
 		return afect;		
+	}
+
+	public static int deleteLineaFacturaVentas(String numFacturaDelete, Connection conexion) {
+		
+		int afectados = 0;
+
+		// Almacenamos en un String la Sentencia SQL
+		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura ='" +numFacturaDelete+"';";
+
+		try {
+			PreparedStatement sentencia = conexion.prepareStatement(sql);
+			afectados = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return afectados;
 	}
 }

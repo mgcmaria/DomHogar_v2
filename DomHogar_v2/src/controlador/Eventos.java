@@ -1211,7 +1211,11 @@ public class Eventos implements ActionListener, MouseListener {
 		}
 		
 		//EN PRUEBAS
-		else if(e.getSource() == ventana.getBotonVerificarVenta()) {			
+		else if(e.getSource() == ventana.getBotonVerificarVenta()) {		
+			
+			for (int i = 0; i < nuevaVenta.size(); i++) {
+				nuevaVenta.remove(i);
+			}
 			
 			//Recogemos en un Array los servicios y clientes
 			ArrayList<Servicio> lista_servicios = AccesoDB.datosServicio(conexion);
@@ -1299,44 +1303,70 @@ public class Eventos implements ActionListener, MouseListener {
 		
 		//EN PRUEBAS
 		else if(e.getSource() == ventana.getBotonInsertVentaFinal()) {
+
+			ArrayList<Ventas> lista_ventas = AccesoDB.datosVentas(conexion);
+			String numFactura = ventana.getJTFnumFactura().getText();
+			int coincide = 0; //Para controlar si encuentra el número de albarán en la lista de compras
 			
-			if(ok_check == true) {
+			for (Ventas ventas : lista_ventas) {
+				if(ventas.getNumFactura().equals(numFactura)) {
+					coincide = 1;
+					//return;
+				}
+			}			
+			
+			if(ok_check == true && coincide == 1) {
 				
-				String numFactura = ventana.getJTFnumFactura().getText();
+				//Mostramos Dialog 
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"Delivery note exists. New line will be inserted",
+						"Check",
+						JOptionPane.INFORMATION_MESSAGE);	
 				
-				for (Ventas ventas : nuevaVenta) {
-					if(ventas.getNumFactura().contains(numFactura)) {
-						//Mostramos Dialog 
-						JOptionPane.showMessageDialog(new JFrame(), 
-								"Delivery note exists. New line will be inserted",
-								"Check",
-								JOptionPane.INFORMATION_MESSAGE);	
-						
-						int afectados1 = AccesoDB.insertarLineaFactura(nuevaVenta, conexion);
-						
-						if (afectados1 == 0) {
-							ventana.getJLresulinsertVentafinal().setText("Error adding Bill line");
-						} else {
-							ventana.getJLresulinsertVentafinal().setText("Bill line added");
-							
-							refreshJTableVentas();
-						}		
-					} else {
-						int afectados = AccesoDB.insertarVenta(nuevaVenta, conexion);
-						int afectados2 = AccesoDB.insertarLineaFactura(nuevaVenta, conexion);
-						
-						if (afectados == 0 || afectados2 == 0) {
-							ventana.getJLresulinsertVentafinal().setText("Error adding Bill");
-						} else {
-							ventana.getJLresulinsertVentafinal().setText("Bill added");
-							
-							refreshJTableVentas();
-						}		
-					}
-				}				
-			} else {
-				ventana.getJLresulinsertVentafinal().setText("Check all items");
+				int afectados = AccesoDB.insertarLineaFactura(nuevaVenta, conexion);
+				
+				if (afectados == 0) {
+					ventana.getJLresulinsertVentafinal().setText("Error adding Bill line");
+				} else {
+					ventana.getJLresulinsertVentafinal().setText("Bill line added");
+					
+					refreshJTableVentas();
+					
+					for (int i = 0; i < nuevaVenta.size(); i++) {
+						nuevaVenta.remove(i);
+					}				
+				}		
+				
 			}
+			
+			else if(ok_check == true && coincide == 0) {
+				
+				int afectados1 = AccesoDB.insertarVenta(nuevaVenta, conexion);
+				int afectados2 = AccesoDB.insertarLineaFactura(nuevaVenta, conexion);
+
+				if (afectados1 == 0 && afectados2 == 0) {
+					ventana.getJLresulinsertVentafinal().setText("Error adding Delivery Note");
+				} else if (afectados1 == 1 && afectados2 == 0) {
+					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
+				} else if (afectados1 == 0 && afectados2 == 1) {
+					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
+				} else if (afectados1 == 1 && afectados2 == 1) {
+					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
+				}
+				refreshJTableVentas();
+
+				for (int i = 0; i < nuevaVenta.size(); i++) {
+					nuevaVenta.remove(i);
+				}
+			}
+			
+			else if(ok_check == false) {
+				//Mostramos Dialog 
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"You must check the sales items first.",
+						"Sales",
+						JOptionPane.ERROR_MESSAGE);
+			}		
 			
 		}
 		
@@ -1508,7 +1538,7 @@ public class Eventos implements ActionListener, MouseListener {
 			//Almacenamos en una variable el n�mero de la fila seleccionada
 			int rowDelete = ventana.getTablaVentas().getSelectedRow();
 
-			//Si el n�mero de fila es dstinto a -1 es que se ha seleccionado una fila
+			//Si el numero de fila es dstinto a -1 es que se ha seleccionado una fila
             if (rowDelete != -1) {
 
             	//Recogemos los valores de la fila seleccionada indicando los datos de la columna
@@ -1522,13 +1552,13 @@ public class Eventos implements ActionListener, MouseListener {
                 ventana.getJLselecJTableVenDeleteLineFactura().setVisible(true);
                 ventana.getJLselecJTableVenDeleteFactura().setVisible(true);
 
-                //Creamos la Tabla con la informaci�n               
+                //Creamos la Tabla con la informacion               
                 barraBillDelete.setVisible(true);
                 barraBillDelete.setBounds(20, 50, 710, 100);
                 ventana.getSubPanelVentasDelete().add(barraBillDelete);
 
         		String titulosBillVen[] = {"Service Code", "Service Name", "Purchase amount", "Quantity","Total Amount", 
-        				"Customer's DNI", "Customer", "Date"};
+        				"Customer's DNI", "Customer", "Date", "Line code"};
         		String infoVentas[][] = AccesoDB.obtenerMatrizBillDelete(numFacturaDelete);
 
         		tablaBillDeleteVen = new JTable(infoVentas,titulosBillVen);
@@ -1545,22 +1575,19 @@ public class Eventos implements ActionListener, MouseListener {
 		}
 		
 		else if(e.getSource() == ventana.getBotonDeleteLineaFactura()) {
+			
+			String numFacturaDelete = ventana.getJLnumFacturaDeleteVen().getText();
 
 			//Almacenamos en una variable el n�mero de la fila seleccionada
 			int rowDeleteLine = tablaBillDeleteVen.getSelectedRow();
 
-			//Recogemos los valores de la fila seleccionada indicando los datos de la columna
-            String numFacturaDelete = ventana.getJLnumFacturaDeleteVen().getText();
-
 			//Si el numero de fila es dstinto a -1 es que se ha seleccionado una fila
             if (rowDeleteLine != -1) {
-
-            	//Recogemos los valores de la fila seleccionada indicando los datos de la columna
-                String numServicioDelete = (String) tablaBillDeleteVen.getValueAt(rowDeleteLine, 0);
+            	
                 //Recogemos los valores de la fila seleccionada indicando los datos de la columna
-                int cantidadDeleteVen = Integer.parseInt((String) tablaBillDeleteVen.getValueAt(rowDeleteLine, 3));
+                int codLinea = Integer.parseInt((String) tablaBillDeleteVen.getValueAt(rowDeleteLine, 8));
 
-                int afect = AccesoDB.deleteLineaFacturaVentas(numFacturaDelete, numServicioDelete, cantidadDeleteVen, conexion);
+                int afect = AccesoDB.deleteLineaFacturaVentas(codLinea, conexion);
 
                 if(afect == 0) {
                 	
@@ -1999,8 +2026,8 @@ public class Eventos implements ActionListener, MouseListener {
 				// Recogemos los datos del nuevo empleado
 				String dni = ventana.getInsertNIFCliente().getText();
 				String nombre = ventana.getInsertNomCliente().getText();
-				int telefono = Integer.parseInt(ventana.getInsertTelCliente().getText());
 				String email = ventana.getInsertMailCliente().getText();
+				int telefono = Integer.parseInt(ventana.getInsertTelCliente().getText());
 
 				Cliente cli = new Cliente(dni, nombre, email, telefono);
 

@@ -1873,7 +1873,7 @@ public class Ventana extends JFrame{
 				
 			//caja telefono nuevo cliente
 	    insertTelCliente = new JTextField();//Creamos el componente
-		TextPrompt placeholder2 = new TextPrompt("email", insertTelCliente);
+		TextPrompt placeholder2 = new TextPrompt("phone", insertTelCliente);
 	    placeholder2.changeAlpha(0.75f);
 	    placeholder2.changeStyle(Font.ITALIC);
 	    insertTelCliente.setBounds(40,130,400,30);//Posicionamos
@@ -1885,10 +1885,10 @@ public class Ventana extends JFrame{
 	    
 	    //insertMailCliente
 	    insertMailCliente = new JTextField();//Creamos el componente
-		TextPrompt placeholder3 = new TextPrompt("phone", insertMailCliente);
+		TextPrompt placeholder3 = new TextPrompt("email", insertMailCliente);
 	    placeholder3.changeAlpha(0.75f);
 	    placeholder3.changeStyle(Font.ITALIC);
-	    insertMailCliente.setBounds(40,170,120,30);//Posicionamos
+	    insertMailCliente.setBounds(40,170,400,30);//Posicionamos
 	    insertMailCliente.setBorder(BorderFactory.createLineBorder(color_azul, 2)); //Eliminamos el borde
 	    insertMailCliente.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 	    insertMailCliente.setBackground(Color.WHITE); //Color de fondo
@@ -1905,10 +1905,10 @@ public class Ventana extends JFrame{
 				
 		//resultado insercion
 		resulInsertCliente = new JLabel("");//Creamos el componente
-		resulInsertCliente.setBounds(100,200,500,30);//Posicionamos
+		resulInsertCliente.setBounds(20,210,500,30);//Posicionamos
 		resulInsertCliente.setBorder(null); //Eliminamos el borde
 		resulInsertCliente.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
-		resulInsertCliente.setForeground(new Color(000,000,000));//Color del texto
+		resulInsertCliente.setForeground(Color.gray);//Color del texto
 		subPanelInsCliente.add(resulInsertCliente);//Anadimos			
 		
 		//SUBPANEL EDITAR CLIENTE
