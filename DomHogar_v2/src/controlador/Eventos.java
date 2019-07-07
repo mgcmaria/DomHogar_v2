@@ -85,7 +85,8 @@ public class Eventos implements ActionListener, MouseListener {
 			} else {
 				for (Empleado lista : lista_usuarios) {
 					
-					if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena) && lista.getPerfil().equalsIgnoreCase("general")) {
+					if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena) 
+							&& lista.getPerfil().equalsIgnoreCase("general")) {
 						//Ocultamos componentes de la pantalla de Login
 						ventana.getImagenLogin().setVisible(false);
 						ventana.getEtiquetaUser().setVisible(false);
@@ -107,7 +108,8 @@ public class Eventos implements ActionListener, MouseListener {
 						return;
 					} 
 					
-					else if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena) && lista.getPerfil().equalsIgnoreCase("administrador")) {
+					else if(lista.getUsuario().equalsIgnoreCase(usuario) && lista.getContrasena().equalsIgnoreCase(contrasena)
+							&& lista.getPerfil().equalsIgnoreCase("administrador")) {
 						//Ocultamos componentes de la pantalla de Login
 						ventana.getImagenLogin().setVisible(false);
 						ventana.getEtiquetaUser().setVisible(false);
@@ -427,8 +429,28 @@ public class Eventos implements ActionListener, MouseListener {
 					ventana.getInsertEmailEmp().getText().isEmpty() || ventana.getInsertUserEmp().getText().isEmpty() ||
 					ventana.getInsertPassEmp().getText().isEmpty() || ventana.getInsertPerfilEmp().getText().isEmpty())
 			{
-				ventana.getResulInsertEmp().setText("Please, complete all the fields");
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"Please, complete all the fields",
+						"Insert employee",
+						JOptionPane.ERROR_MESSAGE);		
 				
+			} else if (ventana.getInsertPhoneEmp().getText().length() > 9) {
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"Phone number can't be more than 9 digits",
+						"Insert employee",
+						JOptionPane.ERROR_MESSAGE);					
+
+				//Comprobamos ademas que el telefono contega solo numeros
+			} else if (!ventana.getInsertPhoneEmp().getText().matches("[0-9]*")){
+
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+					"Insert only numbers at phone",
+					"Insert employee",
+					JOptionPane.ERROR_MESSAGE);
+
 			} else {
 				//Limpiamos la etiqueta de resultado final
 				ventana.getResulInsertEmp().setText("");
@@ -454,10 +476,8 @@ public class Eventos implements ActionListener, MouseListener {
 				if(afectados == 0) {
 					ventana.getResulInsertEmp().setText("Error adding new employee");
 				} else {
-					ventana.getResulInsertEmp().setText("Employee added");
-					
-					refreshJTableEmpleados();
-				
+					ventana.getResulInsertEmp().setText("Employee added");					
+					refreshJTableEmpleados();				
 				}
 			}			
 		}
@@ -706,8 +726,8 @@ public class Eventos implements ActionListener, MouseListener {
 					importeTotal = cantidad * producto.getImporteCompra();
 					nomProducto = producto.getNombreProducto().toString();
 					ventana.getJLresulComboProCompra().setText(nomProducto);
-					ventana.getJLresulimporCompraPro().setText(Integer.toString(producto.getImporteCompra()).toString()+" ÔøΩ unity");
-					ventana.getJLresulimporTotalPro().setText(Integer.toString(importeTotal).toString()+" ÔøΩ total amount");
+					ventana.getJLresulimporCompraPro().setText(Integer.toString(producto.getImporteCompra()).toString()+" Ä unity");
+					ventana.getJLresulimporTotalPro().setText(Integer.toString(importeTotal).toString()+" Ä total amount");
 				} 
 			}
 			
@@ -719,7 +739,7 @@ public class Eventos implements ActionListener, MouseListener {
 				} 
 			}
 			
-			//Si algun componente de la los valores del Insert est√° vac√≠o
+			//Si algun componente de la los valores del Insert esta vacio
 			if(ventana.getJTFnumAlbaran().getText().isEmpty() || ventana.getComboProductoCompras().getSelectedItem().toString().contains("Product's code") ||
 				    ventana.getComboProveedorCompras().getSelectedItem().toString().contains("Supplier's code"))
 				{
@@ -746,7 +766,7 @@ public class Eventos implements ActionListener, MouseListener {
 			
 			ArrayList<Compras> lista_compras = AccesoDB.datosCompras(conexion);
 			String numAlbaran = ventana.getJTFnumAlbaran().getText();
-			int coincide = 0; //Para controlar si encuentra el n√∫mero de albar√°n en la lista de compras
+			int coincide = 0; //Para controlar si encuentra el numero de albaran en la lista de compras
 			
 			for (Compras compras : lista_compras) {
 				if(compras.getNumAlbaran().equals(numAlbaran)) {
@@ -802,7 +822,7 @@ public class Eventos implements ActionListener, MouseListener {
 			else if(ok_check == false) {
 				//Mostramos Dialog 
 				JOptionPane.showMessageDialog(new JFrame(), 
-						"You must check the purchase's items first.",
+						"You must check the purchase items first.",
 						"Check",
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -867,10 +887,10 @@ public class Eventos implements ActionListener, MouseListener {
 		
 		else if(e.getSource() == ventana.getBotonCheckDeliNoteCom()) {
 			
-			//Almacenamos en una variable el n√∫mero de la fila seleccionada
+			//Almacenamos en una variable el numero de la fila seleccionada
 			int row = ventana.getTablaCompras().getSelectedRow();
 			
-			//Si el n√∫mero de fila es dstinto a -1 es que se ha seleccionado una fila
+			//Si el numero de fila es dstinto a -1 es que se ha seleccionado una fila
             if (row != -1) {
             	
             	//Recogemos los valores de la fila seleccionada indicando los datos de la columna
@@ -895,7 +915,7 @@ public class Eventos implements ActionListener, MouseListener {
                 	suma = c.getImporteTotal() + suma;
 				}
                 
-                ventana.getJLTotalAccountComSuma().setText(Integer.toString(suma) + " ‚Ç¨");
+                ventana.getJLTotalAccountComSuma().setText(Integer.toString(suma) + " Ä");
                 
                 //Mostramos datos de las Labels que est√°n ocultos en la ventana
                 ventana.getJLDeliveryNoteCompras().setVisible(true);
@@ -1074,7 +1094,7 @@ public class Eventos implements ActionListener, MouseListener {
             int resp = JOptionPane.showConfirmDialog(null, 
             		"Do you want delete the Delivery Note "+ numAlbaranDelete + "?\n"
             				+"This operation can't be undone.", 
-            		"Delete Delivery Note", 
+            		"Delete Purchase", 
             		JOptionPane.YES_NO_OPTION, 
             		JOptionPane.QUESTION_MESSAGE);
             
@@ -1263,8 +1283,8 @@ public class Eventos implements ActionListener, MouseListener {
 					cantidadTotal = cantidad * servicio.getImporteServicio();
 					nombreServicio = servicio.getNombreServicio().toString();
 					ventana.getJLresulComboSerVenta().setText(nombreServicio);
-					ventana.getJLresulimporVentaServ().setText(Integer.toString(servicio.getImporteServicio()).toString()+" ÔøΩ unity");
-					ventana.getJLresulimporTotalServ().setText(Integer.toString(cantidadTotal).toString()+" ÔøΩ total amount");
+					ventana.getJLresulimporVentaServ().setText(Integer.toString(servicio.getImporteServicio()).toString()+" Ä unity");
+					ventana.getJLresulimporTotalServ().setText(Integer.toString(cantidadTotal).toString()+" Ä total amount");
 				} 
 			}
 			
@@ -1304,7 +1324,7 @@ public class Eventos implements ActionListener, MouseListener {
 
 			ArrayList<Ventas> lista_ventas = AccesoDB.datosVentas(conexion);
 			String numFactura = ventana.getJTFnumFactura().getText();
-			int coincide = 0; //Para controlar si encuentra el n√∫mero de albar√°n en la lista de compras
+			int coincide = 0; //Para controlar si encuentra el numero de factura
 			
 			for (Ventas ventas : lista_ventas) {
 				if(ventas.getNumFactura().equals(numFactura)) {
@@ -1334,9 +1354,7 @@ public class Eventos implements ActionListener, MouseListener {
 					for (int i = 0; i < nuevaVenta.size(); i++) {
 					nuevaVenta.remove(i);
 					}				
-				}		
-				
-		
+				}	
 			}
 			
 			else if(ok_check == true && coincide == 0) {
@@ -1366,8 +1384,7 @@ public class Eventos implements ActionListener, MouseListener {
 						"You must check the sales items first.",
 						"Sales",
 						JOptionPane.ERROR_MESSAGE);
-			}		
-			
+			}			
 		}
 		
 		else if(e.getSource() == ventana.getBotonBillsVentas()) {
@@ -1452,7 +1469,7 @@ public class Eventos implements ActionListener, MouseListener {
                 	suma = v.getTotal() + suma;
 				}
                 
-                ventana.getJLTotalAmountSum().setText(Integer.toString(suma) + " ÔøΩ");
+                ventana.getJLTotalAmountSum().setText(Integer.toString(suma) + " Ä");
                 
                 //Mostramos datos de las Labels
                 ventana.getJLBills().setVisible(true);
@@ -1578,7 +1595,7 @@ public class Eventos implements ActionListener, MouseListener {
 			
 			String numFacturaDelete = ventana.getJLnumFacturaDeleteVen().getText();
 
-			//Almacenamos en una variable el nÔøΩmero de la fila seleccionada
+			//Almacenamos en una variable el numero de la fila seleccionada
 			int rowDeleteLine = tablaBillDeleteVen.getSelectedRow();
 
 			//Si el numero de fila es dstinto a -1 es que se ha seleccionado una fila
@@ -1784,8 +1801,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getSubPanelProvExport().setVisible(false);
 			ventana.getSubPanelClienteExport().setVisible(false);	
 			
-		}
-		
+		}		
 		
 		//BOTON INSERTAR PROVEEDOR 
 		else if (e.getSource() == ventana.getBotonInsertProvOk()) {
@@ -1966,6 +1982,7 @@ public class Eventos implements ActionListener, MouseListener {
 			ventana.getInsertNIFCliente().setText("");
 			ventana.getInsertNomCliente().setText("");
 			ventana.getInsertTelCliente().setText("");
+			ventana.getInsertMailCliente().setText("");
 			ventana.getResulInsertCliente().setText("");
 			ventana.getPanelClientes().setVisible(true);
 			ventana.getSubPanelInsCliente().setVisible(true);
@@ -2006,21 +2023,38 @@ public class Eventos implements ActionListener, MouseListener {
 			
 		}
 		
-		//BOTÔøΩN INSERTAR CLIENTE
+		//BOTON INSERTAR CLIENTE
 		else if (e.getSource() == ventana.getBotonInsertClienteok()) {
 
 			if(ventana.getInsertNIFCliente().getText().isEmpty() || ventana.getInsertNomCliente().getText().isEmpty() ||
 					ventana.getInsertTelCliente().getText().isEmpty())
 			{
-				ventana.getResulInsertCliente().setForeground(Color.GRAY);
-				ventana.getResulInsertCliente().setText("Please, complete all the fields");
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"Please, complete all the fields",
+						"Insert Customer",
+						JOptionPane.ERROR_MESSAGE);	
 				
+			} else if (ventana.getInsertTelCliente().getText().length() > 9) {
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+						"Phone number can't be more than 9 digits",
+						"Insert Customer",
+						JOptionPane.ERROR_MESSAGE);					
+
+				//Comprobamos ademas que el telefono contega solo numeros
+			} else if (!ventana.getInsertTelCliente().getText().matches("[0-9]*")){
+
+				//Mostramos Dialog
+				JOptionPane.showMessageDialog(new JFrame(), 
+					"Insert only numbers at phone",
+					"Insert Customer",
+					JOptionPane.ERROR_MESSAGE);
+
 			} else {
-				//Limpiamos la etiqueta de resultado final y devolvemos el color
+				//Limpiamos la etiqueta de resultado final
 				ventana.getResulInsertCliente().setText("");
-				ventana.getResulInsertCliente().setForeground(new Color(0,157,233));
-				
-				
+								
 				ArrayList<Cliente> nuevoCliente = new ArrayList<Cliente>();
 
 				// Recogemos los datos del nuevo empleado
@@ -2039,7 +2073,6 @@ public class Eventos implements ActionListener, MouseListener {
 					ventana.getResulInsertCliente().setText("Error adding customer");
 				} else {
 					ventana.getResulInsertCliente().setText("Customer added");
-					// AccesoDB.obtenerMatrizClientes();
 					refreshJTableClientes();
 				}
 			}

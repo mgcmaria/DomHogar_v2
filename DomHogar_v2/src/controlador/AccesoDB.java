@@ -655,7 +655,7 @@ public static Boolean exportarFicheroProveedores(String user) {
 		try {
 			FileWriter ficheroEmp = new FileWriter(f);
 			
-			ficheroEmp.write("NIF,Nombre,Apellidos,Email,Telefono,Usuario,Contraseï¿½a,Perfil");
+			ficheroEmp.write("NIF,Nombre,Apellidos,Email,Telefono,Usuario,Contrasena,Perfil");
 			ficheroEmp.write("\n");
 			
 			for (Empleado empleado : lista_empleados) {
@@ -700,8 +700,8 @@ public static Boolean exportarFicheroCompras(String user) {
 		try {
 			FileWriter ficheroCompras = new FileWriter(f);
 			
-			ficheroCompras.write("Nï¿½mero Albarï¿½n,Nombre,Importe Producto,Cantidad,Cï¿½digo Proveedor" +
-			"Cï¿½digo Producto,Nombre Producto,Fecha, Nombre Proveedor, Importe Total");
+			ficheroCompras.write("Numero Albaran,Nombre,Importe Producto,Cantidad,Codigo Proveedor" +
+			"Codigo Producto,Nombre Producto,Fecha, Nombre Proveedor, Importe Total");
 			ficheroCompras.write("\n");
 			
 			for (Compras compras : lista_compras) {
@@ -749,7 +749,7 @@ public static Boolean exportarFicheroCompras(String user) {
 		try {
 			FileWriter ficheroVentas = new FileWriter(f);
 			
-			ficheroVentas.write("Nï¿½mero Factura,Importe Venta Servicio,Cantidad Total,DNI Cliente,Cï¿½digo Servicio" +
+			ficheroVentas.write("Numero Factura,Importe Venta Servicio,Cantidad Total,DNI Cliente,Codigo Servicio" +
 			"Nombre Servicio,Fecha,Nombre, Importe Factura");
 			ficheroVentas.write("\n");
 			
@@ -797,8 +797,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		try {
 			FileWriter ficheroAlmacen = new FileWriter(f);
 			
-			ficheroAlmacen.write("Código Producto,Nombre Producto,Unidades Compradas,Unidades Vendidas" +
-			"Total");
+			ficheroAlmacen.write("Codigo Producto,Nombre Producto,Unidades Compradas,Unidades Vendidas,Total");
 			ficheroAlmacen.write("\n");
 			
 			for (Almacen almacen : lista_almacen) {
@@ -1015,9 +1014,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			int udServicio = 0;
 			int importeServicio = 0;
 
-
-
-
 			for (Ventas v : nuevaVenta) {
 
 				codServicio = v.getCodServicio();
@@ -1071,7 +1067,8 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		try {			
 
 			Statement sentencia = conexion.createStatement(); 
-			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, la.cantidad, lf.udsServicio from LINEA_FACTURA lf , PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto");		
+			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, la.cantidad, lf.udsServicio "
+					+ "from LINEA_FACTURA lf , PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto");		
 
 			while (rs.next()) { 
 				
@@ -1104,7 +1101,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		try {			
 
 			Statement sentencia = conexion.createStatement(); 
-			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, sum(la.cantidad) as sum_cant, sum(lf.uds_Producto) as sum_uds from PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto join LINEA_FACTURA lf on lf.cod_Producto = la.codproducto group by cod_Producto");		
+			ResultSet rs = sentencia.executeQuery("SELECT p.cod_Producto, p.nombreProducto, sum(la.cantidad) as sum_cant, "
+					+ "sum(lf.uds_Producto) as sum_uds from PRODUCTO p join LINEA_ALBARAN la on p.cod_Producto = la.codproducto "
+					+ "join LINEA_FACTURA lf on lf.cod_Producto = la.codproducto group by cod_Producto");		
 
 			while (rs.next()) { 
 				
@@ -1140,9 +1139,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaCompras.size(); i++) {
 			matrizInfoCompras[i][0] = listaCompras.get(i).getCodProducto()+"";
 			matrizInfoCompras[i][1] = listaCompras.get(i).getNomProducto()+"";			
-			matrizInfoCompras[i][2] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" €";			
+			matrizInfoCompras[i][2] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" �";			
 			matrizInfoCompras[i][3] = formatea.format(listaCompras.get(i).getCantidad())+"";
-			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteTotal())+" €";
+			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteTotal())+" �";
 		}
 		return matrizInfoCompras;		
 		
@@ -1180,7 +1179,8 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				Date fecha = rs.getDate("fecha");
 				int codLinea = rs.getInt("codlinea");
 				
-				compras = new Compras(numAlbaran1,codProducto,nomProducto, cantidad, importeCompraPro, cantidadTotal, codProveedor,  nomProveedor, fecha,codLinea);
+				compras = new Compras(numAlbaran1,codProducto,nomProducto,cantidad,importeCompraPro,cantidadTotal,codProveedor,
+						nomProveedor, fecha,codLinea);
 				
 				lista_compras.add(compras);
 							
@@ -1209,33 +1209,15 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		for (int i = 0; i < listaCompras.size(); i++) {
 			matrizInfoCompras[i][0] = listaCompras.get(i).getCodProducto()+"";
 			matrizInfoCompras[i][1] = listaCompras.get(i).getNomProducto()+"";			
-			matrizInfoCompras[i][2] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" €";			
+			matrizInfoCompras[i][2] = formatea.format(listaCompras.get(i).getImporteCompraProducto())+" �";			
 			matrizInfoCompras[i][3] = formatea.format(listaCompras.get(i).getCantidad())+"";
-			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteTotal())+" €";
+			matrizInfoCompras[i][4] = formatea.format(listaCompras.get(i).getImporteTotal())+" �";
 			matrizInfoCompras[i][5] = listaCompras.get(i).getCodProveedor()+"";
 			matrizInfoCompras[i][6] = listaCompras.get(i).getNomProveedor()+"";
 			matrizInfoCompras[i][7] = listaCompras.get(i).getFechaAlbaran()+"";
 			matrizInfoCompras[i][8] = listaCompras.get(i).getCodLineaF()+"";
 		}
 		return matrizInfoCompras;
-		
-	}
-
-	public static int deleteLineaAlbaranCompras(String numAlbaranDelete, String numProductoDelete,
-			int cantidadDeleteCom, Connection conexion) {
-
-		int afectados = 0;
-		
-		// Almacenamos en un String la Sentencia SQL
-		String sql = "DELETE FROM LINEA_ALBARAN WHERE numAlbaran = '"+numAlbaranDelete+"' AND codproducto = '"+numProductoDelete+"' AND cantidad = "+cantidadDeleteCom;
-		
-		try {
-			PreparedStatement sentencia = conexion.prepareStatement(sql);
-			afectados = sentencia.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return afectados;	
 		
 	}
 
@@ -1252,8 +1234,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println("Afectados Albaran:" + afectados);
 		return afectados;		
 		
 	}
@@ -1270,10 +1250,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			afectados = sentencia.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
-		System.out.println("Afectados lineaAlbaran:" + afectados);
-		
+		}		
 		return afectados;		
 	}
 	
@@ -1290,12 +1267,8 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			afectados = sentencia.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
-		System.out.println("Afectados lineaAlbaran:" + afectados);
-		
-		return afectados;
-		
+		}		
+		return afectados;		
 	}
 
 	public static String[][] obtenerMatrizCRM() {
@@ -1447,25 +1420,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			matrizInfoVentas[i][8] = listaVentas.get(i).getCodLinea()+"";
 		}
 		return matrizInfoVentas;
-	}
-
-	public static int deleteLineaFacturaVentas(String numFacturaDelete, String numServicioDelete, int cantidadDeleteVen,
-			Connection conexion) {
-		
-		int afectados = 0;
-
-		// Almacenamos en un String la Sentencia SQL
-		String sql = "DELETE FROM LINEA_FACTURA WHERE numFactura = '"+numFacturaDelete+"' AND codServicio = '"+numServicioDelete+"' AND udsServicio = "+cantidadDeleteVen;
-
-		try {
-			PreparedStatement sentencia = conexion.prepareStatement(sql);
-			afectados = sentencia.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return afectados;	
-	}
-	
+	}	
 
 	public static int deleteFacturaVentas(String numFacturaDelete, Connection conexion) {
 		

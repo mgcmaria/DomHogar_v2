@@ -1859,7 +1859,7 @@ public class Ventana extends JFrame{
 	    insertNIFCliente.setForeground(color_azul);//Color del texto
 	    subPanelInsCliente.add(insertNIFCliente);//Anadimos
 				
-		  //caja nombre nuevo cliente
+		//caja nombre nuevo cliente
 	    insertNomCliente = new JTextField();//Creamos el componente
 		TextPrompt placeholder1 = new TextPrompt("customer's name", insertNomCliente);
 	    placeholder1.changeAlpha(0.75f);
@@ -1871,7 +1871,7 @@ public class Ventana extends JFrame{
 	    insertNomCliente.setForeground(color_azul);//Color del texto
 	    subPanelInsCliente.add(insertNomCliente);//Anadimos
 				
-			//caja telefono nuevo cliente
+		//caja telefono nuevo cliente
 	    insertTelCliente = new JTextField();//Creamos el componente
 		TextPrompt placeholder2 = new TextPrompt("phone", insertTelCliente);
 	    placeholder2.changeAlpha(0.75f);
@@ -1905,7 +1905,7 @@ public class Ventana extends JFrame{
 				
 		//resultado insercion
 		resulInsertCliente = new JLabel("");//Creamos el componente
-		resulInsertCliente.setBounds(20,210,500,30);//Posicionamos
+		resulInsertCliente.setBounds(40,210,500,30);//Posicionamos
 		resulInsertCliente.setBorder(null); //Eliminamos el borde
 		resulInsertCliente.setFont(new Font("Segoe UI",Font.BOLD,16));//Damos formato al contenido
 		resulInsertCliente.setForeground(Color.gray);//Color del texto
