@@ -741,7 +741,7 @@ public class Eventos implements ActionListener, MouseListener {
 					nuevaCompra.add(c);
 				}	
 		}
-		
+	
 		else if(e.getSource() == ventana.getBotonInsertCompraFinal()) {
 			
 			ArrayList<Compras> lista_compras = AccesoDB.datosCompras(conexion);
@@ -771,7 +771,7 @@ public class Eventos implements ActionListener, MouseListener {
 							ventana.getJLresulinsertComprafinal().setText("Delivery Note line added");
 							
 							refreshJTableCompras();
-							
+						
 							for (int i = 0; i < nuevaCompra.size(); i++) {
 								nuevaCompra.remove(i);
 							}				
@@ -1004,7 +1004,7 @@ public class Eventos implements ActionListener, MouseListener {
                 ventana.getSubPanelComprasDelete().add(barraDeliNoteDelete);
         		
         		String titulosDeliNoteCom[] = {"Product's Code", "Product's Name", "Purchase amount", "Quantity","Total Account", 
-        				"Supplier's code", "Supplier", "Date"};
+        				"Supplier's code", "Supplier", "Date", "Line code"};
         		String infoCompras[][] = AccesoDB.obtenerMatrizDeliveryNoteDelete(numAlbaranDelete);
         		
         		tablaDeliNoteDeleteCom = new JTable(infoCompras,titulosDeliNoteCom);
@@ -1019,24 +1019,22 @@ public class Eventos implements ActionListener, MouseListener {
 						JOptionPane.ERROR_MESSAGE);
             }
 		}
-		
+	
 		else if(e.getSource() == ventana.getBotonDeleteLineaAlbaran()) {
 			
 			//Almacenamos en una variable el número de la fila seleccionada
 			int rowDeleteLine = tablaDeliNoteDeleteCom.getSelectedRow();
-			
+		
 			//Recogemos los valores de la fila seleccionada indicando los datos de la columna
             String numAlbaranDelete = ventana.getJLnumAlbaranDeleteCom().getText();
 			
 			//Si el número de fila es dstinto a -1 es que se ha seleccionado una fila
             if (rowDeleteLine != -1) {
             	
-            	//Recogemos los valores de la fila seleccionada indicando los datos de la columna
-                String numProductoDelete = (String) tablaDeliNoteDeleteCom.getValueAt(rowDeleteLine, 0);
-                //Recogemos los valores de la fila seleccionada indicando los datos de la columna
-                int cantidadDeleteCom = Integer.parseInt((String) tablaDeliNoteDeleteCom.getValueAt(rowDeleteLine, 3));
+            	int codLinea = Integer.parseInt((String) tablaDeliNoteDeleteCom.getValueAt(rowDeleteLine, 8));
+
                 
-                int afect = AccesoDB.deleteLineaAlbaranCompras(numAlbaranDelete, numProductoDelete, cantidadDeleteCom, conexion);
+                int afect = AccesoDB.deleteLineaAlbaranCompras(codLinea, conexion);
                 
                 if(afect == 1) {
                 	
@@ -1300,7 +1298,7 @@ public class Eventos implements ActionListener, MouseListener {
 					nuevaVenta.add(v);
 				}	
 		}
-		
+	
 		//EN PRUEBAS
 		else if(e.getSource() == ventana.getBotonInsertVentaFinal()) {
 
@@ -1314,6 +1312,7 @@ public class Eventos implements ActionListener, MouseListener {
 					//return;
 				}
 			}			
+
 			
 			if(ok_check == true && coincide == 1) {
 				
@@ -1333,10 +1332,11 @@ public class Eventos implements ActionListener, MouseListener {
 					refreshJTableVentas();
 					
 					for (int i = 0; i < nuevaVenta.size(); i++) {
-						nuevaVenta.remove(i);
+					nuevaVenta.remove(i);
 					}				
 				}		
 				
+		
 			}
 			
 			else if(ok_check == true && coincide == 0) {
@@ -1347,9 +1347,9 @@ public class Eventos implements ActionListener, MouseListener {
 				if (afectados1 == 0 && afectados2 == 0) {
 					ventana.getJLresulinsertVentafinal().setText("Error adding Delivery Note");
 				} else if (afectados1 == 1 && afectados2 == 0) {
-					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
+					ventana.getJLresulinsertVentafinal().setText("Bill added");
 				} else if (afectados1 == 0 && afectados2 == 1) {
-					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
+					ventana.getJLresulinsertVentafinal().setText("Bill added");
 				} else if (afectados1 == 1 && afectados2 == 1) {
 					ventana.getJLresulinsertVentafinal().setText("Delivery Note added");
 				}
@@ -1557,7 +1557,7 @@ public class Eventos implements ActionListener, MouseListener {
                 barraBillDelete.setBounds(20, 50, 710, 100);
                 ventana.getSubPanelVentasDelete().add(barraBillDelete);
 
-        		String titulosBillVen[] = {"Service Code", "Service Name", "Purchase amount", "Quantity","Total Amount", 
+        		String titulosBillVen[] = {"Service Code", "Service Name", "Sale amount", "Quantity","Total Amount", 
         				"Customer's DNI", "Customer", "Date", "Line code"};
         		String infoVentas[][] = AccesoDB.obtenerMatrizBillDelete(numFacturaDelete);
 

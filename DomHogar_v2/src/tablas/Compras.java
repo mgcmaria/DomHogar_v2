@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Compras {
 	
-	private int importeCompraProducto,cantidad, importeTotal;
+	private int importeCompraProducto,cantidad, importeTotal, codLineaF;
 	private String numAlbaran, codProducto, nomProducto, nomProveedor, codProveedor;
 	private Date fechaAlbaran;
 	
@@ -21,6 +21,21 @@ public class Compras {
 		this.nomProveedor = nomProveedor;
 		this.fechaAlbaran = fechaAlbaran;
 		this.setImporteTotal(importeTotal);
+	}
+	
+	public Compras(String numAlbaran, String codProducto, String nomProducto, int cantidad, int importeCompraProducto,  int importeTotal, 
+			String codProveedor, String nomProveedor, Date fechaAlbaran, int codLineaF) {
+		super();
+		this.numAlbaran = numAlbaran;
+		this.importeCompraProducto = importeCompraProducto;
+		this.cantidad = cantidad;
+		this.codProveedor = codProveedor;
+		this.codProducto = codProducto;
+		this.nomProducto = nomProducto;
+		this.nomProveedor = nomProveedor;
+		this.fechaAlbaran = fechaAlbaran;
+		this.setImporteTotal(importeTotal);
+		this.codLineaF = codLineaF;
 	}
 
 	public String getNumAlbaran() {
@@ -76,5 +91,13 @@ public class Compras {
 	}
 	public void setImporteTotal(int importeTotal) {
 		this.importeTotal = importeTotal;
+	}
+
+	public int getCodLineaF() {
+		return codLineaF;
+	}
+
+	public void setCodLineaF(int codLineaF) {
+		this.codLineaF = codLineaF;
 	}
 }

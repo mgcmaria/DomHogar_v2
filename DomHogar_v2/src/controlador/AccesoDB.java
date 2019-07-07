@@ -391,6 +391,7 @@ public class AccesoDB {
 				String nomProveedor = rs.getString("nombreProveedor");
 				Date fecha = rs.getDate("fecha");
 				
+				
 				compras = new Compras(numAlbaran,codProducto,nomProducto, cantidad, importeCompraPro, cantidadTotal, codProveedor,  nomProveedor, fecha);
 				
 				lista_compras.add(compras);
@@ -1157,7 +1158,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 
 			Statement sentencia = conexion.createStatement(); // Creamos sentencia con Statement
 			// Consulta SQL con resulset
-			ResultSet rs = sentencia.executeQuery("SELECT la.codproducto, pro.nombreProducto,pro.importeCompra, la.cantidad, "
+			ResultSet rs = sentencia.executeQuery("SELECT la.codproducto, la.codlinea, pro.nombreProducto,pro.importeCompra, la.cantidad, "
 					+ "la.numAlbaran, a.fecha, a.codProveedor, p.nombreProveedor \r\n" + 
 					"FROM LINEA_ALBARAN la \r\n" + 
 					"JOIN PRODUCTO pro on la.codproducto = pro.cod_Producto \r\n" + 
@@ -1177,8 +1178,9 @@ public static Boolean exportarFicheroAlmacen(String user) {
 				String codProveedor = rs.getString("codProveedor");
 				String nomProveedor = rs.getString("nombreProveedor");
 				Date fecha = rs.getDate("fecha");
+				int codLinea = rs.getInt("codlinea");
 				
-				compras = new Compras(numAlbaran1,codProducto,nomProducto, cantidad, importeCompraPro, cantidadTotal, codProveedor,  nomProveedor, fecha);
+				compras = new Compras(numAlbaran1,codProducto,nomProducto, cantidad, importeCompraPro, cantidadTotal, codProveedor,  nomProveedor, fecha,codLinea);
 				
 				lista_compras.add(compras);
 							
@@ -1202,7 +1204,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		//String titulosDeliNoteCom[] = {"Product's Code", "Product's Name", "Quantity", "Purchase amount", "Total Account", 
 				//"Supplier's code", "Supplier", "Date"};
 		
-		String matrizInfoCompras[][] = new String[listaCompras.size()][8];
+		String matrizInfoCompras[][] = new String[listaCompras.size()][9];
 
 		for (int i = 0; i < listaCompras.size(); i++) {
 			matrizInfoCompras[i][0] = listaCompras.get(i).getCodProducto()+"";
@@ -1213,6 +1215,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 			matrizInfoCompras[i][5] = listaCompras.get(i).getCodProveedor()+"";
 			matrizInfoCompras[i][6] = listaCompras.get(i).getNomProveedor()+"";
 			matrizInfoCompras[i][7] = listaCompras.get(i).getFechaAlbaran()+"";
+			matrizInfoCompras[i][8] = listaCompras.get(i).getCodLineaF()+"";
 		}
 		return matrizInfoCompras;
 		
@@ -1272,6 +1275,27 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		System.out.println("Afectados lineaAlbaran:" + afectados);
 		
 		return afectados;		
+	}
+	
+	
+	public static int deleteLineaAlbaranCompras(int codLinea, Connection conexion) {
+		
+		int afectados = 0;
+		
+		// Almacenamos en un String la Sentencia SQL
+		String sql = "DELETE FROM LINEA_ALBARAN WHERE codlinea =" +codLinea;
+		
+		try {
+			PreparedStatement sentencia = conexion.prepareStatement(sql);
+			afectados = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Afectados lineaAlbaran:" + afectados);
+		
+		return afectados;
+		
 	}
 
 	public static String[][] obtenerMatrizCRM() {
@@ -1441,6 +1465,7 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		}
 		return afectados;	
 	}
+	
 
 	public static int deleteFacturaVentas(String numFacturaDelete, Connection conexion) {
 		
@@ -1460,7 +1485,6 @@ public static Boolean exportarFicheroAlmacen(String user) {
 		return afectados;	
 	}
 
-	
 	public static int deleteLineaFacturaVentas(int codLinea, Connection conexion) {
 
 		int afectados = 0;
